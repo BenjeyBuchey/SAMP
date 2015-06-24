@@ -76,8 +76,8 @@ public class ElementScript : MonoBehaviour {
 	{
 		int i = left, j = right;
 		GameObject pivot = elementArray[(left + right) / 2];
-		Debug.Log ("pivot: " + pivot.name);
 
+		/*
 		while (i <= j)
 		{
 			while (elementArray[i].transform.localScale.x < pivot.transform.localScale.x)
@@ -110,6 +110,7 @@ public class ElementScript : MonoBehaviour {
 		{
 			quickSort(i, right);
 		}
+		*/
 	}
 
 	private void swap(int i, int j)
