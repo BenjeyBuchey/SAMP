@@ -68,6 +68,7 @@ public class ElementScript : MonoBehaviour {
 
 		locked = 1;
 		quickSort (0,elementArray.Length-1);
+		//swap (1, 2);
 		locked = 0;
 	}
 
@@ -75,6 +76,7 @@ public class ElementScript : MonoBehaviour {
 	{
 		int i = left, j = right;
 		GameObject pivot = elementArray[(left + right) / 2];
+		Debug.Log ("pivot: " + pivot.name);
 
 		while (i <= j)
 		{
@@ -114,15 +116,22 @@ public class ElementScript : MonoBehaviour {
 	{
 		// change color
 		Color prev = elementArray [i].GetComponent<Renderer> ().material.color;
+		Debug.Log (elementArray [i].name);
+		Debug.Log (elementArray [j].name);
 		elementArray [i].GetComponent<Renderer> ().material.color = Color.green;
 		elementArray [j].GetComponent<Renderer> ().material.color = Color.green;
 
-		Rigidbody tmp = elementArray[i].GetComponent<Rigidbody>();
+
 		Rigidbody rb_i = elementArray[i].GetComponent<Rigidbody>();
 		Rigidbody rb_j = elementArray[j].GetComponent<Rigidbody>();
+		float tmp_x = rb_i.position.x;
+		float tmp_y = rb_i.position.y;
+		float tmp_z = rb_i.position.z;
+
+
 
 		rb_i.position = new Vector3(rb_j.position.x,rb_j.position.y,rb_j.position.z);
-		rb_j.position = new Vector3(tmp.position.x,tmp.position.y,tmp.position.z);
+		rb_j.position = new Vector3(tmp_x,tmp_y,tmp_z);
 
 		elementArray [i].GetComponent<Renderer> ().material.color = prev;
 		elementArray [j].GetComponent<Renderer> ().material.color = prev;
