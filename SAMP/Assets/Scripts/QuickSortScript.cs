@@ -85,5 +85,10 @@ public class QuickSortScript : MonoBehaviour {
 		elementArray [i].GetComponent<Renderer> ().material.color = prev;
 		elementArray [j].GetComponent<Renderer> ().material.color = prev;
 
+//		Vector3 i_coord = elementArray [i].GetComponent<Rigidbody> ().position;
+//		Vector3 j_coord = elementArray [j].GetComponent<Rigidbody> ().position;
+//
+//		elementArray [i].GetComponent<MoveScript> ().swap (elementArray [i], j_coord);
+//		elementArray [j].GetComponent<MoveScript> ().swap (elementArray [j], i_coord);
 	}
 }
