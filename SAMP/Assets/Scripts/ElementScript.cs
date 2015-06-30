@@ -69,6 +69,7 @@ public class ElementScript : MonoBehaviour {
 		if (locked == 1)
 			return;
 
+		// TODO: this doesn't wait till animation has finished 
 		locked = 1;
 		q.startSort(elementArray, 0, elementArray.Length);
 		locked = 0;
