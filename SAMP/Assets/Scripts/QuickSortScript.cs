@@ -1,13 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class QuickSortScript : MonoBehaviour {
 
 	private GameObject[] elementArray;
+	//private Dictionary<GameObject,GameObject> swappingQueue;
+	private List<GameObject> swappingQueue;
 
 	// Use this for initialization
 	void Start () {
-	
+		//swappingQueue = new Dictionary<GameObject, GameObject> ();
+		swappingQueue = new List<GameObject> ();
 	}
 	
 	// Update is called once per frame
@@ -17,8 +21,14 @@ public class QuickSortScript : MonoBehaviour {
 
 	public void startSort(GameObject[] array, int left, int right)
 	{
+		swappingQueue.Clear ();
 		elementArray = array;
 		myQuickSort (left, right);
+		if (swappingQueue != null && swappingQueue.Count >= 1) 
+		{
+			MoveScript m = gameObject.AddComponent<MoveScript> ();
+			m.swap (swappingQueue);
+		}
 	}
 
 	private void myQuickSort(int left, int right)
@@ -61,34 +71,12 @@ public class QuickSortScript : MonoBehaviour {
 	
 	private void swap(int i, int j)
 	{
-		// change color
-		Color prev = elementArray [i].GetComponent<Renderer> ().material.color;
-		
-		elementArray [i].GetComponent<Renderer> ().material.color = Color.green;
-		elementArray [j].GetComponent<Renderer> ().material.color = Color.green;
-		
-		float tmp_x = elementArray[i].GetComponent<Rigidbody>().position.x;
-		float tmp_y = elementArray[i].GetComponent<Rigidbody>().position.y;
-		float tmp_z = elementArray[i].GetComponent<Rigidbody>().position.z;
-		
-		// swap element coordinates
-		elementArray[i].GetComponent<Rigidbody>().position = new Vector3(elementArray[j].GetComponent<Rigidbody>().position.x,
-		                                                                 elementArray[j].GetComponent<Rigidbody>().position.y,
-		                                                                 elementArray[j].GetComponent<Rigidbody>().position.z);
-		elementArray[j].GetComponent<Rigidbody>().position = new Vector3(tmp_x,tmp_y,tmp_z);
-		
-		// swap element array position
+		// add to queue and swap element array position
+		swappingQueue.Add (elementArray [i]);
+		swappingQueue.Add (elementArray [j]);
+
 		GameObject tmp = elementArray [i];
 		elementArray [i] = elementArray [j];
 		elementArray [j] = tmp;
-		
-		elementArray [i].GetComponent<Renderer> ().material.color = prev;
-		elementArray [j].GetComponent<Renderer> ().material.color = prev;
-
-//		Vector3 i_coord = elementArray [i].GetComponent<Rigidbody> ().position;
-//		Vector3 j_coord = elementArray [j].GetComponent<Rigidbody> ().position;
-//
-//		elementArray [i].GetComponent<MoveScript> ().swap (elementArray [i], j_coord);
-//		elementArray [j].GetComponent<MoveScript> ().swap (elementArray [j], i_coord);
 	}
 }

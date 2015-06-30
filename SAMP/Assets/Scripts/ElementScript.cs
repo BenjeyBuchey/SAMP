@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class ElementScript : MonoBehaviour {
 
@@ -71,11 +72,5 @@ public class ElementScript : MonoBehaviour {
 		locked = 1;
 		q.startSort(elementArray, 0, elementArray.Length);
 		locked = 0;
-	}
-
-	public void move()
-	{
-		elementArray [0].GetComponent<MoveScript> ().swap (elementArray [0], elementArray [1].GetComponent<Rigidbody>().position);
-		elementArray [1].GetComponent<MoveScript> ().swap (elementArray [1], elementArray [0].GetComponent<Rigidbody>().position);
 	}
 }

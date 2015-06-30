@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class MoveScript : MonoBehaviour {
 
-	private GameObject element;
-	private Vector3 dest;
+	private GameObject go1,go2;
+	private Vector3 dest1,dest2;
 	private float speed = 10;
+	List<GameObject> queue;
+	Color prevColor;
 
 	// Use this for initialization
 	void Start () {
@@ -19,28 +22,60 @@ public class MoveScript : MonoBehaviour {
 
 	void FixedUpdate ()
 	{
-		if (element == null)
+		if (queue == null || queue.Count < 1)
 			return;
 
-		StartCoroutine(DoMoving()); 
+		if (go1 == null || go2 == null)
+			return;
 
-//		float step = speed * Time.deltaTime;
-//		element.GetComponent<Rigidbody> ().position = Vector3.MoveTowards(element.GetComponent<Rigidbody> ().position
-//		                                                                  , dest, step);
+		float step = speed * Time.deltaTime;
 
+		go1.GetComponent<Rigidbody> ().position = Vector3.MoveTowards(go1.GetComponent<Rigidbody> ().position
+		                                                              , dest1, step);
+		go2.GetComponent<Rigidbody> ().position = Vector3.MoveTowards(go2.GetComponent<Rigidbody> ().position
+		                                                              , dest2, step);
+		
 	}
-
+	
 	IEnumerator DoMoving()
 	{
-		float step = speed * Time.deltaTime;
-		element.GetComponent<Rigidbody> ().position = Vector3.MoveTowards(element.GetComponent<Rigidbody> ().position
-				                                                                  , dest, step);
-		yield return new WaitForSeconds(2f);
+		for(int i = 0; i < queue.Count; i=i+2)
+		{
+			float step = speed * Time.deltaTime;
+			go1 = queue[i];
+			go2 = queue[i+1];
+
+			changeColor(true);
+
+			dest1 = go2.GetComponent<Rigidbody> ().position;
+			dest2 = go1.GetComponent<Rigidbody> ().position;
+
+			while(go1.GetComponent<Rigidbody>().position != dest1 || go2.GetComponent<Rigidbody>().position != dest2)
+				yield return null;
+
+			changeColor(false);
+		}
 	}
 
-	public void swap(GameObject _element, Vector3 _dest)
+	public void swap(List<GameObject> _queue)
 	{
-		element = _element;
-		dest = _dest;
+		queue = _queue;
+		StartCoroutine(DoMoving());
+
+	}
+
+	private void changeColor(bool moving)
+	{
+		if (moving) 
+		{
+			prevColor = go1.GetComponent<Renderer> ().material.color;
+			go1.GetComponent<Renderer> ().material.color = Color.green;
+			go2.GetComponent<Renderer> ().material.color = Color.green;
+		} 
+		else 
+		{
+			go1.GetComponent<Renderer> ().material.color = prevColor;
+			go2.GetComponent<Renderer> ().material.color = prevColor;
+		}
 	}
 }
