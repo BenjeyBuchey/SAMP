@@ -74,4 +74,14 @@ public class ElementScript : MonoBehaviour {
 		q.startSort(elementArray, 0, elementArray.Length);
 		locked = 0;
 	}
+
+	public void testRotateAround()
+	{
+		// test in a testscript fixedUpdate()
+
+		elementArray [9].GetComponent<Rigidbody> ().transform.RotateAround (elementArray [7].GetComponent<Rigidbody> ().position, 
+		                                                                    Vector3.up, 20 * Time.deltaTime);
+
+
+	}
 }

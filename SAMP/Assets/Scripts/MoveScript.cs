@@ -33,8 +33,7 @@ public class MoveScript : MonoBehaviour {
 		go1.GetComponent<Rigidbody> ().position = Vector3.MoveTowards(go1.GetComponent<Rigidbody> ().position
 		                                                              , dest1, step);
 		go2.GetComponent<Rigidbody> ().position = Vector3.MoveTowards(go2.GetComponent<Rigidbody> ().position
-		                                                              , dest2, step);
-		
+		                                                              , dest2, step);	
 	}
 	
 	IEnumerator DoMoving()
@@ -61,12 +60,11 @@ public class MoveScript : MonoBehaviour {
 	{
 		queue = _queue;
 		StartCoroutine(DoMoving());
-
 	}
 
-	private void changeColor(bool moving)
+	private void changeColor(bool is_moving)
 	{
-		if (moving) 
+		if (is_moving)
 		{
 			prevColor = go1.GetComponent<Renderer> ().material.color;
 			go1.GetComponent<Renderer> ().material.color = Color.green;
