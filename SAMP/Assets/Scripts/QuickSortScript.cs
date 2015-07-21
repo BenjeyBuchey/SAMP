@@ -71,6 +71,9 @@ public class QuickSortScript : MonoBehaviour {
 	
 	private void swap(int i, int j)
 	{
+		if (i == j)
+			return;
+
 		// add to queue and swap element array position
 		swappingQueue.Add (elementArray [i]);
 		swappingQueue.Add (elementArray [j]);
