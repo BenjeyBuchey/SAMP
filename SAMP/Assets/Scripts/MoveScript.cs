@@ -35,8 +35,12 @@ public class MoveScript : MonoBehaviour {
 //		                                                              , dest1, step);
 //		go2.GetComponent<Rigidbody> ().position = Vector3.MoveTowards(go2.GetComponent<Rigidbody> ().position
 //		                                                              , dest2, step);	
-		go1.GetComponent<Rigidbody> ().transform.RotateAround (rotationPoint, Vector3.right, step);
-		go2.GetComponent<Rigidbody> ().transform.RotateAround (rotationPoint, Vector3.right, step);
+
+//		go1.GetComponent<Rigidbody> ().transform.RotateAround (rotationPoint, Vector3.right, step);
+//		go2.GetComponent<Rigidbody> ().transform.RotateAround (rotationPoint, Vector3.right, step);
+
+		go1.transform.RotateAround (rotationPoint, Vector3.right, step);
+		go2.transform.RotateAround (rotationPoint, Vector3.right, step);
 	}
 	
 	IEnumerator DoMoving()
@@ -50,9 +54,15 @@ public class MoveScript : MonoBehaviour {
 
 			changeColor(true);
 
-			dest1 = go2.GetComponent<Rigidbody> ().position;
-			dest2 = go1.GetComponent<Rigidbody> ().position;
+//			dest1 = go2.GetComponent<Rigidbody> ().position;
+//			dest2 = go1.GetComponent<Rigidbody> ().position;
+			dest1 = go2.transform.position;
+			dest2 = go1.transform.position;
 			getRotationPoint();
+
+			Debug.Log ("Dest1: " + dest1);
+			Debug.Log ("Dest2: " + dest2);
+			Debug.Log ("Rotation Point: " + rotationPoint);
 
 //			while(go1.GetComponent<Rigidbody>().position != dest1 || go2.GetComponent<Rigidbody>().position != dest2)
 //				yield return null;
@@ -75,42 +85,101 @@ public class MoveScript : MonoBehaviour {
 
 	private void changeColor(bool is_moving)
 	{
+//		if (is_moving)
+//		{
+//			prevColor = go1.GetComponent<Renderer> ().material.color;
+//			go1.GetComponent<Renderer> ().material.color = Color.green;
+//			go2.GetComponent<Renderer> ().material.color = Color.green;
+//		} 
+//		else 
+//		{
+//			go1.GetComponent<Renderer> ().material.color = prevColor;
+//			go2.GetComponent<Renderer> ().material.color = prevColor;
+//		}
+
 		if (is_moving)
 		{
-			prevColor = go1.GetComponent<Renderer> ().material.color;
-			go1.GetComponent<Renderer> ().material.color = Color.green;
-			go2.GetComponent<Renderer> ().material.color = Color.green;
+//			go1.GetComponentInChildren<Renderer> ().material.color = Color.green;
+//			go2.GetComponentInChildren<Renderer> ().material.color = Color.green;
+
+			prevColor = Color.red;
+
+			foreach (Transform child in go1.transform) 
+			{
+				if (child.tag.Equals ("BasicElement")) 
+				{
+					prevColor = child.GetComponent<Renderer> ().material.color;
+					child.GetComponent<Renderer> ().material.color = Color.green;
+				}
+			}
+
+			foreach (Transform child in go2.transform) 
+			{
+				if(child.tag.Equals("BasicElement"))
+					child.GetComponent<Renderer> ().material.color = Color.green;
+			}
 		} 
 		else 
 		{
-			go1.GetComponent<Renderer> ().material.color = prevColor;
-			go2.GetComponent<Renderer> ().material.color = prevColor;
+//			go1.GetComponentInChildren<Renderer> ().material.color = prevColor;
+//			go2.GetComponentInChildren<Renderer> ().material.color = prevColor;
+
+			foreach (Transform child in go1.transform) 
+			{
+				if(child.tag.Equals("BasicElement"))
+					child.GetComponent<Renderer> ().material.color = prevColor;
+			}
+
+			foreach (Transform child in go2.transform) 
+			{
+				if(child.tag.Equals("BasicElement"))
+					child.GetComponent<Renderer> ().material.color = prevColor;
+			}
 		}
 	}
 
 	private void getRotationPoint()
 	{
-		float distance = Mathf.Abs (go1.GetComponent<Rigidbody> ().position.z - go2.GetComponent<Rigidbody> ().position.z);
-		float z = 0.0f;
-		if (go1.GetComponent<Rigidbody> ().position.z > go2.GetComponent<Rigidbody> ().position.z)
-			z = go1.GetComponent<Rigidbody> ().position.z - distance / 2;
-		else
-			z = go1.GetComponent<Rigidbody> ().position.z + distance / 2;
+//		float distance = Mathf.Abs (go1.GetComponent<Rigidbody> ().position.z - go2.GetComponent<Rigidbody> ().position.z);
+//		float z = 0.0f;
+//		if (go1.GetComponent<Rigidbody> ().position.z > go2.GetComponent<Rigidbody> ().position.z)
+//			z = go1.GetComponent<Rigidbody> ().position.z - distance / 2;
+//		else
+//			z = go1.GetComponent<Rigidbody> ().position.z + distance / 2;
+//
+//		rotationPoint = new Vector3(go1.GetComponent<Rigidbody>().position.x,
+//		                            go1.GetComponent<Rigidbody>().position.y,
+//		                            z);
 
-		rotationPoint = new Vector3(go1.GetComponent<Rigidbody>().position.x,
-		                            go1.GetComponent<Rigidbody>().position.y,
-		                            z);
+		float distance = Mathf.Abs (go1.transform.position.z - go2.transform.position.z);
+		float z = 0.0f;
+		if (go1.transform.position.z > go2.transform.position.z)
+			z = go1.transform.position.z - distance / 2;
+		else
+			z = go1.transform.position.z + distance / 2;
+
+		rotationPoint = new Vector3(go1.transform.position.x,
+			go1.transform.position.y,
+			z);
 
 	}
 
 	private void correctPositions()
 	{
-		if (go1.GetComponent<Rigidbody> ().position != dest1 || go2.GetComponent<Rigidbody> ().position != dest2) 
+//		if (go1.GetComponent<Rigidbody> ().position != dest1 || go2.GetComponent<Rigidbody> ().position != dest2) 
+//		{
+//			go1.GetComponent<Rigidbody> ().transform.rotation = Quaternion.identity;
+//			go1.GetComponent<Rigidbody> ().MovePosition(dest1);
+//			go2.GetComponent<Rigidbody> ().transform.rotation = Quaternion.identity;
+//			go2.GetComponent<Rigidbody> ().MovePosition(dest2);
+//		}
+
+		if (go1.transform.position != dest1 || go2.transform.position != dest2) 
 		{
-			go1.GetComponent<Rigidbody> ().transform.rotation = Quaternion.identity;
-			go1.GetComponent<Rigidbody> ().MovePosition(dest1);
-			go2.GetComponent<Rigidbody> ().transform.rotation = Quaternion.identity;
-			go2.GetComponent<Rigidbody> ().MovePosition(dest2);
+			go1.transform.rotation = Quaternion.identity;
+			go1.transform.position = dest1;
+			go2.transform.rotation = Quaternion.identity;
+			go2.transform.position = dest2;
 		}
 	}
 }

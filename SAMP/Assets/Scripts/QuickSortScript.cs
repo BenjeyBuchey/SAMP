@@ -53,10 +53,12 @@ public class QuickSortScript : MonoBehaviour {
 		
 		while (true) 
 		{
-			while(left <= right && elementArray[left].transform.localScale.x <= pivot.transform.localScale.x)
+			//while(left <= right && elementArray[left].transform.localScale.x <= pivot.transform.localScale.x)
+			while(left <= right && elementArray[left].GetComponentInChildren<Rigidbody>().transform.localScale.x <= pivot.GetComponentInChildren<Rigidbody>().transform.localScale.x)
 				left++;
 			
-			while(left <= right && elementArray[right].transform.localScale.x > pivot.transform.localScale.x)
+			//while(left <= right && elementArray[right].transform.localScale.x > pivot.transform.localScale.x)
+			while(left <= right && elementArray[right].GetComponentInChildren<Rigidbody>().transform.localScale.x > pivot.GetComponentInChildren<Rigidbody>().transform.localScale.x)
 				right--;
 			
 			if(left > right)
