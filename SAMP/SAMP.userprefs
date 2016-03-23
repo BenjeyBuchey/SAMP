@@ -1,11 +1,12 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/ElementScript.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Plugins/CSI/CSharpInterpreter.cs">
     <Files>
+      <File FileName="Assets/Scripts/ElementTextScript.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/MoveScript.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/ElementScript.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/QuickSortScript.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/ElementTextScript.cs" Line="1" Column="1" />
+      <File FileName="Assets/Plugins/CSI/CSharpInterpreter.cs" Line="1706" Column="22" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

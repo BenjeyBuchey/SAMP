@@ -6,10 +6,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{0D2FCF9F-2F5A-A30E-313F-803E3491B168}</ProjectGuid>
+    <ProjectGuid>{84AECD1C-74CC-3AE4-BCAC-B1848CC8AC8D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <AssemblyName>Assembly-CSharp-firstpass</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>Assets</BaseDirectory>
@@ -45,10 +45,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\ElementScript.cs" />
-     <Compile Include="Assets\Scripts\ElementTextScript.cs" />
-     <Compile Include="Assets\Scripts\MoveScript.cs" />
-     <Compile Include="Assets\Scripts\QuickSortScript.cs" />
+     <Compile Include="Assets\Plugins\CSI\CSharpInterpreter.cs" />
+     <Compile Include="Assets\Plugins\CSI\interpreter.cs" />
+     <Compile Include="Assets\Plugins\CSI\prepro.cs" />
      <None Include="Assets\Plugins\CSI\CSharpInterpreter_Include.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
@@ -56,10 +55,6 @@
  <Reference Include="UnityEngine.Networking">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{84AECD1C-74CC-3AE4-BCAC-B1848CC8AC8D}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
