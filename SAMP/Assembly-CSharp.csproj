@@ -45,21 +45,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\CSI\CSharpInterpreter.cs" />
+     <Compile Include="Assets\Scripts\CSI\interpreter.cs" />
+     <Compile Include="Assets\Scripts\CSI\prepro.cs" />
      <Compile Include="Assets\Scripts\ElementScript.cs" />
      <Compile Include="Assets\Scripts\ElementTextScript.cs" />
+     <Compile Include="Assets\Scripts\InterpreterInterfaceScript.cs" />
      <Compile Include="Assets\Scripts\MoveScript.cs" />
      <Compile Include="Assets\Scripts\QuickSortScript.cs" />
-     <None Include="Assets\Plugins\CSI\CSharpInterpreter_Include.txt" />
+     <Compile Include="Assets\Scripts\SingleElementScript.cs" />
+     <None Include="Assets\Scripts\CSI\CSharpInterpreter_Include.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{84AECD1C-74CC-3AE4-BCAC-B1848CC8AC8D}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

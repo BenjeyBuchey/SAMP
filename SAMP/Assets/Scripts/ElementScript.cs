@@ -46,6 +46,7 @@ public class ElementScript : MonoBehaviour {
 		foreach (GameObject go in elementArray) 
 		{
 			go.GetComponentInChildren<TextMesh>().text = (i).ToString ();
+			go.GetComponent<SingleElementScript> ().setElementId (i);
 			Rigidbody rb = go.GetComponentInChildren<Rigidbody>();
 			rb.transform.localScale = new Vector3(scale_array[i],scale_array[i],scale_array[i]);
 			//rb.position = new Vector3(rb.position.x,rb.position.y,position_z);

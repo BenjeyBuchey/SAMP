@@ -22,3 +22,4 @@
 #def quit UnityEngine.Application.Quit()
 #def pwd(x) Directory.GetCurrentDirectory()
 #def test123(x) CSharpInterpreter.Current.test(x)
+#def swap123(x,y) CSharpInterpreter.Current.swap(x,y)

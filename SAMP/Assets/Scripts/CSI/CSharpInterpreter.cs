@@ -75,6 +75,7 @@ public sealed class CSharpInterpreter : MonoBehaviour, CSI.IConsole
     private Assembly unityEditorAssembly;
     private List<string> inputTextCache;
     private List<string> inputTextHistory;
+	private InterpreterInterfaceScript iis;
 
     /// <summary>
     /// Gets the C# interpreter instance that is currently active.
@@ -142,6 +143,8 @@ public sealed class CSharpInterpreter : MonoBehaviour, CSI.IConsole
         this.inputScrollPosition = Vector2.zero;
 
         this.Reinitialize();
+
+		this.iis = gameObject.AddComponent<InterpreterInterfaceScript> ();
     }
 
     private void Reset()
@@ -170,6 +173,11 @@ public sealed class CSharpInterpreter : MonoBehaviour, CSI.IConsole
 	public void test(string value)
 	{
 		Debug.Log ("Called TEST function!!!" +value);
+	}
+
+	public void swap(int x, int y)
+	{
+		iis.swap (x, y);
 	}
 
     /// <summary>
