@@ -1,0 +1,17 @@
+/Users/benjey/GitHub/SAMP/SAMP/Temp/bin/Debug/Assembly-CSharp.dll.mdb
+/Users/benjey/GitHub/SAMP/SAMP/Temp/bin/Debug/Assembly-CSharp.dll
+/Users/benjey/GitHub/SAMP/SAMP/obj/Debug/Assembly-CSharp.dll
+/Users/benjey/GitHub/SAMP/SAMP/obj/Debug/Assembly-CSharp.dll.mdb
+/Users/benjey/GitHub/SAMP/SAMP/Temp/bin/Debug/UnityEngine.dll
+/Users/benjey/GitHub/SAMP/SAMP/Temp/bin/Debug/UnityEditor.dll
+/Users/benjey/GitHub/SAMP/SAMP/Temp/bin/Debug/UnityEngine.UI.dll
+/Users/benjey/GitHub/SAMP/SAMP/Temp/bin/Debug/UnityEngine.Networking.dll
+/Users/benjey/GitHub/SAMP/SAMP/Temp/bin/Debug/Mono.Cecil.dll
+/Users/benjey/GitHub/SAMP/SAMP/Temp/bin/Debug/Unity.SerializationLogic.dll
+/Users/benjey/GitHub/SAMP/SAMP/Temp/bin/Debug/Unity.DataContract.dll
+/Users/benjey/GitHub/SAMP/SAMP/Temp/bin/Debug/ICSharpCode.NRefactory.dll
+/Users/benjey/GitHub/SAMP/SAMP/Temp/bin/Debug/Unity.UNetWeaver.dll
+/Users/benjey/GitHub/SAMP/SAMP/Temp/bin/Debug/Unity.UNetWeaver.dll.mdb
+/Users/benjey/GitHub/SAMP/SAMP/Temp/bin/Debug/Unity.CecilTools.dll
+/Users/benjey/GitHub/SAMP/SAMP/Temp/bin/Debug/Mono.Cecil.Pdb.dll
+/Users/benjey/GitHub/SAMP/SAMP/Temp/bin/Debug/Mono.Cecil.Mdb.dll

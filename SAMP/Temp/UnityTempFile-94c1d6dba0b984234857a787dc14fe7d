@@ -1,7 +1,7 @@
 -debug
 -target:library
 -nowarn:0169
--out:'Temp/Assembly-CSharp-firstpass.dll'
+-out:'Temp/Assembly-CSharp.dll'
 -r:'/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEngine.dll'
 -r:'/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll'
 -r:'/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll'
@@ -76,8 +76,14 @@
 -define:UNITY_EDITOR
 -define:UNITY_EDITOR_64
 -define:UNITY_EDITOR_OSX
-'Assets/Plugins/CSI/CSharpInterpreter.cs'
-'Assets/Plugins/CSI/interpreter.cs'
-'Assets/Plugins/CSI/prepro.cs'
+'Assets/Scripts/CSI/CSharpInterpreter.cs'
+'Assets/Scripts/CSI/interpreter.cs'
+'Assets/Scripts/CSI/prepro.cs'
+'Assets/Scripts/ElementScript.cs'
+'Assets/Scripts/ElementTextScript.cs'
+'Assets/Scripts/InterpreterInterfaceScript.cs'
+'Assets/Scripts/MoveScript.cs'
+'Assets/Scripts/QuickSortScript.cs'
+'Assets/Scripts/SingleElementScript.cs'
 -r:'/Applications/Unity/Unity.app/Contents/Frameworks/Mono/lib/mono/2.0/System.Runtime.Serialization.dll'
 -r:'/Applications/Unity/Unity.app/Contents/Frameworks/Mono/lib/mono/2.0/System.Xml.Linq.dll'

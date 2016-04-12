@@ -55,7 +55,7 @@ public class ElementScript : MonoBehaviour {
 			i++;
 		}
 		shuffleGameObjects ();
-		//printGameObjects ();
+		printElementIDs ();
 	}
 
 	private float[] fillScaleArray(int size)
@@ -125,6 +125,14 @@ public class ElementScript : MonoBehaviour {
 			Debug.Log (elementArray [i].name + " - Scale: " + elementArray [i].GetComponentInChildren<Rigidbody> ().transform.localScale
 				+ " - Position: " + elementArray [i].GetComponentInChildren<Rigidbody> ().position);
 
+		}
+	}
+
+	private void printElementIDs()
+	{
+		foreach (GameObject go in elementArray) 
+		{
+			Debug.Log (go.GetComponent<SingleElementScript> ().getElementId ());
 		}
 	}
 

@@ -7,7 +7,7 @@ public class SingleElementScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		element_id = 0;
+		//element_id = 0;
 	}
 	
 	// Update is called once per frame

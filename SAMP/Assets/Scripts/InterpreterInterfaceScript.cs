@@ -20,6 +20,10 @@ public class InterpreterInterfaceScript : MonoBehaviour {
 	{
 		elementArray = GameObject.FindGameObjectsWithTag ("Elements");
 		Debug.Log ("Swapping " +x +" and " +y);
+		foreach (GameObject go in elementArray) 
+		{
+			Debug.Log (go.GetComponent<SingleElementScript> ().getElementId ());
+		}
 		fillQueue (x, y);
 	}
 
