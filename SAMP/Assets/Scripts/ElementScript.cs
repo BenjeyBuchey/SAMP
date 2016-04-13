@@ -55,7 +55,6 @@ public class ElementScript : MonoBehaviour {
 			i++;
 		}
 		shuffleGameObjects ();
-		printElementIDs ();
 	}
 
 	private float[] fillScaleArray(int size)
@@ -128,8 +127,9 @@ public class ElementScript : MonoBehaviour {
 		}
 	}
 
-	private void printElementIDs()
+	public void printElementIDs()
 	{
+		Debug.Log ("Element IDs");
 		foreach (GameObject go in elementArray) 
 		{
 			Debug.Log (go.GetComponent<SingleElementScript> ().getElementId ());
@@ -145,5 +145,10 @@ public class ElementScript : MonoBehaviour {
 		locked = 1;
 		q.startSort(elementArray, 0, elementArray.Length);
 		locked = 0;
+	}
+
+	public GameObject[] getElementArray()
+	{
+		return elementArray;
 	}
 }

@@ -47,7 +47,6 @@ public class MoveScript : MonoBehaviour {
 	{
 		for(int i = 0; i < queue.Count; i=i+2)
 		{
-			float step = speed * Time.deltaTime;
 			rotated = 0;
 			go1 = queue[i];
 			go2 = queue[i+1];

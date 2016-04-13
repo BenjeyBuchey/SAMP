@@ -5,10 +5,11 @@ using System.Collections.Generic;
 public class InterpreterInterfaceScript : MonoBehaviour {
 
 	private GameObject[] elementArray;
+	private MoveScript ms;
 
 	// Use this for initialization
 	void Start () {
-	
+		ms = gameObject.AddComponent<MoveScript> ();
 	}
 	
 	// Update is called once per frame
@@ -18,25 +19,52 @@ public class InterpreterInterfaceScript : MonoBehaviour {
 
 	public void swap(int x, int y)
 	{
-		elementArray = GameObject.FindGameObjectsWithTag ("Elements");
+		//elementArray = GameObject.FindGameObjectsWithTag ("Elements");
+		elementArray = gameObject.GetComponentInParent<ElementScript> ().getElementArray ();
 		Debug.Log ("Swapping " +x +" and " +y);
+		fillQueue (x, y);
+	}
+
+	public double size(int x)
+	{
+		elementArray = GameObject.FindGameObjectsWithTag ("Elements");
+		double size = 0.0;
 		foreach (GameObject go in elementArray) 
 		{
-			Debug.Log (go.GetComponent<SingleElementScript> ().getElementId ());
+			if (go.GetComponent<SingleElementScript> ().getElementId () == x) 
+			{
+				size = go.GetComponentInChildren<Rigidbody> ().transform.localScale.x;
+				Debug.Log ("Size of Element " +x + " is: " +size);
+				break;
+			}
 		}
-		fillQueue (x, y);
+		return size;
 	}
 
 	private void fillQueue(int x, int y)
 	{
 		List<GameObject> queue = new List<GameObject> ();
-		foreach (GameObject go in elementArray) 
+		int x_pos = -1, y_pos = -1;
+
+		for (int i = 0; i < elementArray.Length; i++) 
 		{
-			if (go.GetComponent<SingleElementScript> ().getElementId () == x || go.GetComponent<SingleElementScript> ().getElementId () == y)
-				queue.Add (go);
+			if (elementArray [i].GetComponent<SingleElementScript> ().getElementId () == x) 
+			{
+				queue.Add (elementArray [i]);
+				x_pos = i;
+			} else if (elementArray [i].GetComponent<SingleElementScript> ().getElementId () == y) 
+			{
+				queue.Add (elementArray [i]);
+				y_pos = i;
+			}
+
 		}
 
-		MoveScript ms = gameObject.AddComponent<MoveScript> ();
+		// swap in array
+		GameObject tmp = elementArray [x_pos];
+		elementArray [x_pos] = elementArray [y_pos];
+		elementArray [y_pos] = tmp;
+
 		ms.swap (queue);
 	}
 }

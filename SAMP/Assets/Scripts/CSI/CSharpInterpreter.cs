@@ -180,6 +180,11 @@ public sealed class CSharpInterpreter : MonoBehaviour, CSI.IConsole
 		iis.swap (x, y);
 	}
 
+	public double size(int x)
+	{
+		return iis.size (x);
+	}
+
     /// <summary>
     /// Performs initialization of this instance, which can be called at startup or in play mode when the Unity Editor rebuilds scripts.
     /// </summary>
