@@ -22,23 +22,6 @@ public class ElementScript : MonoBehaviour {
 
 	void initElements()
 	{
-//		elementArray = GameObject.FindGameObjectsWithTag ("BasicElement");
-//		float position_z = -24.0f;
-//		float[] scale_array = fillScaleArray (elementArray.Length);
-//		int i = 0;
-//		foreach (GameObject go in elementArray) 
-//		{
-//			go.GetComponentInChildren<TextMesh>().text = (i).ToString ();
-//			Rigidbody rb = go.GetComponent<Rigidbody>();
-//			rb.transform.localScale = new Vector3(scale_array[i],scale_array[i],scale_array[i]);
-//			rb.position = new Vector3(rb.position.x,rb.position.y,position_z);
-//			resetElementText (go);
-//			position_z += 5.0f;
-//			i++;
-//		}
-//		shuffleGameObjects ();
-//		printGameObjects ();
-
 		elementArray = GameObject.FindGameObjectsWithTag ("Elements");
 		float position_z = -24.0f;
 		float[] scale_array = fillScaleArray (elementArray.Length);
@@ -89,18 +72,6 @@ public class ElementScript : MonoBehaviour {
 	{
 		for (int i = 0; i < elementArray.Length; i++) 
 		{
-//			GameObject tmp = elementArray [i];
-//			Vector3 a_posi = elementArray [i].GetComponent<Rigidbody> ().position;
-//
-//			int r = Random.Range (i, elementArray.Length);
-//			Vector3 b_posi = elementArray [r].GetComponent<Rigidbody> ().position;
-//
-//			elementArray [i] = elementArray [r];
-//			elementArray [i].GetComponent<Rigidbody> ().position = a_posi;
-//
-//			elementArray [r] = tmp;
-//			elementArray [r].GetComponent<Rigidbody> ().position = b_posi;
-
 			GameObject tmp = elementArray [i];
 			Vector3 a_posi = elementArray [i].transform.position;
 
