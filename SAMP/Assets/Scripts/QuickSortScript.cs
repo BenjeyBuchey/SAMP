@@ -5,12 +5,10 @@ using System.Collections.Generic;
 public class QuickSortScript : MonoBehaviour {
 
 	private GameObject[] elementArray;
-	//private Dictionary<GameObject,GameObject> swappingQueue;
 	private List<GameObject> swappingQueue;
 
 	// Use this for initialization
 	void Start () {
-		//swappingQueue = new Dictionary<GameObject, GameObject> ();
 		swappingQueue = new List<GameObject> ();
 	}
 	

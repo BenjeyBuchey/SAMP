@@ -7,11 +7,15 @@ public class ElementScript : MonoBehaviour {
 	private GameObject[] elementArray;
 	private int locked;
 	private QuickSortScript q;
+	private HeapSortScript hs;
+	private GnomeSortScript gs;
 	// Use this for initialization
 	void Start () {
 
 		locked = 0;
 		q = gameObject.AddComponent<QuickSortScript> ();
+		hs = gameObject.AddComponent<HeapSortScript> ();
+		gs = gameObject.AddComponent<GnomeSortScript> ();
 		initElements ();
 	}
 	
@@ -107,7 +111,7 @@ public class ElementScript : MonoBehaviour {
 		}
 	}
 
-	public void sort()
+	public void quickSort()
 	{
 		if (locked == 1)
 			return;
@@ -115,6 +119,50 @@ public class ElementScript : MonoBehaviour {
 		// TODO: this doesn't wait till animation has finished 
 		locked = 1;
 		q.startSort(elementArray, 0, elementArray.Length);
+		locked = 0;
+	}
+
+	public void heapSort()
+	{
+		if (locked == 1)
+			return;
+
+		// TODO: this doesn't wait till animation has finished 
+		locked = 1;
+		hs.startSort(elementArray);
+		locked = 0;
+	}
+
+	public void mergeSort()
+	{
+		if (locked == 1)
+			return;
+
+		// TODO: this doesn't wait till animation has finished 
+		locked = 1;
+		//q.startSort(elementArray, 0, elementArray.Length);
+		locked = 0;
+	}
+
+	public void gnomeSort()
+	{
+		if (locked == 1)
+			return;
+
+		// TODO: this doesn't wait till animation has finished 
+		locked = 1;
+		gs.startSort(elementArray);
+		locked = 0;
+	}
+
+	public void radixSort()
+	{
+		if (locked == 1)
+			return;
+
+		// TODO: this doesn't wait till animation has finished 
+		locked = 1;
+		//q.startSort(elementArray, 0, elementArray.Length);
 		locked = 0;
 	}
 
