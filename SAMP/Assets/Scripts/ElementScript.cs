@@ -36,7 +36,7 @@ public class ElementScript : MonoBehaviour {
 			go.GetComponent<SingleElementScript> ().setElementId (i);
 			Rigidbody rb = go.GetComponentInChildren<Rigidbody>();
 			rb.transform.localScale = new Vector3(scale_array[i],scale_array[i],scale_array[i]);
-			//rb.position = new Vector3(rb.position.x,rb.position.y,position_z);
+			setColor (go,scale_array[i]);
 			go.transform.position = new Vector3(rb.position.x,rb.position.y,position_z);
 			position_z += 5.0f;
 			i++;
@@ -44,11 +44,28 @@ public class ElementScript : MonoBehaviour {
 		shuffleGameObjects ();
 	}
 
+	private void setColor(GameObject go, float scale)
+	{
+		float max_scale = 4.0F;
+		int min_GB_color = 100;
+		float multiplier = (255 - min_GB_color) / max_scale;
+		float color = 1 - ((min_GB_color + scale * multiplier) / 255);
+		//Debug.Log ("COLOR: " + color);
+
+		foreach (Transform child in go.transform) 
+		{
+			if (child.tag.Equals ("BasicElement")) 
+			{
+				child.GetComponent<Renderer> ().material.color = new Color (1, color, color);
+			}
+		}
+	}
+
 	private float[] fillScaleArray(int size)
 	{
 		float max_scale = 4.0f;
 		float min_scale = 1.0f;
-		float inc = (max_scale - min_scale) / (float)size;
+		float inc = (max_scale - min_scale) / ((float)size-1);
 
 		float[] scale_array = new float[size];
 		for (int i = 0; i < scale_array.Length; i++) 
