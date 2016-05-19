@@ -9,6 +9,7 @@ public class ElementScript : MonoBehaviour {
 	private QuickSortScript q;
 	private HeapSortScript hs;
 	private GnomeSortScript gs;
+	private MergeSortScript ms;
 	// Use this for initialization
 	void Start () {
 
@@ -16,6 +17,7 @@ public class ElementScript : MonoBehaviour {
 		q = gameObject.AddComponent<QuickSortScript> ();
 		hs = gameObject.AddComponent<HeapSortScript> ();
 		gs = gameObject.AddComponent<GnomeSortScript> ();
+		ms = gameObject.AddComponent<MergeSortScript> ();
 		initElements ();
 	}
 	
@@ -157,7 +159,7 @@ public class ElementScript : MonoBehaviour {
 
 		// TODO: this doesn't wait till animation has finished 
 		locked = 1;
-		//q.startSort(elementArray, 0, elementArray.Length);
+		ms.startSort (elementArray);
 		locked = 0;
 	}
 
