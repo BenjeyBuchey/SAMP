@@ -50,8 +50,8 @@ public class MergeSortScript : MonoBehaviour {
 			int i = 0;
 			int j = 0;
 			Debug.Log ("NEW LOOP");
-			printArray (leftArray);
-			printArray (rightArray);
+			printArray (leftArray, "LeftArray: ");
+			printArray (rightArray, "RightArray: ");
 			for (int k = left; k < right + 1; k++)
 			{
 				if (i == leftArray.Length)
@@ -90,7 +90,7 @@ public class MergeSortScript : MonoBehaviour {
 		Debug.Log ("ELEMENT " + id1 + " is set to ELEMENT " + id2);
 	}
 
-	private void printArray(GameObject[] array)
+	private void printArray(GameObject[] array, string name)
 	{
 		string s = String.Empty;
 		for (int i = 0; i < array.Length; i++) 
@@ -98,7 +98,7 @@ public class MergeSortScript : MonoBehaviour {
 			s += array [i].GetComponent<SingleElementScript> ().getElementId ().ToString() + " ";
 		}
 
-		Debug.Log (s);
+		Debug.Log (name + s);
 	}
 
 //	private void swap(int i, int j)
