@@ -8,8 +8,8 @@ public class MoveScript : MonoBehaviour {
 	private GameObject go1,go2;
 	private Vector3 dest1,dest2, rotationPoint;
 	private float speed = 80, rotated = 0;
-	List<GameObject> queue;
-	Color prevColor;
+	private List<GameObject> queue;
+	private Color prevColor;
 	private Text score;
 
 	// Use this for initialization
@@ -85,40 +85,43 @@ public class MoveScript : MonoBehaviour {
 
 	private void changeColor(bool is_moving)
 	{
+		MoveHelperScript mhs = gameObject.AddComponent<MoveHelperScript> ();
+		mhs.changeColor (go1, go2, is_moving, ref prevColor);
+		Destroy (GetComponent<MoveHelperScript>());
 
-		if (is_moving)
-		{
-			prevColor = Color.red;
-
-			foreach (Transform child in go1.transform) 
-			{
-				if (child.tag.Equals ("BasicElement")) 
-				{
-					prevColor = child.GetComponent<Renderer> ().material.color;
-					child.GetComponent<Renderer> ().material.color = Color.green;
-				}
-			}
-
-			foreach (Transform child in go2.transform) 
-			{
-				if(child.tag.Equals("BasicElement"))
-					child.GetComponent<Renderer> ().material.color = Color.green;
-			}
-		} 
-		else 
-		{
-			foreach (Transform child in go1.transform) 
-			{
-				if(child.tag.Equals("BasicElement"))
-					child.GetComponent<Renderer> ().material.color = prevColor;
-			}
-
-			foreach (Transform child in go2.transform) 
-			{
-				if(child.tag.Equals("BasicElement"))
-					child.GetComponent<Renderer> ().material.color = prevColor;
-			}
-		}
+//		if (is_moving)
+//		{
+//			prevColor = Color.red;
+//
+//			foreach (Transform child in go1.transform) 
+//			{
+//				if (child.tag.Equals ("BasicElement")) 
+//				{
+//					prevColor = child.GetComponent<Renderer> ().material.color;
+//					child.GetComponent<Renderer> ().material.color = Color.green;
+//				}
+//			}
+//
+//			foreach (Transform child in go2.transform) 
+//			{
+//				if(child.tag.Equals("BasicElement"))
+//					child.GetComponent<Renderer> ().material.color = Color.green;
+//			}
+//		} 
+//		else 
+//		{
+//			foreach (Transform child in go1.transform) 
+//			{
+//				if(child.tag.Equals("BasicElement"))
+//					child.GetComponent<Renderer> ().material.color = prevColor;
+//			}
+//
+//			foreach (Transform child in go2.transform) 
+//			{
+//				if(child.tag.Equals("BasicElement"))
+//					child.GetComponent<Renderer> ().material.color = prevColor;
+//			}
+//		}
 	}
 
 	private void getRotationPoint()

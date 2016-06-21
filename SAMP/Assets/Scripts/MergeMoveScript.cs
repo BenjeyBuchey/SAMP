@@ -138,40 +138,43 @@ public class MergeMoveScript : MonoBehaviour {
 
 	private void changeColor(bool is_moving)
 	{
+		MoveHelperScript mhs = gameObject.AddComponent<MoveHelperScript> ();
+		mhs.changeColor (go1, go2, is_moving, ref prevColor);
+		Destroy (GetComponent<MoveHelperScript>());
 
-		if (is_moving)
-		{
-			prevColor = Color.red;
-
-			foreach (Transform child in go1.transform) 
-			{
-				if (child.tag.Equals ("BasicElement")) 
-				{
-					prevColor = child.GetComponent<Renderer> ().material.color;
-					child.GetComponent<Renderer> ().material.color = Color.green;
-				}
-			}
-
-			foreach (Transform child in go2.transform) 
-			{
-				if(child.tag.Equals("BasicElement"))
-					child.GetComponent<Renderer> ().material.color = Color.green;
-			}
-		} 
-		else 
-		{
-			foreach (Transform child in go1.transform) 
-			{
-				if(child.tag.Equals("BasicElement"))
-					child.GetComponent<Renderer> ().material.color = prevColor;
-			}
-
-			foreach (Transform child in go2.transform) 
-			{
-				if(child.tag.Equals("BasicElement"))
-					child.GetComponent<Renderer> ().material.color = prevColor;
-			}
-		}
+//		if (is_moving)
+//		{
+//			prevColor = Color.red;
+//
+//			foreach (Transform child in go1.transform) 
+//			{
+//				if (child.tag.Equals ("BasicElement")) 
+//				{
+//					prevColor = child.GetComponent<Renderer> ().material.color;
+//					child.GetComponent<Renderer> ().material.color = Color.green;
+//				}
+//			}
+//
+//			foreach (Transform child in go2.transform) 
+//			{
+//				if(child.tag.Equals("BasicElement"))
+//					child.GetComponent<Renderer> ().material.color = Color.green;
+//			}
+//		} 
+//		else 
+//		{
+//			foreach (Transform child in go1.transform) 
+//			{
+//				if(child.tag.Equals("BasicElement"))
+//					child.GetComponent<Renderer> ().material.color = prevColor;
+//			}
+//
+//			foreach (Transform child in go2.transform) 
+//			{
+//				if(child.tag.Equals("BasicElement"))
+//					child.GetComponent<Renderer> ().material.color = prevColor;
+//			}
+//		}
 	}
 
 	private void getRotationPoint()

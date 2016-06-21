@@ -6,11 +6,13 @@ using System;
 public class RadixSortScript : MonoBehaviour {
 
 	private GameObject[] elementArray;
-	private List<GameObject> swappingQueue;
+	private List<ArrayList> swappingQueue; // 0 = GameObject, 1 = id
+	private List<Vector3> bucket_positions;
 
 	// Use this for initialization
 	void Start () {
-		swappingQueue = new List<GameObject> ();
+		swappingQueue = new List<ArrayList> ();
+		bucket_positions = new List<Vector3> ();
 	}
 	
 	// Update is called once per frame
@@ -22,20 +24,27 @@ public class RadixSortScript : MonoBehaviour {
 	{
 		swappingQueue.Clear ();
 		elementArray = array;
+		setBucketPositions ();
 		myRadixSort ();
 
-		// TODO: swappingqueue mit gameobject und destination position (slighty versetzt in höhe)
 		if (swappingQueue != null && swappingQueue.Count >= 1) 
 		{
-//			MoveScript m = gameObject.AddComponent<MoveScript> ();
-//			m.swap (swappingQueue);
+			RadixMoveScript m = gameObject.AddComponent<RadixMoveScript> ();
+			m.swap (swappingQueue);
 			Debug.Log("GameObjects:");
 			foreach (GameObject go in elementArray)
 				Debug.Log (go.GetComponent<SingleElementScript> ().getElementId ());
 
 			Debug.Log("Movement Order:");
-			foreach(GameObject go in swappingQueue)
-				Debug.Log (go.GetComponent<SingleElementScript> ().getElementId ());
+//			foreach(GameObject go in swappingQueue)
+//				Debug.Log (go.GetComponent<SingleElementScript> ().getElementId ());
+
+			foreach(ArrayList list in swappingQueue)
+			{
+				GameObject temp = list [0] as GameObject;
+				if(temp != null)
+					Debug.Log (temp.GetComponent<SingleElementScript> ().getElementId ());
+			}
 		}
 	}
 
@@ -65,17 +74,45 @@ public class RadixSortScript : MonoBehaviour {
 			}
 
 			int i = 0;
+			int bucket_number = 0;
 			foreach (Queue<GameObject> bucket in buckets)
 			{
+				int bucket_size = bucket.Count;
+				float y_position = 10;
 				while (bucket.Count > 0)
 				{
 					elementArray[i] = bucket.Dequeue();
-					swappingQueue.Add (elementArray [i]);
+					ArrayList list = new ArrayList ();
+
+					if (bucket_size != elementArray.Length)
+					{
+						Vector3 dest = bucket_positions [bucket_number];
+						dest.y = y_position;
+
+						list.Add (elementArray [i]);
+						list.Add (dest);
+						swappingQueue.Add (list);
+
+						y_position += 10;
+					}
 					i++;
 				}
+				bucket_number++;
 			}
 
+			setToInitialPositions ();
 			digitPosition++;
+		}
+	}
+
+	private void setToInitialPositions()
+	{
+		for (int i = 0; i < elementArray.Length; i++) 
+		{
+			ArrayList list = new ArrayList ();
+			list.Add (elementArray [i]);
+			list.Add (bucket_positions [i]);
+			swappingQueue.Add (list);
 		}
 	}
 
@@ -91,6 +128,14 @@ public class RadixSortScript : MonoBehaviour {
 		{
 			Queue<GameObject> q = new Queue<GameObject>();
 			buckets.Add(q);
+		}
+	}
+
+	private void setBucketPositions()
+	{
+		for (int i = 0; i < elementArray.Length; i++) 
+		{
+			bucket_positions.Add (elementArray [i].transform.position);
 		}
 	}
 }
