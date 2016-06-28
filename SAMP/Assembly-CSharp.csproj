@@ -53,6 +53,7 @@
      <Compile Include="Assets\Scripts\GnomeSortScript.cs" />
      <Compile Include="Assets\Scripts\HeapSortScript.cs" />
      <Compile Include="Assets\Scripts\InterpreterInterfaceScript.cs" />
+     <Compile Include="Assets\Scripts\LoadSceneScript.cs" />
      <Compile Include="Assets\Scripts\MergeMoveScript.cs" />
      <Compile Include="Assets\Scripts\MergeSortScript.cs" />
      <Compile Include="Assets\Scripts\MoveHelperScript.cs" />
@@ -61,6 +62,7 @@
      <Compile Include="Assets\Scripts\RadixMoveScript.cs" />
      <Compile Include="Assets\Scripts\RadixSortScript.cs" />
      <Compile Include="Assets\Scripts\SingleElementScript.cs" />
+     <Compile Include="Assets\Scripts\SliderUpdateScript.cs" />
      <Compile Include="Assets\Scripts\SwapCounterScript.cs" />
      <None Include="Assets\Scripts\CSI\CSharpInterpreter_Include.txt" />
  <Reference Include="UnityEngine.UI">

@@ -11,6 +11,7 @@ public class ElementScript : MonoBehaviour {
 	private GnomeSortScript gs;
 	private MergeSortScript ms;
 	private RadixSortScript rs;
+	public GameObject element;
 	// Use this for initialization
 	void Start () {
 
@@ -20,6 +21,7 @@ public class ElementScript : MonoBehaviour {
 		gs = gameObject.AddComponent<GnomeSortScript> ();
 		ms = gameObject.AddComponent<MergeSortScript> ();
 		rs = gameObject.AddComponent<RadixSortScript> ();
+		spawnElements ();
 		initElements ();
 	}
 	
@@ -28,10 +30,19 @@ public class ElementScript : MonoBehaviour {
 	
 	}
 
+	void spawnElements()
+	{
+		GameObject empty = GameObject.Find ("EmptyGameObject");
+		int size = empty.GetComponent<SliderUpdateScript> ().getElementSize ();
+		Debug.Log (size.ToString());
+		for (int i = 0; i < size; i++)
+			Instantiate (element);
+	}
+
 	void initElements()
 	{
 		elementArray = GameObject.FindGameObjectsWithTag ("Elements");
-		float position_z = -24.0f;
+		float position_z = -55.0f;
 		float[] scale_array = fillScaleArray (elementArray.Length);
 		int i = 0;
 		foreach (GameObject go in elementArray) 
