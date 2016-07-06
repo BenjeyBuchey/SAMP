@@ -50,7 +50,7 @@ public class RadixMoveScript : MonoBehaviour {
 			changeColor(true);
 
 			dest1 = bucket_position;
-
+			setSpeed ();
 			Debug.Log ("Dest1: " + dest1);
 
 			while(go1.transform.position != dest1)
@@ -95,5 +95,10 @@ public class RadixMoveScript : MonoBehaviour {
 			go1.transform.rotation = Quaternion.identity;
 			go1.transform.position = dest1;
 		}
+	}
+
+	private void setSpeed()
+	{
+		speed = Vector3.Distance(go1.transform.position,dest1);
 	}
 }

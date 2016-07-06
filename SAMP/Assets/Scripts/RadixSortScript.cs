@@ -78,7 +78,7 @@ public class RadixSortScript : MonoBehaviour {
 			foreach (Queue<GameObject> bucket in buckets)
 			{
 				int bucket_size = bucket.Count;
-				float y_position = 10;
+				float y_position = 8;
 				while (bucket.Count > 0)
 				{
 					elementArray[i] = bucket.Dequeue();
@@ -93,7 +93,7 @@ public class RadixSortScript : MonoBehaviour {
 						list.Add (dest);
 						swappingQueue.Add (list);
 
-						y_position += 10;
+						y_position += 3;
 					}
 					i++;
 				}

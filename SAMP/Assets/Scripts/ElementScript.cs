@@ -62,7 +62,7 @@ public class ElementScript : MonoBehaviour {
 	private void setColor(GameObject go, float scale)
 	{
 		float max_scale = 4.0F;
-		int min_GB_color = 100;
+		int min_GB_color = 0;
 		float multiplier = (255 - min_GB_color) / max_scale;
 		float color = 1 - ((min_GB_color + scale * multiplier) / 255);
 		//Debug.Log ("COLOR: " + color);

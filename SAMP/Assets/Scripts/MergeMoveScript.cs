@@ -10,12 +10,13 @@ public class MergeMoveScript : MonoBehaviour {
 	private float speed = 80, rotated = 0, speed_moveup = 5;
 	List<GameObject> queue;
 	Vector3[] old_positions;
+	Vector3 null_position;
 	Color prevColor;
 	private Text score;
 
 	// Use this for initialization
 	void Start () {
-		//score = GameObject.Find ("SwapCounter").GetComponent<Text> ();
+		
 	}
 
 	// Update is called once per frame
@@ -49,7 +50,7 @@ public class MergeMoveScript : MonoBehaviour {
 		for(int i = 0; i < queue.Count; i=i+2)
 		{
 			if (go1 != null)
-				old_positions [go1.GetComponent<SingleElementScript> ().getElementId ()] = Vector3.zero;
+				old_positions [go1.GetComponent<SingleElementScript> ().getElementId ()] = null_position;
 
 			rotated = 0;
 			go1 = queue[i];
@@ -59,7 +60,7 @@ public class MergeMoveScript : MonoBehaviour {
 
 			if (go1.transform.position.y == 0 && go2.transform.position.y == 0) 
 			{
-				if (old_positions [go1.GetComponent<SingleElementScript> ().getElementId ()] == Vector3.zero) 
+				if (old_positions [go1.GetComponent<SingleElementScript> ().getElementId ()] == null_position) 
 				{
 					dest1 = go1.transform.position;
 					dest1.y += 10;
@@ -78,7 +79,7 @@ public class MergeMoveScript : MonoBehaviour {
 
 			if (go2.transform.position.y > 0 && go1.transform.position.y == 0) 
 			{
-				if (old_positions [go1.GetComponent<SingleElementScript> ().getElementId ()] == Vector3.zero) 
+				if (old_positions [go1.GetComponent<SingleElementScript> ().getElementId ()] == null_position) 
 				{
 					dest2 = go1.transform.position;
 
@@ -91,6 +92,7 @@ public class MergeMoveScript : MonoBehaviour {
 				}
 			}
 
+			//setSpeed ();
 			getRotationPoint();
 
 			Debug.Log ("From: " + go1.transform.position +" to: " + dest1);
@@ -113,8 +115,18 @@ public class MergeMoveScript : MonoBehaviour {
 	{
 		queue = _queue;
 		old_positions = new Vector3[queue.Count];
+		initPositions ();
 		printQueue ();
 		StartCoroutine(DoMoving());
+	}
+
+	private void initPositions()
+	{
+		null_position = new Vector3 (-99, -99, -99);
+		for (int i = 0; i < old_positions.Length; i++) 
+		{
+			old_positions [i] = null_position;
+		}
 	}
 
 	private void printQueue()
@@ -201,5 +213,17 @@ public class MergeMoveScript : MonoBehaviour {
 			go2.transform.rotation = Quaternion.identity;
 			go2.transform.position = dest2;
 		}
+	}
+
+	private void setSpeed()
+	{
+		float dist1 = 0, dist2 = 0;
+		dist1 = Vector3.Distance (go1.transform.position, dest1);
+		dist2 = Vector3.Distance (go2.transform.position, dest2);
+
+		if (dist1 > dist2)
+			speed_moveup = dist1;
+		else
+			speed_moveup = dist2;
 	}
 }
