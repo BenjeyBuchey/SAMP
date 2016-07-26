@@ -22,9 +22,11 @@ public class JurassicInterfaceScript : MonoBehaviour {
 		//engine.Execute("a = 5; for(i = 0;i < 10; i++) a++;");
 		//engine.Evaluate("for(i = 0;i < 10; i++) {test123.test(test_string)}");
 		//engine.Evaluate(value);
-		swapDelegate del = new swapDelegate(swap123);
+		swapDelegate del_swap = new swapDelegate(swap123);
+		sizeDelegate del_size = new sizeDelegate(size123);
 
-		engine.SetGlobalFunction("swap", del);
+		engine.SetGlobalFunction("swap", del_swap);
+		engine.SetGlobalFunction("size", del_size);
 		//Debug.Log(engine.Evaluate<int>("swap(5, 6)"));
 		engine.Execute(value);
 	}
@@ -34,6 +36,11 @@ public class JurassicInterfaceScript : MonoBehaviour {
 		iis.swap(a,b);
 	}
 
+	public double size123(int x)
+	{
+		return iis.size (x);
+	}
+
 	delegate void swapDelegate(int a, int b);
-		
+	delegate double sizeDelegate(int x);
 }
