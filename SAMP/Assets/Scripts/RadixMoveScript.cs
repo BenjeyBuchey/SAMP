@@ -9,7 +9,7 @@ public class RadixMoveScript : MonoBehaviour {
 	private Vector3 dest1;
 	private float speed = 20;
 	private List<ArrayList> queue;
-	private Color prevColor;
+	private Color prevColor, prevColor2;
 	private Text score;
 	private float init_y_position = 0;
 
@@ -84,7 +84,7 @@ public class RadixMoveScript : MonoBehaviour {
 	private void changeColor(bool is_moving)
 	{
 		MoveHelperScript mhs = gameObject.AddComponent<MoveHelperScript> ();
-		mhs.changeColor (go1, null, is_moving, ref prevColor);
+		mhs.changeColor (go1, null, is_moving, ref prevColor, ref prevColor2);
 		Destroy (GetComponent<MoveHelperScript>());
 	}
 

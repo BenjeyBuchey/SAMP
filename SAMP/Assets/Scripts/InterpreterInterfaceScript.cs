@@ -19,8 +19,8 @@ public class InterpreterInterfaceScript : MonoBehaviour {
 
 	public void swap(int x, int y)
 	{
-		//elementArray = GameObject.FindGameObjectsWithTag ("Elements");
-		elementArray = gameObject.GetComponentInParent<ElementScript> ().getElementArray ();
+		elementArray = GameObject.FindGameObjectsWithTag ("Elements");
+		//elementArray = gameObject.GetComponentInParent<ElementScript> ().getElementArray ();
 		Debug.Log ("Swapping " +x +" and " +y);
 		fillQueue (x, y);
 	}

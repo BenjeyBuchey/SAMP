@@ -11,8 +11,9 @@ public class MergeMoveScript : MonoBehaviour {
 	List<GameObject> queue;
 	Vector3[] old_positions;
 	Vector3 null_position;
-	Color prevColor;
+	Color prevColor, prevColor2;
 	private Text score;
+	private bool rotation = true;
 
 	// Use this for initialization
 	void Start () {
@@ -39,10 +40,14 @@ public class MergeMoveScript : MonoBehaviour {
 
 		go1.transform.position = Vector3.MoveTowards (go1.transform.position, dest1, step_moveup);
 
-		if(go2.transform.position.y > 0)
+		if (go2.transform.position.y > 0) {
+			rotation = false;
 			go2.transform.position = Vector3.MoveTowards (go2.transform.position, dest2, step_moveup);
-		else
+		} else 
+		{
+			rotation = true;
 			go2.transform.RotateAround (rotationPoint, Vector3.right, step);
+		}
 	}
 
 	IEnumerator DoMoving()
@@ -91,15 +96,14 @@ public class MergeMoveScript : MonoBehaviour {
 					dest1 = go1.transform.position;
 				}
 			}
-
-			//setSpeed ();
+				
 			getRotationPoint();
 
 			Debug.Log ("From: " + go1.transform.position +" to: " + dest1);
 			Debug.Log ("From: " + go2.transform.position +" to: " + dest2);
 			Debug.Log ("Rotation Point: " + rotationPoint);
 
-			while(rotated < 180)
+			while (rotated < 180)
 				yield return null;
 
 			correctPositions();
@@ -151,42 +155,8 @@ public class MergeMoveScript : MonoBehaviour {
 	private void changeColor(bool is_moving)
 	{
 		MoveHelperScript mhs = gameObject.AddComponent<MoveHelperScript> ();
-		mhs.changeColor (go1, go2, is_moving, ref prevColor);
+		mhs.changeColor (go1, go2, is_moving, ref prevColor, ref prevColor2);
 		Destroy (GetComponent<MoveHelperScript>());
-
-//		if (is_moving)
-//		{
-//			prevColor = Color.red;
-//
-//			foreach (Transform child in go1.transform) 
-//			{
-//				if (child.tag.Equals ("BasicElement")) 
-//				{
-//					prevColor = child.GetComponent<Renderer> ().material.color;
-//					child.GetComponent<Renderer> ().material.color = Color.green;
-//				}
-//			}
-//
-//			foreach (Transform child in go2.transform) 
-//			{
-//				if(child.tag.Equals("BasicElement"))
-//					child.GetComponent<Renderer> ().material.color = Color.green;
-//			}
-//		} 
-//		else 
-//		{
-//			foreach (Transform child in go1.transform) 
-//			{
-//				if(child.tag.Equals("BasicElement"))
-//					child.GetComponent<Renderer> ().material.color = prevColor;
-//			}
-//
-//			foreach (Transform child in go2.transform) 
-//			{
-//				if(child.tag.Equals("BasicElement"))
-//					child.GetComponent<Renderer> ().material.color = prevColor;
-//			}
-//		}
 	}
 
 	private void getRotationPoint()
@@ -213,17 +183,5 @@ public class MergeMoveScript : MonoBehaviour {
 			go2.transform.rotation = Quaternion.identity;
 			go2.transform.position = dest2;
 		}
-	}
-
-	private void setSpeed()
-	{
-		float dist1 = 0, dist2 = 0;
-		dist1 = Vector3.Distance (go1.transform.position, dest1);
-		dist2 = Vector3.Distance (go2.transform.position, dest2);
-
-		if (dist1 > dist2)
-			speed_moveup = dist1;
-		else
-			speed_moveup = dist2;
 	}
 }

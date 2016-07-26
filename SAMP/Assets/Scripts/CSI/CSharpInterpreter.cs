@@ -128,8 +128,15 @@ public sealed class CSharpInterpreter : MonoBehaviour, CSI.IConsole
     //public CSharpInterpreter()
     private void Awake()
     {
+		Application.RegisterLogCallback(HandleException);
         this.Reset();
     }
+
+	private void HandleException(string condition, string stackTrace, LogType type)
+	{
+		if (type == LogType.Exception)
+			Debug.Log(condition + "\n" + stackTrace);
+	}
 
     /// <summary>
     /// Performs one-time initialization of this instance; called by Unity.
@@ -155,7 +162,7 @@ public sealed class CSharpInterpreter : MonoBehaviour, CSI.IConsole
         this.maxHistorySize = 100;
         this.maxOutputSize = 15250;  // Seems to be okay to avoid errors like these from the Debug inspector: "Optimized GUI Block text buffer too large. Not appending further text."
         this.showInteractiveGUI = true;
-        this.showOutputText = true;
+        this.showOutputText = false;
         this.showOutputAsEditorSelection = true;
         this.showTooltipText = true;
         this.leftMargin = float.NaN;

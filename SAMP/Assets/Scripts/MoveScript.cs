@@ -9,7 +9,7 @@ public class MoveScript : MonoBehaviour {
 	private Vector3 dest1,dest2, rotationPoint;
 	private float speed = 80, rotated = 0;
 	private List<GameObject> queue;
-	private Color prevColor;
+	private Color prevColor, prevColor2;
 	private Text score;
 
 	// Use this for initialization
@@ -86,7 +86,7 @@ public class MoveScript : MonoBehaviour {
 	private void changeColor(bool is_moving)
 	{
 		MoveHelperScript mhs = gameObject.AddComponent<MoveHelperScript> ();
-		mhs.changeColor (go1, go2, is_moving, ref prevColor);
+		mhs.changeColor (go1, go2, is_moving, ref prevColor, ref prevColor2);
 		Destroy (GetComponent<MoveHelperScript>());
 
 //		if (is_moving)

@@ -13,11 +13,12 @@ public class MoveHelperScript : MonoBehaviour {
 	
 	}
 
-	public void changeColor(GameObject go1, GameObject go2, bool is_moving, ref Color prevColor)
+	public void changeColor(GameObject go1, GameObject go2, bool is_moving, ref Color prevColor, ref Color prevColor2)
 	{
 		if (is_moving)
 		{
 			prevColor = Color.red;
+			prevColor2 = Color.red;
 
 			if (go1 != null) 
 			{
@@ -35,8 +36,11 @@ public class MoveHelperScript : MonoBehaviour {
 			{
 				foreach (Transform child in go2.transform) 
 				{
-					if (child.tag.Equals ("BasicElement"))
+					if (child.tag.Equals ("BasicElement")) 
+					{
+						prevColor2 = child.GetComponent<Renderer> ().material.color;
 						child.GetComponent<Renderer> ().material.color = Color.green;
+					}
 				}
 			}
 		} 
@@ -56,7 +60,7 @@ public class MoveHelperScript : MonoBehaviour {
 				foreach (Transform child in go2.transform) 
 				{
 					if (child.tag.Equals ("BasicElement"))
-						child.GetComponent<Renderer> ().material.color = prevColor;
+						child.GetComponent<Renderer> ().material.color = prevColor2;
 				}
 			}
 		}
