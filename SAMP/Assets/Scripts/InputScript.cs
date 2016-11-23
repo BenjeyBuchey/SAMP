@@ -30,6 +30,8 @@ public class InputScript : MonoBehaviour {
 
 		e.SetFunction("mul",
 			new Jint.Delegates.Action<object,object>((a,b) => mul(a,b)));
+
+        // rndm test
 	}
 	
 	// Update is called once per frame
