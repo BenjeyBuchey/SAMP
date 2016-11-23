@@ -1,15 +1,10 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/CSI/interpreter.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/InputScript.cs">
     <Files>
-      <File FileName="Assets/Scripts/ElementScript.cs" Line="36" Column="63" />
-      <File FileName="Assets/Scripts/RadixSortScript.cs" Line="23" Column="43" />
-      <File FileName="Assets/Scripts/MergeMoveScript.cs" Line="70" Column="37" />
-      <File FileName="Assets/Scripts/InterpreterInterfaceScript.cs" Line="25" Column="20" />
-      <File FileName="Assets/Scripts/CSI/CSharpInterpreter.cs" Line="183" Column="3" />
-      <File FileName="Assets/Scripts/QuickSortScript.cs" Line="27" Column="58" />
-      <File FileName="Assets/Scripts/CSI/CSharpInterpreter_Include.txt" Line="24" Column="1" />
-      <File FileName="Assets/Scripts/CSI/interpreter.cs" Line="40" Column="2" />
+      <File FileName="Assets/Scripts/InputScript.cs" Line="37" Column="2" />
+      <File FileName="Assets/Scripts/InterpreterInterfaceScript.cs" Line="18" Column="3" />
+      <File FileName="Assets/Scripts/JurassicInterfaceScript.cs" Line="39" Column="30" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

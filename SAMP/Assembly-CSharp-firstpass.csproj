@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>Temp\bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;UNITY_5_3_1;UNITY_5_3;UNITY_5;ENABLE_NEW_BUGREPORTER;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_FRAME_DEBUGGER;ENABLE_GENERICS;ENABLE_HOME_SCREEN;ENABLE_IMAGEEFFECTS;ENABLE_LIGHT_PROBES_LEGACY;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_PLUGIN_INSPECTOR;ENABLE_SHADOWS;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_SPRITE_POLYGON;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;INCLUDE_IL2CPP;INCLUDE_DIRECTX12;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_LOCALIZATION;ENABLE_ANDROID_ATLAS_ETC1_COMPRESSION;ENABLE_EDITOR_TESTS_RUNNER;UNITY_STANDALONE_OSX;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_GAMECENTER;ENABLE_TEXTUREID_MAP;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_LOG_MIXED_STACKTRACE;ENABLE_UNITYWEBREQUEST;ENABLE_CLUSTERINPUT;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_OSX</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_3_4;UNITY_5_3;UNITY_5;ENABLE_NEW_BUGREPORTER;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_FRAME_DEBUGGER;ENABLE_GENERICS;ENABLE_HOME_SCREEN;ENABLE_IMAGEEFFECTS;ENABLE_LIGHT_PROBES_LEGACY;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_PLUGIN_INSPECTOR;ENABLE_SHADOWS;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_SPRITE_POLYGON;ENABLE_TERRAIN;ENABLE_UNET;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;INCLUDE_IL2CPP;INCLUDE_DIRECTX12;RENDER_SOFTWARE_CURSOR;ENABLE_LOCALIZATION;ENABLE_ANDROID_ATLAS_ETC1_COMPRESSION;ENABLE_EDITOR_TESTS_RUNNER;UNITY_WEBGL;UNITY_WEBGL_API;UNITY_DISABLE_WEB_VERIFICATION;ENABLE_TEXTUREID_MAP;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_LOG_MIXED_STACKTRACE;ENABLE_IL2CPP;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_OSX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
@@ -45,15 +45,131 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Plugins\CSI\CSharpInterpreter.cs" />
-     <Compile Include="Assets\Plugins\CSI\interpreter.cs" />
-     <Compile Include="Assets\Plugins\CSI\prepro.cs" />
-     <None Include="Assets\Plugins\CSI\CSharpInterpreter_Include.txt" />
+     <Compile Include="Assets\Plugins\Jint\CachedTypeResolver.cs" />
+     <Compile Include="Assets\Plugins\Jint\Debugger\BreakPoint.cs" />
+     <Compile Include="Assets\Plugins\Jint\Debugger\DebugInformation.cs" />
+     <Compile Include="Assets\Plugins\Jint\Debugger\SourceCodeDescriptor.cs" />
+     <Compile Include="Assets\Plugins\Jint\ExecutionVisitor.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\ArrayDeclaration.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\AssignmentExpression.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\BinaryExpression.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\BlockStatement.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\BreakStatement.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\CaseClause.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\CatchClause.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\ClrIdentifier.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\CommaOperatorStatement.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\ContinueStatement.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\DoWhileStatement.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\EmptyStatement.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\Expression.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\ExpressionStatement.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\FinallyClause.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\ForEachInStatement.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\ForStatement.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\FunctionDeclarationStatement.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\FunctionExpression.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\IAssignable.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\IForStatement.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\IFunctionDeclaration.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\IGenericExpression.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\Identifier.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\IfStatement.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\Indexer.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\JsonExpression.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\MemberExpression.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\MethodCall.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\NewExpression.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\Program.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\PropertyDeclarationExpression.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\PropertyExpression.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\RegexpExpression.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\ReturnStatement.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\Statement.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\SwitchStatement.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\TernaryExpression.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\ThrowStatement.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\TryStatement.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\UnaryExpression.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\ValueExpression.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\VariableDeclarationStatement.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\WhileStatement.cs" />
+     <Compile Include="Assets\Plugins\Jint\Expressions\WithStatement.cs" />
+     <Compile Include="Assets\Plugins\Jint\IConstructorInvoker.cs" />
+     <Compile Include="Assets\Plugins\Jint\IJintVisitor.cs" />
+     <Compile Include="Assets\Plugins\Jint\ITypeResolver.cs" />
+     <Compile Include="Assets\Plugins\Jint\JintEngine.cs" />
+     <Compile Include="Assets\Plugins\Jint\JintException.cs" />
+     <Compile Include="Assets\Plugins\Jint\Marshal.cs" />
+     <Compile Include="Assets\Plugins\Jint\Marshal\Delegates.cs" />
+     <Compile Include="Assets\Plugins\Jint\Marshal\RawJsMethodAttribute.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\ClrFunction.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\ClrImplDefinition.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\Descriptor.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\IGlobal.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\ILiteral.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\INativeIndexer.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\JsApplyFunction.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\JsArguments.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\JsArray.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\JsArrayConstructor.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\JsBoolean.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\JsBooleanConstructor.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\JsCallFunction.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\JsClrConstructorInfo.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\JsClrMethodInfo.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\JsComparer.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\JsConstructor.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\JsDate.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\JsDateConstructor.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\JsDictionaryObject.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\JsError.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\JsErrorConstructor.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\JsException.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\JsFunction.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\JsFunctionConstructor.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\JsFunctionWrapper.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\JsGlobal.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\JsInstance.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\JsMathConstructor.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\JsNull.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\JsNumber.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\JsNumberConstructor.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\JsObject.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\JsObjectConstructor.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\JsRegExp.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\JsRegExpConstructor.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\JsScope.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\JsString.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\JsStringConstructor.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\JsUndefined.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\LinkedDescriptor.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\PropertyAttributes.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\PropertyDescriptor.cs" />
+     <Compile Include="Assets\Plugins\Jint\Native\ValueDescriptor.cs" />
+     <Compile Include="Assets\Plugins\Jint\Number.cs" />
+     <Compile Include="Assets\Plugins\Jint\Options.cs" />
+     <Compile Include="Assets\Plugins\Jint\Parser\ES3Lexer.cs" />
+     <Compile Include="Assets\Plugins\Jint\Parser\ES3Parser.cs" />
+     <Compile Include="Assets\Plugins\Jint\PropertyBags\DictionaryPropertyBag.cs" />
+     <Compile Include="Assets\Plugins\Jint\PropertyBags\DoubleListPropertyBag.cs" />
+     <Compile Include="Assets\Plugins\Jint\PropertyBags\HashedPropertyBag.cs" />
+     <Compile Include="Assets\Plugins\Jint\PropertyBags\IPropertyBag.cs" />
+     <Compile Include="Assets\Plugins\Jint\PropertyBags\MiniCachedPropertyBag.cs" />
+     <Compile Include="Assets\Plugins\Jint\PropertyBags\ScopedPropertyBag.cs" />
+     <None Include="Assets\Plugins\Jint\License.txt" />
+     <None Include="Assets\Scripts\CSI\CSharpInterpreter_Include.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="Jurassic">
+ <HintPath>/Users/benjey/GitHub/SAMP_JINT_TEST/SAMP/Assets/DLL/Jurassic.dll</HintPath>
+ </Reference>
+ <Reference Include="Antlr3.Runtime">
+ <HintPath>/Users/benjey/GitHub/SAMP_JINT_TEST/SAMP/Assets/Plugins/Antlr3.Runtime.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
