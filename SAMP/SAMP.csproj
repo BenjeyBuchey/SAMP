@@ -81,6 +81,7 @@
     <Compile Include="Assets\Scripts\CSI\CSharpInterpreter.cs" />
     <Compile Include="Assets\Scripts\CSI\interpreter.cs" />
     <Compile Include="Assets\Scripts\CSI\prepro.cs" />
+    <Compile Include="Assets\Scripts\CameraSliderScript.cs" />
     <Compile Include="Assets\Scripts\ElementScript.cs" />
     <Compile Include="Assets\Scripts\ElementTextScript.cs" />
     <Compile Include="Assets\Scripts\GnomeSortScript.cs" />
