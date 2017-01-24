@@ -12,6 +12,7 @@ public class ElementScript : MonoBehaviour {
 	private MergeSortScript ms;
 	private RadixSortScript rs;
 	public GameObject element;
+	public GameObject sortingbox;
 	// Use this for initialization
 	void Start () {
 
@@ -33,10 +34,18 @@ public class ElementScript : MonoBehaviour {
 	void spawnElements()
 	{
 		GameObject empty = GameObject.Find ("EmptyGameObject");
-		int size = empty.GetComponent<SliderUpdateScript> ().getElementSize ();
+		int size = 0;
+		if (empty == null)
+			size = 10;
+		else
+			size = empty.GetComponent<SliderUpdateScript> ().getElementSize ();
 		Debug.Log (size.ToString());
+
+		//spawn sorting box
+		//spawn elements
+		var sortingbox_go = Instantiate(sortingbox);
 		for (int i = 0; i < size; i++)
-			Instantiate (element);
+			Instantiate (element,sortingbox_go.transform);
 	}
 
 	void initElements()

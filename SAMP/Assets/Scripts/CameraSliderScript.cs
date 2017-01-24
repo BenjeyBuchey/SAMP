@@ -23,6 +23,6 @@ public class CameraSliderScript : MonoBehaviour {
     private void checkZoom()
     {
         Camera camera = gameObject.GetComponent<Camera>();
-        camera.fieldOfView = vSliderValue;
+		camera.fieldOfView = vSliderValue;
     }
 }
