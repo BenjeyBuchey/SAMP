@@ -71,6 +71,7 @@
      <Compile Include="Assets\Scripts\RadixSortScript.cs" />
      <Compile Include="Assets\Scripts\SingleElementScript.cs" />
      <Compile Include="Assets\Scripts\SliderUpdateScript.cs" />
+     <Compile Include="Assets\Scripts\SortingBoxScript.cs" />
      <Compile Include="Assets\Scripts\SwapCounterScript.cs" />
      <None Include="Assets\Plugins\Jint\License.txt" />
      <None Include="Assets\Scripts\CSI\CSharpInterpreter_Include.txt" />

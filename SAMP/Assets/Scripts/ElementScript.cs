@@ -13,6 +13,8 @@ public class ElementScript : MonoBehaviour {
 	private RadixSortScript rs;
 	public GameObject element;
 	public GameObject sortingbox;
+    private int y_offset = 15;
+
 	// Use this for initialization
 	void Start () {
 
@@ -22,8 +24,10 @@ public class ElementScript : MonoBehaviour {
 		gs = gameObject.AddComponent<GnomeSortScript> ();
 		ms = gameObject.AddComponent<MergeSortScript> ();
 		rs = gameObject.AddComponent<RadixSortScript> ();
-		spawnElements ();
-		initElements ();
+        int size = getArraySize();
+		spawnElements (size);
+		//initElements (size);
+        spawnElements (size);
 	}
 	
 	// Update is called once per frame
@@ -31,24 +35,60 @@ public class ElementScript : MonoBehaviour {
 
 	}
 
-	void spawnElements()
+    void spawnElements(int size)
 	{
-		GameObject empty = GameObject.Find ("EmptyGameObject");
-		int size = 0;
-		if (empty == null)
-			size = 10;
-		else
-			size = empty.GetComponent<SliderUpdateScript> ().getElementSize ();
-		Debug.Log (size.ToString());
-
-		//spawn sorting box
-		//spawn elements
-		var sortingbox_go = Instantiate(sortingbox);
-		for (int i = 0; i < size; i++)
-			Instantiate (element,sortingbox_go.transform);
+        spawnNewSortingBox(size);
 	}
 
-	void initElements()
+    void spawnNewSortingBox(int size)
+    {
+        //get number of existing sorting boxes
+        int sortingbox_count = GameObject.FindGameObjectsWithTag("SortingBoxes").Length;
+        Debug.Log("SORTING BOX COUNT: " + sortingbox_count);
+
+        //spawn sorting box
+        var sortingbox_go = Instantiate(sortingbox);
+
+        //adjust location by count*y_offset
+        if (sortingbox_count > 0)
+            adjustSortingBoxLocation(sortingbox_count, sortingbox_go);
+
+        //spawn elements
+        GameObject[] sbox_elements = new GameObject[size];
+        for (int i = 0; i < size; i++)
+        {
+            sbox_elements[i] = Instantiate(element, sortingbox_go.transform);
+            if (sortingbox_count > 0)
+                adjustElementsLocation(sortingbox_count, sbox_elements[i]);
+        }
+
+        //set element array for this sorting box
+        sortingbox_go.GetComponent<SortingBoxScript>().setElementArray(sbox_elements);
+
+        //setup element array
+        elementArray = sbox_elements;
+        setupElementArray(sbox_elements);
+    }
+
+    private void adjustSortingBoxLocation(int count, GameObject sortingbox_go)
+    {
+        Vector3 old_pos = sortingbox_go.transform.position;
+        old_pos.y -= count * y_offset;
+        Vector3 new_pos = new Vector3(old_pos.x, old_pos.y - count * y_offset, old_pos.z);
+
+        sortingbox_go.transform.position = new_pos;
+    }
+
+    private void adjustElementsLocation(int count, GameObject element)
+    {
+        Vector3 old_pos = element.transform.position;
+        old_pos.y -= count * y_offset;
+        Vector3 new_pos = new Vector3(old_pos.x, old_pos.y - count * y_offset, old_pos.z);
+
+        element.transform.position = new_pos;
+    }
+
+    void initElements(int size)
 	{
 		elementArray = GameObject.FindGameObjectsWithTag ("Elements");
 		float position_z = -55.0f;
@@ -67,6 +107,41 @@ public class ElementScript : MonoBehaviour {
 		}
 		shuffleGameObjects ();
 	}
+
+    private int getArraySize()
+    {
+        GameObject empty = GameObject.Find ("EmptyGameObject");
+        int size = 0;
+        if (empty == null)
+            size = 10;
+        else
+            size = empty.GetComponent<SliderUpdateScript> ().getElementSize ();
+        Debug.Log (size.ToString());
+
+        return size;
+    }
+
+    private void setupElementArray(GameObject[] elements)
+    {
+        float position_z = -55.0f;
+        float[] scale_array = fillScaleArray (elements.Length);
+        int i = 0;
+        foreach (GameObject go in elements)
+        {
+            //set text & id
+            go.GetComponentInChildren<TextMesh>().text = (i).ToString ();
+            go.GetComponent<SingleElementScript> ().setElementId (i);
+
+            //adjust rigidbody
+            Rigidbody rb = go.GetComponentInChildren<Rigidbody>();
+            rb.transform.localScale = new Vector3(scale_array[i],scale_array[i],scale_array[i]);
+            setColor (go,scale_array[i]);
+            go.transform.position = new Vector3(rb.position.x,rb.position.y,position_z);
+            position_z += 5.0f;
+            i++;
+        }
+        shuffleGameObjects ();
+    }
 
 	private void setColor(GameObject go, float scale)
 	{
