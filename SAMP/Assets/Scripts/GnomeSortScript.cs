@@ -5,11 +5,11 @@ using System.Collections.Generic;
 public class GnomeSortScript : MonoBehaviour {
 
 	private GameObject[] elementArray;
-	private List<GameObject> swappingQueue;
+    private List<GameObject> swappingQueue = new List<GameObject> ();
 
 	// Use this for initialization
 	void Start () {
-		swappingQueue = new List<GameObject> ();
+
 	}
 	
 	// Update is called once per frame

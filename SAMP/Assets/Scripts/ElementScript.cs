@@ -6,10 +6,10 @@ public class ElementScript : MonoBehaviour {
 
 	private GameObject[] elementArray;
 	private int locked;
-	private QuickSortScript q;
-	private HeapSortScript hs;
-	private GnomeSortScript gs;
-	private MergeSortScript ms;
+//	private QuickSortScript q;
+//	private HeapSortScript hs;
+//	private GnomeSortScript gs;
+//	private MergeSortScript ms;
 	private RadixSortScript rs;
 	public GameObject element;
 	public GameObject sortingbox;
@@ -19,10 +19,10 @@ public class ElementScript : MonoBehaviour {
 	void Start () {
 
 		locked = 0;
-		q = gameObject.AddComponent<QuickSortScript> ();
-		hs = gameObject.AddComponent<HeapSortScript> ();
-		gs = gameObject.AddComponent<GnomeSortScript> ();
-		ms = gameObject.AddComponent<MergeSortScript> ();
+//		q = gameObject.AddComponent<QuickSortScript> ();
+//		hs = gameObject.AddComponent<HeapSortScript> ();
+//		gs = gameObject.AddComponent<GnomeSortScript> ();
+//		ms = gameObject.AddComponent<MergeSortScript> ();
 		rs = gameObject.AddComponent<RadixSortScript> ();
         int size = getArraySize();
 		spawnElements (size);
@@ -233,9 +233,18 @@ public class ElementScript : MonoBehaviour {
 			return;
 
 		// TODO: this doesn't wait till animation has finished 
-		locked = 1;
-		q.startSort(elementArray, 0, elementArray.Length);
-		locked = 0;
+		//locked = 1;
+		//q.startSort(elementArray, 0, elementArray.Length);
+		//locked = 0;
+
+        List<GameObject[]> elementArrays = getElementArrays();
+        locked = 1;
+        foreach (GameObject[] array in elementArrays)
+        {
+            QuickSortScript ss = gameObject.AddComponent<QuickSortScript> ();
+            ss.startSort(array, 0, array.Length);
+        }
+        locked = 0;
 	}
 
 	public void heapSort()
@@ -244,9 +253,18 @@ public class ElementScript : MonoBehaviour {
 			return;
 
 		// TODO: this doesn't wait till animation has finished 
-		locked = 1;
-		hs.startSort(elementArray);
-		locked = 0;
+//		locked = 1;
+//		hs.startSort(elementArray);
+//		locked = 0;
+
+        List<GameObject[]> elementArrays = getElementArrays();
+        locked = 1;
+        foreach (GameObject[] array in elementArrays)
+        {
+            HeapSortScript ss = gameObject.AddComponent<HeapSortScript> ();
+            ss.startSort(array);
+        }
+        locked = 0;
 	}
 
 	public void mergeSort()
@@ -255,9 +273,18 @@ public class ElementScript : MonoBehaviour {
 			return;
 
 		// TODO: this doesn't wait till animation has finished 
-		locked = 1;
-		ms.startSort (elementArray);
-		locked = 0;
+//		locked = 1;
+//		ms.startSort (elementArray);
+//		locked = 0;
+
+        List<GameObject[]> elementArrays = getElementArrays();
+        locked = 1;
+        foreach (GameObject[] array in elementArrays)
+        {
+            MergeSortScript ss = gameObject.AddComponent<MergeSortScript> ();
+            ss.startSort(array);
+        }
+        locked = 0;
 	}
 
 	public void gnomeSort()
@@ -266,9 +293,18 @@ public class ElementScript : MonoBehaviour {
 			return;
 
 		// TODO: this doesn't wait till animation has finished 
-		locked = 1;
-		gs.startSort(elementArray);
-		locked = 0;
+//		locked = 1;
+//		gs.startSort(elementArray);
+//		locked = 0;
+
+        List<GameObject[]> elementArrays = getElementArrays();
+        locked = 1;
+        foreach (GameObject[] array in elementArrays)
+        {
+            GnomeSortScript ss = gameObject.AddComponent<GnomeSortScript> ();
+            ss.startSort(array);
+        }
+        locked = 0;
 	}
 
 	public void radixSort()
@@ -277,13 +313,37 @@ public class ElementScript : MonoBehaviour {
 			return;
 
 		// TODO: this doesn't wait till animation has finished 
-		locked = 1;
-		rs.startSort(elementArray);
-		locked = 0;
+//		locked = 1;
+//		rs.startSort(elementArray);
+//		locked = 0;
+
+        List<GameObject[]> elementArrays = getElementArrays();
+        locked = 1;
+        foreach (GameObject[] array in elementArrays)
+        {
+            RadixSortScript ss = gameObject.AddComponent<RadixSortScript> ();
+            ss.startSort(array);
+        }
+        locked = 0;
 	}
 
-	public GameObject[] getElementArray()
-	{
-		return elementArray;
-	}
+    private List<GameObject[]> getElementArrays()
+    {
+        GameObject[] container = GameObject.FindGameObjectsWithTag("Container");
+        List<GameObject[]> elementArrays = new List<GameObject[]>();
+
+        for (int i = 0; i < container.Length; i++)
+        {
+            if (container[i].GetComponent<ElementContainerScript>().getHighlighted())
+            {
+                GameObject parent = container[i].transform.parent.gameObject;
+                if (parent != null)
+                {
+                    elementArrays.Add(parent.GetComponent<SortingBoxScript>().getElementArray());
+                    Debug.Log("Added element array");
+                }
+            }
+        }
+        return elementArrays;
+    }
 }

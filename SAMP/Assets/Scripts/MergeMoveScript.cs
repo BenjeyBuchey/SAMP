@@ -14,6 +14,7 @@ public class MergeMoveScript : MonoBehaviour {
 	Color prevColor, prevColor2;
 	private Text score;
 	private bool rotation = true;
+    private float init_y = 0.0f;
 
 	// Use this for initialization
 	void Start () {
@@ -131,6 +132,9 @@ public class MergeMoveScript : MonoBehaviour {
 		{
 			old_positions [i] = null_position;
 		}
+
+        if (queue.Count > 0)
+            init_y = queue[0].transform.position.y;
 	}
 
 	private void printQueue()
@@ -168,10 +172,8 @@ public class MergeMoveScript : MonoBehaviour {
 		else
 			z = dest2.z + distance / 2;
 
-		rotationPoint = new Vector3(dest2.x,
-			0,
-			z);
-
+        Debug.Log("INIT Y: " +init_y);
+        rotationPoint = new Vector3(dest2.x,init_y,z);
 	}
 
 	private void correctPositions()

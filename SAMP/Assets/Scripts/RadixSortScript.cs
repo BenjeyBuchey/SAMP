@@ -6,13 +6,12 @@ using System;
 public class RadixSortScript : MonoBehaviour {
 
 	private GameObject[] elementArray;
-	private List<ArrayList> swappingQueue; // 0 = GameObject, 1 = id
-	private List<Vector3> bucket_positions;
+    private List<ArrayList> swappingQueue = new List<ArrayList> (); // 0 = GameObject, 1 = id
+    private List<Vector3> bucket_positions = new List<Vector3> ();
 
 	// Use this for initialization
 	void Start () {
-		swappingQueue = new List<ArrayList> ();
-		bucket_positions = new List<Vector3> ();
+
 	}
 	
 	// Update is called once per frame
@@ -87,7 +86,7 @@ public class RadixSortScript : MonoBehaviour {
 					if (bucket_size != elementArray.Length)
 					{
 						Vector3 dest = bucket_positions [bucket_number];
-						dest.y = y_position;
+                        dest.y = elementArray[i].transform.position.y + y_position;
 
 						list.Add (elementArray [i]);
 						list.Add (dest);

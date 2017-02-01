@@ -52,7 +52,8 @@
      <Compile Include="Assets\Scripts\CameraController.cs" />
      <Compile Include="Assets\Scripts\CameraObjectController.cs" />
      <Compile Include="Assets\Scripts\CameraSliderScript.cs" />
-     <Compile Include="Assets\Scripts\ElementContainer.cs" />
+     <Compile Include="Assets\Scripts\ContainerHighlighterScript.cs" />
+     <Compile Include="Assets\Scripts\ElementContainerScript.cs" />
      <Compile Include="Assets\Scripts\ElementScript.cs" />
      <Compile Include="Assets\Scripts\ElementTextScript.cs" />
      <Compile Include="Assets\Scripts\GnomeSortScript.cs" />

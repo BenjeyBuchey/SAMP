@@ -6,11 +6,11 @@ using System;
 public class MergeSortScript : MonoBehaviour {
 
 	private GameObject[] elementArray;
-	private List<GameObject> swappingQueue;
+    private List<GameObject> swappingQueue = new List<GameObject> ();
 
 	// Use this for initialization
 	void Start () {
-		swappingQueue = new List<GameObject> ();
+
 	}
 	
 	// Update is called once per frame
@@ -24,7 +24,7 @@ public class MergeSortScript : MonoBehaviour {
 		elementArray = array;
 		myMergeSort (0, elementArray.Length-1);
 
-		if (swappingQueue != null && swappingQueue.Count >= 1) 
+		if (swappingQueue != null && swappingQueue.Count >= 1)
 		{
 			MergeMoveScript m = gameObject.AddComponent<MergeMoveScript> ();
 			m.swap (swappingQueue);
@@ -82,14 +82,6 @@ public class MergeSortScript : MonoBehaviour {
 		}
 	}
 
-	private void changeElements(GameObject go1, GameObject go2)
-	{
-		int id1 = go1.GetComponent<SingleElementScript> ().getElementId ();
-		int id2 = go2.GetComponent<SingleElementScript> ().getElementId ();
-
-		Debug.Log ("ELEMENT " + id1 + " is set to ELEMENT " + id2);
-	}
-
 	private void printArray(GameObject[] array, string name)
 	{
 		string s = String.Empty;
@@ -101,20 +93,6 @@ public class MergeSortScript : MonoBehaviour {
 		Debug.Log (name + s);
 	}
 
-//	private void swap(int i, int j)
-//	{
-//		if (i == j)
-//			return;
-//
-//		// add to queue and swap element array position
-//		swappingQueue.Add (elementArray [i]);
-//		swappingQueue.Add (elementArray [j]);
-//
-//		GameObject tmp = elementArray [i];
-//		elementArray [i] = elementArray [j];
-//		elementArray [j] = tmp;
-//	}
-
 	private void swap(GameObject go1, GameObject go2)
 	{
 		if (go1.GetComponent<SingleElementScript> ().getElementId () == go2.GetComponent<SingleElementScript> ().getElementId ())
@@ -123,15 +101,6 @@ public class MergeSortScript : MonoBehaviour {
 		// add to queue and swap element array position
 		swappingQueue.Add (go1);
 		swappingQueue.Add (go2);
-
-		//		GameObject tmp = elementArray [i];
-		//		elementArray [i] = elementArray [j];
-		//		elementArray [j] = tmp;
-	}
-
-	private double getSize(int index)
-	{
-		return elementArray [index].GetComponentInChildren<Rigidbody> ().transform.localScale.x;
 	}
 
 	private double getGameObjectSize(GameObject go)
