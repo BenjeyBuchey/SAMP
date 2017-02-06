@@ -327,7 +327,7 @@ public class ElementScript : MonoBehaviour {
         locked = 0;
 	}
 
-    private List<GameObject[]> getElementArrays()
+    public List<GameObject[]> getElementArrays()
     {
         GameObject[] container = GameObject.FindGameObjectsWithTag("Container");
         List<GameObject[]> elementArrays = new List<GameObject[]>();

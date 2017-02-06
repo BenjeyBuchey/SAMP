@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 public class InterpreterInterfaceScript : MonoBehaviour {
 
-	private GameObject[] elementArray;
-	private MoveScript ms;
+	//private GameObject[] elementArray;
+	//private MoveScript ms;
 
 	// Use this for initialization
 	void Start () {
-		ms = gameObject.AddComponent<MoveScript> ();
+		//ms = gameObject.AddComponent<MoveScript> ();
 	}
 	
 	// Update is called once per frame
@@ -19,29 +19,41 @@ public class InterpreterInterfaceScript : MonoBehaviour {
 
 	public void swap(int x, int y)
 	{
-		elementArray = GameObject.FindGameObjectsWithTag ("Elements");
-		//elementArray = gameObject.GetComponentInParent<ElementScript> ().getElementArray ();
+        List<GameObject[]> elementArrays = setElementArrays();
+        if (elementArrays == null)
+            return;
+
 		Debug.Log ("Swapping " +x +" and " +y);
-		fillQueue (x, y);
+        foreach (GameObject[] elementArray in elementArrays)
+        {
+            fillQueue(x, y, elementArray);
+        }
 	}
 
 	public double size(int x)
 	{
-		elementArray = GameObject.FindGameObjectsWithTag ("Elements");
+        List<GameObject[]> elementArrays = setElementArrays();
+        if (elementArrays == null)
+            return -1;
+        
 		double size = 0.0;
-		foreach (GameObject go in elementArray) 
-		{
-			if (go.GetComponent<SingleElementScript> ().getElementId () == x) 
-			{
-				size = go.GetComponentInChildren<Rigidbody> ().transform.localScale.x;
-				Debug.Log ("Size of Element " +x + " is: " +size);
-				break;
-			}
-		}
+
+        foreach (GameObject[] elementArray in elementArrays)
+        {
+            foreach (GameObject go in elementArray)
+            {
+                if (go.GetComponent<SingleElementScript>().getElementId() == x)
+                {
+                    size = go.GetComponentInChildren<Rigidbody>().transform.localScale.x;
+                    Debug.Log("Size of Element " + x + " is: " + size);
+                    break;
+                }
+            }
+        }
 		return size;
 	}
 
-	private void fillQueue(int x, int y)
+    private void fillQueue(int x, int y, GameObject[] elementArray)
 	{
 		List<GameObject> queue = new List<GameObject> ();
 		int x_pos = -1, y_pos = -1;
@@ -65,6 +77,16 @@ public class InterpreterInterfaceScript : MonoBehaviour {
 		elementArray [x_pos] = elementArray [y_pos];
 		elementArray [y_pos] = tmp;
 
+        MoveScript ms = gameObject.AddComponent<MoveScript> ();
 		ms.swap (queue);
 	}
+
+    private List<GameObject[]> setElementArrays()
+    {
+        GameObject elements = GameObject.Find("Elements");
+        if (elements == null)
+            return null;
+        
+        return elements.GetComponent<ElementScript>().getElementArrays();
+    }
 }
