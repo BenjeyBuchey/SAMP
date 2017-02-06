@@ -7,7 +7,7 @@ public class MergeMoveScript : MonoBehaviour {
 
 	private GameObject go1,go2;
 	private Vector3 dest1,dest2, rotationPoint;
-	private float speed = 80, rotated = 0, speed_moveup = 5;
+	private float speed = 80, rotated = 0, speed_moveup = 10;
 	List<GameObject> queue;
 	Vector3[] old_positions;
 	Vector3 null_position;
@@ -39,9 +39,9 @@ public class MergeMoveScript : MonoBehaviour {
 
 		float step_moveup = speed_moveup * Time.deltaTime;
 
-		go1.transform.position = Vector3.MoveTowards (go1.transform.position, dest1, step_moveup);
+		//go1.transform.position = Vector3.MoveTowards (go1.transform.position, dest1, step_moveup);
 
-		if (go2.transform.position.y > 0) {
+        if (go2.transform.position.y > init_y) {
 			rotation = false;
 			go2.transform.position = Vector3.MoveTowards (go2.transform.position, dest2, step_moveup);
 		} else 
@@ -49,6 +49,8 @@ public class MergeMoveScript : MonoBehaviour {
 			rotation = true;
 			go2.transform.RotateAround (rotationPoint, Vector3.right, step);
 		}
+
+        go1.transform.position = Vector3.MoveTowards (go1.transform.position, dest1, step_moveup);
 	}
 
 	IEnumerator DoMoving()
@@ -64,7 +66,8 @@ public class MergeMoveScript : MonoBehaviour {
 
 			changeColor(true);
 
-			if (go1.transform.position.y == 0 && go2.transform.position.y == 0) 
+            // changed 0 to init_y
+            if (go1.transform.position.y == init_y && go2.transform.position.y == init_y) 
 			{
 				if (old_positions [go1.GetComponent<SingleElementScript> ().getElementId ()] == null_position) 
 				{
@@ -83,7 +86,7 @@ public class MergeMoveScript : MonoBehaviour {
 				Debug.Log ("SET OLD " + go2.GetComponent<SingleElementScript> ().getElementId ());
 			}
 
-			if (go2.transform.position.y > 0 && go1.transform.position.y == 0) 
+            if (go2.transform.position.y > init_y && go1.transform.position.y == init_y) 
 			{
 				if (old_positions [go1.GetComponent<SingleElementScript> ().getElementId ()] == null_position) 
 				{
@@ -104,8 +107,11 @@ public class MergeMoveScript : MonoBehaviour {
 			Debug.Log ("From: " + go2.transform.position +" to: " + dest2);
 			Debug.Log ("Rotation Point: " + rotationPoint);
 
-			while (rotated < 180)
-				yield return null;
+//			while (rotated < 180)
+//				yield return null;
+
+            while (go1.transform.position != dest1 || go2.transform.position != dest2)
+                yield return null;
 
 			correctPositions();
 
