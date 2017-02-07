@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class ElementScript : MonoBehaviour {
 
@@ -13,7 +14,7 @@ public class ElementScript : MonoBehaviour {
 	private RadixSortScript rs;
 	public GameObject element;
 	public GameObject sortingbox;
-    private int y_offset = 10;
+    private int y_offset = 5;
     private int container_z_offset = 5;
 
 	// Use this for initialization
@@ -26,9 +27,9 @@ public class ElementScript : MonoBehaviour {
 //		ms = gameObject.AddComponent<MergeSortScript> ();
 		rs = gameObject.AddComponent<RadixSortScript> ();
         int size = getArraySize();
+        setElementDropdown(size);
 		spawnElements (size);
 
-        spawnElements (size);
         //TODO: adjust container position + size
         // dropdown + button to add another sorting box
 	}
@@ -38,8 +39,11 @@ public class ElementScript : MonoBehaviour {
 
 	}
 
-    void spawnElements(int size)
+    public void spawnElements(int size)
 	{
+        if (size == 0)
+            size = getNewElementSize();
+        
         spawnNewSortingBox(size);
 	}
 
@@ -356,5 +360,34 @@ public class ElementScript : MonoBehaviour {
             }
         }
         return elementArrays;
+    }
+
+    private int getNewElementSize()
+    {
+        Dropdown dd = GameObject.Find("ElementCountDropdown").GetComponent<Dropdown>();
+        if (dd == null)
+            return 0;
+
+        string val = dd.captionText.text;
+        int size = 0;
+        int.TryParse(val, out size);
+
+        return size;
+    }
+
+    private void setElementDropdown(int size)
+    {
+        Dropdown dd = GameObject.Find("ElementCountDropdown").GetComponent<Dropdown>();
+        if (dd == null)
+            return;
+
+        for (int i = 0; i < dd.options.Count; i++)
+        {
+            if (dd.options[i].text.Equals(size.ToString()))
+            {
+                dd.value = i;
+                break;
+            }
+        }
     }
 }
