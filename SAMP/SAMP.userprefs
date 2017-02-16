@@ -2,11 +2,11 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ElementScript.cs">
     <Files>
-      <File FileName="Assets\Scripts\ElementScript.cs" Line="32" Column="56" />
+      <File FileName="Assets\Scripts\ElementScript.cs" Line="363" Column="6" />
       <File FileName="Assets\Scripts\SliderUpdateScript.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\SortingBoxScript.cs" Line="26" Column="29" />
-      <File FileName="Assets\Scripts\InterpreterInterfaceScript.cs" Line="59" Column="30" />
-      <File FileName="Assets\Scripts\MoveScript.cs" Line="42" Column="41" />
+      <File FileName="Assets\Scripts\SortingBoxScript.cs" Line="27" Column="6" />
+      <File FileName="Assets\Scripts\InterpreterInterfaceScript.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MoveScript.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
