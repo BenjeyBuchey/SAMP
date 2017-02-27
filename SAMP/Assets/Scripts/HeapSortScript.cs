@@ -34,10 +34,10 @@ public class HeapSortScript : MonoBehaviour {
 	{
 		//Build-Max-Heap
 		int heapSize = elementArray.Length;
-		for (int p = (heapSize - 1) / 2; p >= 0; p--)
+		for (int p = heapSize / 2; p >= 0; p--)
 			maxHeapify(heapSize, p);
 
-		for (int i = elementArray.Length - 1; i > 0; i--)
+		for (int i = elementArray.Length - 1; i >= 0; i--)
 		{
 			//Swap
 			swap(i,0);
@@ -49,8 +49,8 @@ public class HeapSortScript : MonoBehaviour {
 
 	private void maxHeapify(int heapSize, int index)
 	{
-		int left = 2 * index + 1;
-		int right = 2 * index + 2;
+		int left = 2 * index;
+		int right = 2 * index + 1;
 		int largest = index;
 
 		if (left < heapSize && getSize(left) > getSize(index))
