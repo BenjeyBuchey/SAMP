@@ -39,8 +39,6 @@ public class MergeMoveScript : MonoBehaviour {
 
 		float step_moveup = speed_moveup * Time.deltaTime;
 
-		//go1.transform.position = Vector3.MoveTowards (go1.transform.position, dest1, step_moveup);
-
         if (go2.transform.position.y > init_y) {
 			rotation = false;
 			go2.transform.position = Vector3.MoveTowards (go2.transform.position, dest2, step_moveup);

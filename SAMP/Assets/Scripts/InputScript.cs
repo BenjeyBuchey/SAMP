@@ -42,10 +42,12 @@ public class InputScript : MonoBehaviour {
 	public void exec(string command)
 	{
 		e.Run (command);
+        //TODO: start moving here
 	}
 		
 	private void swap(int a, int b)
 	{
+        //TODO: build up queue here. global queue in this. iis.swap returns q queue!? and we add queue entries to global queue !?
 		iis.swap(a,b);
 	}
 
