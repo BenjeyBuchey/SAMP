@@ -30,6 +30,23 @@ public class InterpreterInterfaceScript : MonoBehaviour {
         }
 	}
 
+    public List<List<GameObject>> swapNEW(int x, int y)
+    {
+        List<GameObject[]> elementArrays = setElementArrays();
+        if (elementArrays == null)
+            return null;
+
+        List<List<GameObject>> queue = new List<List<GameObject>>();
+        Debug.Log ("Swapping " +x +" and " +y);
+        foreach (GameObject[] elementArray in elementArrays)
+        {
+            //queue.AddRange(fillQueue(x, y, elementArray));
+            queue.Add(fillQueue(x, y, elementArray));
+        }
+
+        return queue;
+    }
+
 	public double size(int x)
 	{
         List<GameObject[]> elementArrays = setElementArrays();
@@ -53,7 +70,7 @@ public class InterpreterInterfaceScript : MonoBehaviour {
 		return size;
 	}
 
-    private void fillQueue(int x, int y, GameObject[] elementArray)
+    private List<GameObject> fillQueue(int x, int y, GameObject[] elementArray)
 	{
 		List<GameObject> queue = new List<GameObject> ();
 		int x_pos = -1, y_pos = -1;
@@ -77,8 +94,10 @@ public class InterpreterInterfaceScript : MonoBehaviour {
 		elementArray [x_pos] = elementArray [y_pos];
 		elementArray [y_pos] = tmp;
 
+        return queue;
+        /*
         MoveScript ms = gameObject.AddComponent<MoveScript> ();
-		ms.swap (queue);
+		ms.swap (queue); */
 	}
 
     private List<GameObject[]> setElementArrays()

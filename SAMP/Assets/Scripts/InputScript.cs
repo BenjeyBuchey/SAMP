@@ -1,16 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using Jint;
 
 public class InputScript : MonoBehaviour {
 
 	private InterpreterInterfaceScript iis;
 	private JintEngine e;
+    private List<List<GameObject>> queue;
 
 	// Use this for initialization
 	void Start () {
 	
 		iis = gameObject.AddComponent<InterpreterInterfaceScript>();
+        queue = new List<List<GameObject>>();
 		e = new JintEngine();
 
 		e.SetFunction("log",
@@ -41,14 +44,24 @@ public class InputScript : MonoBehaviour {
 
 	public void exec(string command)
 	{
+        queue.Clear();
 		e.Run (command);
-        //TODO: start moving here
+        execQueue();
 	}
 		
 	private void swap(int a, int b)
 	{
-        //TODO: build up queue here. global queue in this. iis.swap returns q queue!? and we add queue entries to global queue !?
-		iis.swap(a,b);
+        List<List<GameObject>> temp = iis.swapNEW(a, b);
+        if (queue.Count == 0)
+        {
+            queue = temp;
+            return;
+        }
+
+        for (int i = 0; i < temp.Count; i++)
+        {
+            queue[i].AddRange(temp[i]);
+        }
 	}
 
 	private double size(int a)
@@ -69,5 +82,17 @@ public class InputScript : MonoBehaviour {
 	{
 		Debug.Log (a);
 	}
+
+    private void execQueue()
+    {
+        if (queue != null && queue.Count == 0)
+            return;
+
+        foreach (List<GameObject> container_queue in queue)
+        {
+            MoveScript ms = gameObject.AddComponent<MoveScript> ();
+            ms.swap (container_queue);
+        }
+    }
 		
 }
