@@ -5,6 +5,8 @@ Project("{E2EF0AC7-EB9B-87CC-E413-39C325CC7FD0}") = "SAMP", "Assembly-CSharp-fir
 EndProject
 Project("{E2EF0AC7-EB9B-87CC-E413-39C325CC7FD0}") = "SAMP", "Assembly-CSharp.csproj", "{0D2FCF9F-2F5A-A30E-313F-803E3491B168}"
 EndProject
+Project("{E2EF0AC7-EB9B-87CC-E413-39C325CC7FD0}") = "SAMP", "Assembly-CSharp-Editor.csproj", "{ACFFBE8D-D0FC-AB5C-D481-2A57587D3DBB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{0D2FCF9F-2F5A-A30E-313F-803E3491B168}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D2FCF9F-2F5A-A30E-313F-803E3491B168}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D2FCF9F-2F5A-A30E-313F-803E3491B168}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACFFBE8D-D0FC-AB5C-D481-2A57587D3DBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACFFBE8D-D0FC-AB5C-D481-2A57587D3DBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACFFBE8D-D0FC-AB5C-D481-2A57587D3DBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACFFBE8D-D0FC-AB5C-D481-2A57587D3DBB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
