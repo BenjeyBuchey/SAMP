@@ -30,8 +30,8 @@ public class MoveScript : MonoBehaviour {
 		if (go1 == null || go2 == null)
 			return;
 
-		float step = speed * Time.deltaTime;
-		rotated += step;
+		//float step = speed * Time.deltaTime;
+		//rotated += step;
 
 		//go1.transform.RotateAround (rotationPoint, Vector3.right, step);
 		//go2.transform.RotateAround (rotationPoint, Vector3.right, step);
@@ -73,11 +73,11 @@ public class MoveScript : MonoBehaviour {
 	public void swap(List<GameObject> _queue)
 	{
 		queue = _queue;
-        doSwap();
+        StartCoroutine(doSwap());
 		//StartCoroutine(DoMoving());
 	}
 
-    private void doSwap()
+    IEnumerator doSwap()
     {
         for (int i = 0; i < queue.Count; i = i + 2)
         {
@@ -98,6 +98,13 @@ public class MoveScript : MonoBehaviour {
 
             LeanTween.move(go1, new Vector3[] {dest2, temp1, temp1, dest1 }, 1.5f);
             LeanTween.move(go2, new Vector3[] {dest1, temp2, temp2, dest2 }, 1.5f);
+
+            while(go1.transform.position != dest1 || go2.transform.position != dest2)
+                yield return null;
+
+            increaseCounter ();
+
+            changeColor(false);
         }
     }
 
