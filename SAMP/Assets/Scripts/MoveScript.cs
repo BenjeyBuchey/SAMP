@@ -11,10 +11,13 @@ public class MoveScript : MonoBehaviour {
 	private List<GameObject> queue;
 	private Color prevColor, prevColor2;
 	private Text score;
+    private float min_dist, max_dist; // minimum & maximum distance possible between two elements
+    private float max_dist_diff; // difference between min_dist & max_dist
+    private float y_min, y_max; // minimum & maximum y position values for swapping movement
 
 	// Use this for initialization
 	void Start () {
-		//score = GameObject.Find ("SwapCounter").GetComponent<Text> ();
+        setValues();
 	}
 	
 	// Update is called once per frame
@@ -24,11 +27,11 @@ public class MoveScript : MonoBehaviour {
 
 	void FixedUpdate ()
 	{
-		if (queue == null || queue.Count < 1)
-			return;
-
-		if (go1 == null || go2 == null)
-			return;
+//		if (queue == null || queue.Count < 1)
+//			return;
+//
+//		if (go1 == null || go2 == null)
+//			return;
 
 		//float step = speed * Time.deltaTime;
 		//rotated += step;
@@ -40,6 +43,7 @@ public class MoveScript : MonoBehaviour {
         //LeanTween.move(go2, dest2, 1.5f);
 	}
 	
+    // old moving
 	IEnumerator DoMoving()
 	{
 		for(int i = 0; i < queue.Count; i=i+2)
@@ -73,6 +77,9 @@ public class MoveScript : MonoBehaviour {
 	public void swap(List<GameObject> _queue)
 	{
 		queue = _queue;
+        if (queue == null || queue.Count < 2)
+            return;
+        
         StartCoroutine(doSwap());
 		//StartCoroutine(DoMoving());
 	}
@@ -84,17 +91,21 @@ public class MoveScript : MonoBehaviour {
             go1 = queue[i];
             go2 = queue[i+1];
 
+            if (go1 == null || go2 == null)
+                yield return null;
+
             changeColor(true);
 
             dest1 = go2.transform.position;
             dest2 = go1.transform.position;
             getRotationPoint();
 
+            float y_offset = getOffsetY();
             Vector3 temp1 = rotationPoint;
-            temp1.y = temp1.y + 10;
+            temp1.y = temp1.y + y_offset;
 
             Vector3 temp2 = rotationPoint;
-            temp2.y = temp2.y - 10;
+            temp2.y = temp2.y - y_offset;
 
             LeanTween.move(go1, new Vector3[] {dest2, temp1, temp1, dest1 }, 1.5f);
             LeanTween.move(go2, new Vector3[] {dest1, temp2, temp2, dest2 }, 1.5f);
@@ -151,4 +162,19 @@ public class MoveScript : MonoBehaviour {
 			go2.transform.position = dest2;
 		}
 	}
+
+    private float getOffsetY()
+    {
+        if (go1 == null || go2 == null)
+            return 0.0f;
+
+        return go1.GetComponentInParent<SortingBoxScript>().getOffsetY(go1, go2);
+    }
+
+    private void setValues()
+    {
+        // get min_dist + max_dist from sortingboxes
+        // calc max_dist_diff
+        // set y_min, y_max ? set global var as static !?
+    }
 }

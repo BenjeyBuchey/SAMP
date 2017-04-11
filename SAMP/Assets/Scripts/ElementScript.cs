@@ -29,9 +29,6 @@ public class ElementScript : MonoBehaviour {
         int size = getArraySize();
         setElementDropdown(size);
 		spawnElements (size);
-
-        //TODO: adjust container position + size
-        // dropdown + button to add another sorting box
 	}
 	
 	// Update is called once per frame
@@ -56,10 +53,6 @@ public class ElementScript : MonoBehaviour {
         //spawn sorting box
         var sortingbox_go = Instantiate(sortingbox);
 
-        //adjust location by count*y_offset
-        //if (sortingbox_count > 0)
-            
-
         //spawn elements
         GameObject[] sbox_elements = new GameObject[size];
         for (int i = 0; i < size; i++)
@@ -75,6 +68,9 @@ public class ElementScript : MonoBehaviour {
         //setup element array
         elementArray = sbox_elements;
         setupElementArray(sbox_elements);
+
+        // set min/max distances, max distance difference
+        sortingbox_go.GetComponent<SortingBoxScript>().setDistances();
 
         adjustSortingBoxLocation(sortingbox_count, sortingbox_go, size);
     }
@@ -101,26 +97,6 @@ public class ElementScript : MonoBehaviour {
         Vector3 new_pos = new Vector3(old_pos.x, old_pos.y - count * (container_transform.localScale.y + y_offset), old_pos.z);
         element.transform.position = new_pos;
     }
-
-//    void initElements(int size)
-//	{
-//		elementArray = GameObject.FindGameObjectsWithTag ("Elements");
-//		float position_z = -55.0f;
-//		float[] scale_array = fillScaleArray (elementArray.Length);
-//		int i = 0;
-//		foreach (GameObject go in elementArray) 
-//		{
-//			go.GetComponentInChildren<TextMesh>().text = (i).ToString ();
-//			go.GetComponent<SingleElementScript> ().setElementId (i);
-//			Rigidbody rb = go.GetComponentInChildren<Rigidbody>();
-//			rb.transform.localScale = new Vector3(scale_array[i],scale_array[i],scale_array[i]);
-//			setColor (go,scale_array[i]);
-//			go.transform.position = new Vector3(rb.position.x,rb.position.y,position_z);
-//			position_z += 5.0f;
-//			i++;
-//		}
-//		shuffleGameObjects ();
-//	}
 
     private int getArraySize()
     {
