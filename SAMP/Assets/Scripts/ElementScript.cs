@@ -312,6 +312,7 @@ public class ElementScript : MonoBehaviour {
         locked = 1;
         foreach (GameObject[] array in elementArrays)
         {
+            setTrailRenderer(array, false);
             RadixSortScript ss = gameObject.AddComponent<RadixSortScript> ();
             ss.startSort(array);
         }
@@ -365,5 +366,11 @@ public class ElementScript : MonoBehaviour {
                 break;
             }
         }
+    }
+
+    private void setTrailRenderer(GameObject[] array, bool visible)
+    {
+        foreach (GameObject go in array)
+            go.GetComponentInChildren<TrailRenderer>().enabled = visible;
     }
 }

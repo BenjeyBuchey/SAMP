@@ -25,15 +25,15 @@ public class RadixMoveScript : MonoBehaviour {
 
 	void FixedUpdate ()
 	{
-		if (queue == null || queue.Count < 1)
-			return;
-
-		if (go1 == null)
-			return;
-
-		float step = speed * Time.deltaTime;
-
-		go1.transform.position = Vector3.MoveTowards (go1.transform.position, dest1, step);
+//		if (queue == null || queue.Count < 1)
+//			return;
+//
+//		if (go1 == null)
+//			return;
+//
+//		float step = speed * Time.deltaTime;
+//
+//		go1.transform.position = Vector3.MoveTowards (go1.transform.position, dest1, step);
 
 	}
 
@@ -50,8 +50,10 @@ public class RadixMoveScript : MonoBehaviour {
 			changeColor(true);
 
 			dest1 = bucket_position;
-			setSpeed ();
+			//setSpeed ();
 			Debug.Log ("Dest1: " + dest1);
+
+            LeanTween.move(go1, dest1, 1.0f);
 
 			while(go1.transform.position != dest1)
 				yield return null;

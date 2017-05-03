@@ -28,27 +28,27 @@ public class MergeMoveScript : MonoBehaviour {
 
 	void FixedUpdate ()
 	{
-		if (queue == null || queue.Count < 1)
-			return;
-
-		if (go1 == null || go2 == null)
-			return;
-
-		float step = speed * Time.deltaTime;
-		rotated += step;
-
-		float step_moveup = speed_moveup * Time.deltaTime;
-
-        if (go2.transform.position.y > init_y) {
-			rotation = false;
-			go2.transform.position = Vector3.MoveTowards (go2.transform.position, dest2, step_moveup);
-		} else 
-		{
-			rotation = true;
-			go2.transform.RotateAround (rotationPoint, Vector3.right, step);
-		}
-
-        go1.transform.position = Vector3.MoveTowards (go1.transform.position, dest1, step_moveup);
+//		if (queue == null || queue.Count < 1)
+//			return;
+//
+//		if (go1 == null || go2 == null)
+//			return;
+//
+//		float step = speed * Time.deltaTime;
+//		rotated += step;
+//
+//		float step_moveup = speed_moveup * Time.deltaTime;
+//
+//        if (go2.transform.position.y > init_y) {
+//			rotation = false;
+//			go2.transform.position = Vector3.MoveTowards (go2.transform.position, dest2, step_moveup);
+//		} else 
+//		{
+//			rotation = true;
+//			go2.transform.RotateAround (rotationPoint, Vector3.right, step);
+//		}
+//
+//        go1.transform.position = Vector3.MoveTowards (go1.transform.position, dest1, step_moveup);
 	}
 
 	IEnumerator DoMoving()
@@ -105,8 +105,6 @@ public class MergeMoveScript : MonoBehaviour {
 			Debug.Log ("From: " + go2.transform.position +" to: " + dest2);
 			Debug.Log ("Rotation Point: " + rotationPoint);
 
-//			while (rotated < 180)
-//				yield return null;
 
             while (go1.transform.position != dest1 || go2.transform.position != dest2)
                 yield return null;
@@ -126,7 +124,8 @@ public class MergeMoveScript : MonoBehaviour {
 		old_positions = new Vector3[queue.Count];
 		initPositions ();
 		printQueue ();
-		StartCoroutine(DoMoving());
+		//StartCoroutine(DoMoving());
+        StartCoroutine(DoSwap());
 	}
 
 	private void initPositions()
@@ -190,4 +189,100 @@ public class MergeMoveScript : MonoBehaviour {
 			go2.transform.position = dest2;
 		}
 	}
+
+    IEnumerator DoSwap()
+    {
+        for(int i = 0; i < queue.Count; i=i+2)
+        {
+            if (go1 != null)
+                old_positions [go1.GetComponent<SingleElementScript> ().getElementId ()] = null_position;
+
+            rotated = 0;
+            go1 = queue[i];
+            go2 = queue[i+1];
+
+            changeColor(true);
+
+            // changed 0 to init_y
+            if (go1.transform.position.y == init_y && go2.transform.position.y == init_y) 
+            {
+                if (old_positions [go1.GetComponent<SingleElementScript> ().getElementId ()] == null_position) 
+                {
+                    dest1 = go1.transform.position;
+                    dest1.y += 10;
+
+                    dest2 = go1.transform.position;
+                } else 
+                {
+                    dest2 = old_positions [go1.GetComponent<SingleElementScript> ().getElementId ()];
+                    dest1 = go1.transform.position;
+                    if (dest1 == dest2)
+                        dest1.y += 10;
+                }
+                old_positions [go2.GetComponent<SingleElementScript> ().getElementId ()] = go2.transform.position;
+                Debug.Log ("SET OLD " + go2.GetComponent<SingleElementScript> ().getElementId ());
+            }
+
+            if (go2.transform.position.y > init_y && go1.transform.position.y == init_y) 
+            {
+                if (old_positions [go1.GetComponent<SingleElementScript> ().getElementId ()] == null_position) 
+                {
+                    dest2 = go1.transform.position;
+
+                    dest1 = go1.transform.position;
+                    dest1.y += 10;
+                } else 
+                {
+                    dest2 = old_positions [go1.GetComponent<SingleElementScript> ().getElementId ()];
+                    dest1 = go1.transform.position;
+                }
+            }
+
+            getRotationPoint();
+
+            if (go2.transform.position.y > init_y) 
+            {
+                rotation = false;
+                LeanTween.move(go2, dest2, 1.5f);
+            } 
+            else 
+            {
+                rotation = true;
+                float y_offset = getOffsetY();
+                Vector3 temp1 = rotationPoint;
+                temp1.y = temp1.y + y_offset;
+
+                Vector3 temp2 = rotationPoint;
+                temp2.y = temp2.y - y_offset;
+
+                //go2.transform.RotateAround (rotationPoint, Vector3.right, step);
+                LeanTween.move(go2, new Vector3[] {dest2, temp1, temp1, dest1 }, 1.5f);
+            }
+                
+            LeanTween.move(go1, dest1, 1.5f);
+
+            Debug.Log ("From: " + go1.transform.position +" to: " + dest1);
+            Debug.Log ("From: " + go2.transform.position +" to: " + dest2);
+            Debug.Log ("Rotation Point: " + rotationPoint);
+
+
+            while (go1.transform.position != dest1 || go2.transform.position != dest2)
+                yield return null;
+
+            correctPositions();
+
+            increaseCounter ();
+
+            changeColor(false);
+        }
+        queue = null;
+    }
+
+    private float getOffsetY()
+    {
+        if (go1 == null || go2 == null)
+            return 0.0f;
+
+        return go1.GetComponentInParent<SortingBoxScript>().getOffsetY(go1, go2);
+    }
 }

@@ -77,7 +77,7 @@ public class RadixSortScript : MonoBehaviour {
 			foreach (Queue<GameObject> bucket in buckets)
 			{
 				int bucket_size = bucket.Count;
-				float y_position = 8;
+				float y_position = -10; // 8
 				while (bucket.Count > 0)
 				{
 					elementArray[i] = bucket.Dequeue();
