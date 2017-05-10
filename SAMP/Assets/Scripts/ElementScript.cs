@@ -7,11 +7,6 @@ public class ElementScript : MonoBehaviour {
 
 	private GameObject[] elementArray;
 	private int locked;
-//	private QuickSortScript q;
-//	private HeapSortScript hs;
-//	private GnomeSortScript gs;
-//	private MergeSortScript ms;
-	private RadixSortScript rs;
 	public GameObject element;
 	public GameObject sortingbox;
     private int y_offset = 5;
@@ -21,11 +16,6 @@ public class ElementScript : MonoBehaviour {
 	void Start () {
 
 		locked = 0;
-//		q = gameObject.AddComponent<QuickSortScript> ();
-//		hs = gameObject.AddComponent<HeapSortScript> ();
-//		gs = gameObject.AddComponent<GnomeSortScript> ();
-//		ms = gameObject.AddComponent<MergeSortScript> ();
-		rs = gameObject.AddComponent<RadixSortScript> ();
         int size = getArraySize();
         setElementDropdown(size);
 		spawnElements (size);
@@ -73,6 +63,17 @@ public class ElementScript : MonoBehaviour {
         sortingbox_go.GetComponent<SortingBoxScript>().setDistances();
 
         adjustSortingBoxLocation(sortingbox_count, sortingbox_go, size);
+        adjustTextLocation(sortingbox_go);
+    }
+
+    private void adjustTextLocation(GameObject sortingbox_go)
+    {
+        // adjust position of element id text
+        foreach (GameObject go in sortingbox_go.GetComponent<SortingBoxScript>().getElementArray())
+        {
+            float y_scale = go.GetComponentInChildren<Rigidbody>().transform.localScale.y;
+            go.GetComponentInChildren<ElementTextScript>().setPosition(y_scale);
+        }
     }
 
     private void adjustSortingBoxLocation(int count, GameObject sortingbox_go, int size)
@@ -122,11 +123,13 @@ public class ElementScript : MonoBehaviour {
             go.GetComponentInChildren<TextMesh>().text = (i).ToString ();
             go.GetComponent<SingleElementScript> ().setElementId (i);
 
+
             //adjust rigidbody
             Rigidbody rb = go.GetComponentInChildren<Rigidbody>();
             rb.transform.localScale = new Vector3(scale_array[i],scale_array[i],scale_array[i]);
             setColor (go,scale_array[i]);
             go.transform.position = new Vector3(rb.position.x,rb.position.y,position_z);
+
             Debug.Log("POSI Z: " + position_z);
             position_z += 5.0f;
             i++;
@@ -140,13 +143,13 @@ public class ElementScript : MonoBehaviour {
 		int min_GB_color = 0;
 		float multiplier = (255 - min_GB_color) / max_scale;
 		float color = 1 - ((min_GB_color + scale * multiplier) / 255);
-		//Debug.Log ("COLOR: " + color);
 
 		foreach (Transform child in go.transform) 
 		{
 			if (child.tag.Equals ("BasicElement")) 
 			{
 				child.GetComponent<Renderer> ().material.color = new Color (1, color, color);
+                child.GetComponent<TrailRenderer> ().material.color = new Color (1, color, color);
 			}
 		}
 	}
@@ -162,8 +165,6 @@ public class ElementScript : MonoBehaviour {
 		{
 			scale_array[i] = min_scale + inc*i;
 		}
-
-		//shuffleArray (scale_array);
 
 		return scale_array;
 	}
@@ -201,8 +202,6 @@ public class ElementScript : MonoBehaviour {
 	{
 		for (int i = 0; i < elementArray.Length; i++) 
 		{
-//			Debug.Log (elementArray [i].name + " - Scale: " + elementArray [i].GetComponent<Rigidbody> ().transform.localScale
-//				+ " - Position: " + elementArray [i].GetComponent<Rigidbody> ().position);
 			Debug.Log (elementArray [i].name + " - Scale: " + elementArray [i].GetComponentInChildren<Rigidbody> ().transform.localScale
 				+ " - Position: " + elementArray [i].GetComponentInChildren<Rigidbody> ().position);
 
@@ -223,11 +222,6 @@ public class ElementScript : MonoBehaviour {
 		if (locked == 1)
 			return;
 
-		// TODO: this doesn't wait till animation has finished 
-		//locked = 1;
-		//q.startSort(elementArray, 0, elementArray.Length);
-		//locked = 0;
-
         List<GameObject[]> elementArrays = getElementArrays();
         locked = 1;
         foreach (GameObject[] array in elementArrays)
@@ -242,11 +236,6 @@ public class ElementScript : MonoBehaviour {
 	{
 		if (locked == 1)
 			return;
-
-		// TODO: this doesn't wait till animation has finished 
-//		locked = 1;
-//		hs.startSort(elementArray);
-//		locked = 0;
 
         List<GameObject[]> elementArrays = getElementArrays();
         locked = 1;
@@ -263,11 +252,6 @@ public class ElementScript : MonoBehaviour {
 		if (locked == 1)
 			return;
 
-		// TODO: this doesn't wait till animation has finished 
-//		locked = 1;
-//		ms.startSort (elementArray);
-//		locked = 0;
-
         List<GameObject[]> elementArrays = getElementArrays();
         locked = 1;
         foreach (GameObject[] array in elementArrays)
@@ -283,11 +267,6 @@ public class ElementScript : MonoBehaviour {
 		if (locked == 1)
 			return;
 
-		// TODO: this doesn't wait till animation has finished 
-//		locked = 1;
-//		gs.startSort(elementArray);
-//		locked = 0;
-
         List<GameObject[]> elementArrays = getElementArrays();
         locked = 1;
         foreach (GameObject[] array in elementArrays)
@@ -302,11 +281,6 @@ public class ElementScript : MonoBehaviour {
 	{
 		if (locked == 1)
 			return;
-
-		// TODO: this doesn't wait till animation has finished 
-//		locked = 1;
-//		rs.startSort(elementArray);
-//		locked = 0;
 
         List<GameObject[]> elementArrays = getElementArrays();
         locked = 1;

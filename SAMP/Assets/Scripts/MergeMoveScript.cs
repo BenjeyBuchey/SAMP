@@ -255,8 +255,10 @@ public class MergeMoveScript : MonoBehaviour {
                 Vector3 temp2 = rotationPoint;
                 temp2.y = temp2.y - y_offset;
 
+                Debug.Log ("Temp1: " + temp1 +" Temp2: " + temp2);
+
                 //go2.transform.RotateAround (rotationPoint, Vector3.right, step);
-                LeanTween.move(go2, new Vector3[] {dest2, temp1, temp1, dest1 }, 1.5f);
+                LeanTween.move(go2, new Vector3[] {go2.transform.position, temp2, temp2, dest2 }, 1.5f);
             }
                 
             LeanTween.move(go1, dest1, 1.5f);

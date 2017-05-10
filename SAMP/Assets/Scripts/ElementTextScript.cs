@@ -22,4 +22,11 @@ public class ElementTextScript : MonoBehaviour {
 	{
 		transform.rotation = rotation;
 	}
+
+    public void setPosition(float element_size)
+    {
+        // change gameobjects y position to -element_size/2
+        Vector3 pos = new Vector3(gameObject.transform.localPosition.x,element_size/-2.0f,gameObject.transform.localPosition.z);
+        gameObject.transform.localPosition = pos;
+    }
 }
