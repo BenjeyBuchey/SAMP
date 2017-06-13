@@ -34,7 +34,7 @@ public class InputScript : MonoBehaviour {
 		e.SetFunction("mul",
 			new Jint.Delegates.Action<object,object>((a,b) => mul(a,b)));
 
-        // rndm test
+        e.SetFunction("elementCount", new Jint.Delegates.Func<int>(() => elementCount()));
 	}
 	
 	// Update is called once per frame
@@ -68,6 +68,11 @@ public class InputScript : MonoBehaviour {
 	{
 		return iis.size (a);
 	}
+
+    private int elementCount()
+    {
+        return iis.getElementCount();
+    }
 
 	private void mul(object a_, object b_)
 	{

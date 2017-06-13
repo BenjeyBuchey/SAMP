@@ -70,6 +70,21 @@ public class InterpreterInterfaceScript : MonoBehaviour {
 		return size;
 	}
 
+    public int getElementCount()
+    {
+        List<GameObject[]> elementArrays = setElementArrays();
+        if (elementArrays == null)
+            return 0;
+
+        foreach (GameObject[] elementArray in elementArrays)
+        {
+            Debug.Log("Number of Elements: " + elementArray.Length);
+            return elementArray.Length;
+        }
+
+        return 0;
+    }
+
     private List<GameObject> fillQueue(int x, int y, GameObject[] elementArray)
 	{
 		List<GameObject> queue = new List<GameObject> ();
