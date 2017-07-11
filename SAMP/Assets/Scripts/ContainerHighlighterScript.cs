@@ -5,7 +5,7 @@ using UnityEngine;
 public class ContainerHighlighterScript : MonoBehaviour {
 
     Color color_default = new Color (0.0f, 0.0f, 0.0f, 0.0f);
-    Color color_highlighted = new Color (0.0f, 0.0f, 0.2f, 1.0f);
+    Color color_highlighted = new Color (0.0f, 0.0f, 0.5f, 0.2f);
 
 	// Use this for initialization
 	void Start () {
