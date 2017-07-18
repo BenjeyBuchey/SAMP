@@ -10,7 +10,7 @@ public class ElementScript : MonoBehaviour {
 	public GameObject element;
 	public GameObject sortingbox;
     private int y_offset = 5;
-    private int container_z_offset = 5;
+    private int container_z_offset = 5, outer_z_offset = 15;
 
 	// Use this for initialization
 	void Start () {
@@ -81,12 +81,15 @@ public class ElementScript : MonoBehaviour {
         Transform container_transform = sortingbox_go.transform.Find("Container");
         // container size
         Vector3 old_size = container_transform.localScale;
-        Vector3 new_size = new Vector3(old_size.x, old_size.y, (size+1)*container_z_offset);
+        Vector3 new_size = new Vector3(old_size.x, old_size.y, size*container_z_offset + 2*outer_z_offset); //  (size+1)*container_z_offset + outer_z_offset*2
         container_transform.localScale = new_size;
 
         //container posi
+        float z = 0.0f;
+        if (size % 2 == 0)
+            z = -container_z_offset / 2.0f;
         Vector3 old_pos = container_transform.position;
-        Vector3 new_pos = new Vector3(old_pos.x, old_pos.y - count * (container_transform.localScale.y + y_offset), container_transform.localScale.z/2-container_z_offset);
+        Vector3 new_pos = new Vector3(old_pos.x, old_pos.y - count * (container_transform.localScale.y + y_offset), z); // container_transform.localScale.z/2-container_z_offset
         container_transform.position = new_pos;
     }
 
@@ -114,7 +117,10 @@ public class ElementScript : MonoBehaviour {
 
     private void setupElementArray(GameObject[] elements)
     {
-        float position_z = 0.0f;
+        //float position_z = 0.0f;
+        float position_z = -(elements.Length-1) * container_z_offset/2;
+        if (elements.Length % 2 == 0)
+            position_z -= container_z_offset / 2.0f;
         float[] scale_array = fillScaleArray (elements.Length);
         int i = 0;
         foreach (GameObject go in elements)
