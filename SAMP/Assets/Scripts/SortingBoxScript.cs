@@ -74,4 +74,9 @@ public class SortingBoxScript : MonoBehaviour {
         Debug.Log("Y MIN POSITION: " +y_min_position);
         Debug.Log("Y MAX POSITION: " +y_max_position);
     }
+
+    public GameObject getContainer()
+    {
+        return this.GetComponentInChildren<ElementContainerScript>().gameObject;
+    }
 }

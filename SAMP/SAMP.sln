@@ -1,11 +1,11 @@
+﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2008
-
-Project("{E2EF0AC7-EB9B-87CC-E413-39C325CC7FD0}") = "SAMP", "Assembly-CSharp-firstpass.csproj", "{84AECD1C-74CC-3AE4-BCAC-B1848CC8AC8D}"
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAMP", "Assembly-CSharp-firstpass.csproj", "{84AECD1C-74CC-3AE4-BCAC-B1848CC8AC8D}"
 EndProject
-Project("{E2EF0AC7-EB9B-87CC-E413-39C325CC7FD0}") = "SAMP", "Assembly-CSharp.csproj", "{0D2FCF9F-2F5A-A30E-313F-803E3491B168}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAMP", "Assembly-CSharp.csproj", "{0D2FCF9F-2F5A-A30E-313F-803E3491B168}"
 EndProject
-Project("{E2EF0AC7-EB9B-87CC-E413-39C325CC7FD0}") = "SAMP", "Assembly-CSharp-Editor.csproj", "{ACFFBE8D-D0FC-AB5C-D481-2A57587D3DBB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAMP", "Assembly-CSharp-Editor.csproj", "{ACFFBE8D-D0FC-AB5C-D481-2A57587D3DBB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

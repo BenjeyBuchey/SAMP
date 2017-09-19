@@ -8,7 +8,7 @@ public class ElementScript : MonoBehaviour {
 	private GameObject[] elementArray;
 	private int locked;
 	public GameObject element;
-	public GameObject sortingbox;
+	public GameObject sortingbox, buckets;
     private int y_offset = 5;
     private int container_z_offset = 5, outer_z_offset = 15;
 
@@ -289,13 +289,14 @@ public class ElementScript : MonoBehaviour {
 			return;
 
         List<GameObject[]> elementArrays = getElementArrays();
-        locked = 1;
-        foreach (GameObject[] array in elementArrays)
-        {
-            setTrailRenderer(array, false);
-            RadixSortScript ss = gameObject.AddComponent<RadixSortScript> ();
-            ss.startSort(array);
-        }
+        bucketTest();
+//        locked = 1;
+//        foreach (GameObject[] array in elementArrays)
+//        {
+//            setTrailRenderer(array, false);
+//            RadixSortScript ss = gameObject.AddComponent<RadixSortScript> ();
+//            ss.startSort(array);
+//        }
         locked = 0;
 	}
 
@@ -352,5 +353,15 @@ public class ElementScript : MonoBehaviour {
     {
         foreach (GameObject go in array)
             go.GetComponentInChildren<TrailRenderer>().enabled = visible;
+    }
+
+    private void bucketTest()
+    {
+        BucketScript bs = gameObject.AddComponent<BucketScript> ();
+        GameObject[] container = GameObject.FindGameObjectsWithTag("Container");
+        foreach (GameObject c in container)
+        {
+            Instantiate(buckets, c.transform.parent);
+        }
     }
 }
