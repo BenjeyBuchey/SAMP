@@ -8,7 +8,7 @@ public class ElementScript : MonoBehaviour {
 	private GameObject[] elementArray;
 	private int locked;
 	public GameObject element;
-	public GameObject sortingbox, buckets;
+	public GameObject sortingbox;
     private int y_offset = 5;
     private int container_z_offset = 5, outer_z_offset = 15;
 
@@ -288,16 +288,16 @@ public class ElementScript : MonoBehaviour {
 		if (locked == 1)
 			return;
 
-        List<GameObject[]> elementArrays = getElementArrays();
-        bucketTest();
-//        locked = 1;
-//        foreach (GameObject[] array in elementArrays)
-//        {
-//            setTrailRenderer(array, false);
-//            RadixSortScript ss = gameObject.AddComponent<RadixSortScript> ();
-//            ss.startSort(array);
-//        }
-        locked = 0;
+		createBuckets();
+		List<GameObject[]> elementArrays = getElementArrays();
+		//        locked = 1;
+		//        foreach (GameObject[] array in elementArrays)
+		//        {
+		//            setTrailRenderer(array, false);
+		//            RadixSortScript ss = gameObject.AddComponent<RadixSortScript> ();
+		//            ss.startSort(array);
+		//        }
+		locked = 0;
 	}
 
     public List<GameObject[]> getElementArrays()
@@ -355,13 +355,18 @@ public class ElementScript : MonoBehaviour {
             go.GetComponentInChildren<TrailRenderer>().enabled = visible;
     }
 
-    private void bucketTest()
+    private void createBuckets()
     {
-        BucketScript bs = gameObject.AddComponent<BucketScript> ();
-        GameObject[] container = GameObject.FindGameObjectsWithTag("Container");
-        foreach (GameObject c in container)
-        {
-            Instantiate(buckets, c.transform.parent);
-        }
-    }
+		GameObject[] container = GameObject.FindGameObjectsWithTag("Container");
+		for (int i = 0; i < container.Length; i++)
+		{
+			if (container[i].GetComponent<ElementContainerScript>().getHighlighted())
+			{
+				BucketScript bs = container[i].GetComponentInParent<BucketScript>();
+				if(bs == null)
+					Debug.Log("BS NULL");
+				bs.createBuckets();
+			}
+		}
+	}
 }
