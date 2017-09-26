@@ -35,8 +35,6 @@ public class RadixSortScript : MonoBehaviour {
 				Debug.Log (go.GetComponent<SingleElementScript> ().getElementId ());
 
 			Debug.Log("Movement Order:");
-//			foreach(GameObject go in swappingQueue)
-//				Debug.Log (go.GetComponent<SingleElementScript> ().getElementId ());
 
 			foreach(ArrayList list in swappingQueue)
 			{

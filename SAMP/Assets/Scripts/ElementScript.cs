@@ -290,13 +290,14 @@ public class ElementScript : MonoBehaviour {
 
 		createBuckets();
 		List<GameObject[]> elementArrays = getElementArrays();
-		//        locked = 1;
-		//        foreach (GameObject[] array in elementArrays)
-		//        {
-		//            setTrailRenderer(array, false);
-		//            RadixSortScript ss = gameObject.AddComponent<RadixSortScript> ();
-		//            ss.startSort(array);
-		//        }
+		locked = 1;
+		foreach (GameObject[] array in elementArrays)
+		{
+		    setTrailRenderer(array, false);
+		    RadixSortScript ss = gameObject.AddComponent<RadixSortScript> ();
+		    ss.startSort(array);
+		}
+        deleteBuckets();
 		locked = 0;
 	}
 
@@ -363,10 +364,23 @@ public class ElementScript : MonoBehaviour {
 			if (container[i].GetComponent<ElementContainerScript>().getHighlighted())
 			{
 				BucketScript bs = container[i].GetComponentInParent<BucketScript>();
-				if(bs == null)
-					Debug.Log("BS NULL");
-				bs.createBuckets();
+                if(bs != null)
+                    bs.createBuckets();
 			}
 		}
 	}
+
+    private void deleteBuckets()
+    {
+        GameObject[] container = GameObject.FindGameObjectsWithTag("Container");
+        for (int i = 0; i < container.Length; i++)
+        {
+            if (container[i].GetComponent<ElementContainerScript>().getHighlighted())
+            {
+                BucketScript bs = container[i].GetComponentInParent<BucketScript>();
+                if(bs != null)
+                    bs.deleteBuckets();
+            }
+        }
+    }
 }

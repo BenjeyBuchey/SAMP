@@ -84,4 +84,12 @@ public class BucketScript : MonoBehaviour {
 			}
 		}
 	}
+
+    public void deleteBuckets()
+    {
+        foreach (GameObject bucket in bucket_objects)
+        {
+            Destroy(bucket);
+        }
+    }
 }
