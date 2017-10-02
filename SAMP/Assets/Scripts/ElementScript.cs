@@ -297,7 +297,7 @@ public class ElementScript : MonoBehaviour {
 		    RadixSortScript ss = gameObject.AddComponent<RadixSortScript> ();
 		    ss.startSort(array);
 		}
-        deleteBuckets();
+        //deleteBuckets();
 		locked = 0;
 	}
 
