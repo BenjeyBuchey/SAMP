@@ -30,18 +30,18 @@ public class RadixSortScript : MonoBehaviour {
 		{
 			RadixMoveScript m = gameObject.AddComponent<RadixMoveScript> ();
 			m.swap (swappingQueue);
-			Debug.Log("GameObjects:");
-			foreach (GameObject go in elementArray)
-				Debug.Log (go.GetComponent<SingleElementScript> ().getElementId ());
+			//Debug.Log("GameObjects:");
+			//foreach (GameObject go in elementArray)
+			//	Debug.Log (go.GetComponent<SingleElementScript> ().getElementId ());
 
-			Debug.Log("Movement Order:");
+			//Debug.Log("Movement Order:");
 
-			foreach(ArrayList list in swappingQueue)
-			{
-				GameObject temp = list [0] as GameObject;
-				if(temp != null)
-					Debug.Log (temp.GetComponent<SingleElementScript> ().getElementId ());
-			}
+			//foreach(ArrayList list in swappingQueue)
+			//{
+			//	GameObject temp = list [0] as GameObject;
+			//	if(temp != null)
+			//		Debug.Log (temp.GetComponent<SingleElementScript> ().getElementId ());
+			//}
 		}
 	}
 
