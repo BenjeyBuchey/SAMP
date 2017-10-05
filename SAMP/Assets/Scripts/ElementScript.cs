@@ -42,9 +42,10 @@ public class ElementScript : MonoBehaviour {
 
         //spawn sorting box
         var sortingbox_go = Instantiate(sortingbox);
+		sortingbox_go.name = "SortingBox" + sortingbox_count;
 
-        //spawn elements
-        GameObject[] sbox_elements = new GameObject[size];
+		//spawn elements
+		GameObject[] sbox_elements = new GameObject[size];
         for (int i = 0; i < size; i++)
         {
             sbox_elements[i] = Instantiate(element, sortingbox_go.transform);
