@@ -76,7 +76,7 @@ public class RadixMoveScript : MonoBehaviour {
 	{
 		MoveHelperScript mhs = gameObject.AddComponent<MoveHelperScript> ();
 		mhs.changeColor (go1, null, is_moving, ref prevColor, ref prevColor2);
-		Destroy (GetComponent<MoveHelperScript>());
+		Destroy (mhs);
 	}
 
 	private void correctPositions()

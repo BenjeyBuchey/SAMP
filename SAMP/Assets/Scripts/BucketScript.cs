@@ -8,7 +8,7 @@ public class BucketScript : MonoBehaviour {
 	private float y_container_offset = 5.0f, buckets_space = 0.0f;
 	private List<GameObject> bucket_objects = new List<GameObject>();
 	private GameObject container;
-	private Vector3 bucket_position = Vector3.zero;
+
 	// Use this for initialization
 	void Start () {
 		container = getContainer();
@@ -16,11 +16,7 @@ public class BucketScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(bucket_position != buckets.transform.position)
-		{
-			Debug.Log("BUCKET POSITION CHANGED! NEW POSI:" + buckets.transform.position);
-			bucket_position = buckets.transform.position;
-		}
+
 	}
 
     private GameObject getContainer()
@@ -33,6 +29,9 @@ public class BucketScript : MonoBehaviour {
 
 	public void createBuckets()
 	{
+		if (hasBuckets())
+			return;
+
 		spawnBuckets();
 		setBucketObjects();
 		setPositions();
@@ -40,10 +39,7 @@ public class BucketScript : MonoBehaviour {
 
 	private void spawnBuckets()
 	{
-		Debug.Log("PARENT:" +this.GetComponentInParent<Transform>().name);
 		buckets = Instantiate(buckets, container.transform.parent);
-		//Quaternion q = new Quaternion(0.0f, 45.0f, 0.0f, 0.0f);
-		//Instantiate(buckets,container.transform.position,q,container.transform.parent);
 	}
 
 	private void setBucketObjects()
@@ -69,14 +65,12 @@ public class BucketScript : MonoBehaviour {
 			container.transform.localPosition.y + container.transform.localScale.y / 2 - y_container_offset, container.transform.localPosition.z - container.transform.localScale.z / 2);
 		buckets.transform.localPosition = bucket_init_position;
 		buckets.transform.position = bucket_init_position;
-		Debug.Log("Bucket Init Position: " + buckets.transform.position);
-		bucket_position = buckets.transform.position;
 
 		buckets_space = container.transform.localScale.y / 2 + y_container_offset;
 		setBucketPositions();
 	}
 
-	// sets bucket size and positions TODO: 10/15/10 ... bucket positions for third SortingBox wrong!
+	// sets bucket size and positions
 	private void setBucketPositions()
 	{
 		if (bucket_objects.Count == 0)
@@ -113,4 +107,13 @@ public class BucketScript : MonoBehaviour {
             Destroy(bucket);
         }
     }
+
+	private bool hasBuckets()
+	{
+		Transform[] buckets = gameObject.FindComponentsInChildrenWithTag<Transform>("Buckets");
+		if(buckets.Length > 0)
+			return true;
+
+		return false;
+	}
 }

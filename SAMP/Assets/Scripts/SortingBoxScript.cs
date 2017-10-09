@@ -7,6 +7,7 @@ public class SortingBoxScript : MonoBehaviour {
     private GameObject[] elementArray;
     private float min_dist,max_dist,max_dist_diff;
     private float y_min_position, y_max_position;
+	private List<Vector3> init_element_positions;
 
 	// Use this for initialization
 	void Start () {
@@ -27,6 +28,14 @@ public class SortingBoxScript : MonoBehaviour {
     {
         return elementArray;
     }
+
+	public void setInitialPositions()
+	{
+		foreach(GameObject go in elementArray)
+		{
+			init_element_positions.Add(go.transform.localPosition);
+		}
+	}
 
     // set min dist & max dist & max dist diff
     public void setDistances()

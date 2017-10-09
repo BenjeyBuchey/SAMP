@@ -130,6 +130,7 @@
     <Compile Include="Assets\Scripts\ElementTextScript.cs" />
     <Compile Include="Assets\Scripts\GnomeSortScript.cs" />
     <Compile Include="Assets\Scripts\HeapSortScript.cs" />
+    <Compile Include="Assets\Scripts\HelperScript.cs" />
     <Compile Include="Assets\Scripts\InputScript.cs" />
     <Compile Include="Assets\Scripts\InterpreterInterfaceScript.cs" />
     <Compile Include="Assets\Scripts\JurassicInterfaceScript.cs" />
