@@ -116,4 +116,9 @@ public class BucketScript : MonoBehaviour {
 
 		return false;
 	}
+
+	public List<GameObject> getBucketObjects()
+	{
+		return bucket_objects;
+	}
 }

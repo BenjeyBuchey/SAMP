@@ -12,6 +12,7 @@ public class RadixMoveScript : MonoBehaviour {
 	private Color prevColor, prevColor2;
 	private Text score;
 	private float init_y_position = 0;
+	private List<BucketElementObject> queue_new;
 
 	// Use this for initialization
 	void Start () {
@@ -62,6 +63,32 @@ public class RadixMoveScript : MonoBehaviour {
 		StartCoroutine(DoMoving());
 	}
 
+	public void swap_new(List<BucketElementObject> _queue)
+	{
+		queue_new = _queue;
+		StartCoroutine(DoMoving_new());
+	}
+
+	IEnumerator DoMoving_new()
+	{
+		for (int i = 0; i < queue_new.Count; i++)
+		{
+			GameObject go = queue_new[i].go;
+			Vector3 dest = getDestination(queue_new[i].bucket, queue_new[i].position, go);
+
+			Debug.Log(go.transform.parent.name);
+			changeColor(true);
+
+			LeanTween.move(go, dest, 1.0f);
+
+			while (go.transform.position != dest)
+				yield return null;
+
+			changeColor(false);
+		}
+		queue_new = null;
+	}
+
 	private void increaseCounter()
 	{
 		Text score = GameObject.Find ("SwapCounter").GetComponent<Text> ();
@@ -91,5 +118,22 @@ public class RadixMoveScript : MonoBehaviour {
 	private void setSpeed()
 	{
 		speed = Vector3.Distance(go1.transform.position,dest1);
+	}
+
+	private Vector3 getDestination(int bucket, int position, GameObject go)
+	{
+		float object_width = go.transform.localScale.z;
+		BucketScript bs = go.GetComponentInParent<BucketScript>();
+		if (bs == null) return Vector3.zero;
+
+		List<GameObject> bucket_objects = bs.getBucketObjects();
+		if(bucket_objects == null || bucket_objects.Count < bucket)
+			return Vector3.zero;
+
+		float z_offset = 5.0f + object_width*position;
+		Vector3 dest = bucket_objects[bucket].transform.position;
+		dest.z = dest.z + z_offset;
+
+		return dest;
 	}
 }

@@ -8,6 +8,7 @@ public class RadixSortScript : MonoBehaviour {
 	private GameObject[] elementArray;
     private List<ArrayList> swappingQueue = new List<ArrayList> (); // 0 = GameObject, 1 = id
     private List<Vector3> bucket_positions = new List<Vector3> ();
+	private List<BucketElementObject> bucket_element_objects = new List<BucketElementObject>();
 
 	// Use this for initialization
 	void Start () {
@@ -29,7 +30,9 @@ public class RadixSortScript : MonoBehaviour {
 		if (swappingQueue != null && swappingQueue.Count >= 1) 
 		{
 			RadixMoveScript m = gameObject.AddComponent<RadixMoveScript> ();
-			m.swap (swappingQueue);
+			//m.swap (swappingQueue);
+			m.swap_new(bucket_element_objects);
+
 			//Debug.Log("GameObjects:");
 			//foreach (GameObject go in elementArray)
 			//	Debug.Log (go.GetComponent<SingleElementScript> ().getElementId ());
@@ -83,6 +86,8 @@ public class RadixSortScript : MonoBehaviour {
 
 					if (bucket_size != elementArray.Length)
 					{
+						bucket_element_objects.Add(new BucketElementObject(elementArray[i], bucket_number, i));
+
 						Vector3 dest = bucket_positions [bucket_number];
                         dest.y = elementArray[i].transform.position.y + y_position;
 
@@ -106,6 +111,8 @@ public class RadixSortScript : MonoBehaviour {
 	{
 		for (int i = 0; i < elementArray.Length; i++) 
 		{
+			bucket_element_objects.Add(new BucketElementObject(elementArray[i], -1, i));
+
 			ArrayList list = new ArrayList ();
 			list.Add (elementArray [i]);
 			list.Add (bucket_positions [i]);
