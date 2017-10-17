@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BucketElementObject : MonoBehaviour {
+public class BucketElementObject {
 
 	public GameObject go { get; private set; }
 	public int bucket { get; private set; }

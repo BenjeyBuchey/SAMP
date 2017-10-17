@@ -7,7 +7,7 @@ public class SortingBoxScript : MonoBehaviour {
     private GameObject[] elementArray;
     private float min_dist,max_dist,max_dist_diff;
     private float y_min_position, y_max_position;
-	private List<Vector3> init_element_positions;
+	private List<Vector3> init_element_positions = new List<Vector3>();
 
 	// Use this for initialization
 	void Start () {
@@ -35,6 +35,11 @@ public class SortingBoxScript : MonoBehaviour {
 		{
 			init_element_positions.Add(go.transform.localPosition);
 		}
+	}
+
+	public List<Vector3> getInitialPositionList()
+	{
+		return init_element_positions;
 	}
 
     // set min dist & max dist & max dist diff
@@ -88,4 +93,22 @@ public class SortingBoxScript : MonoBehaviour {
     {
         return this.GetComponentInChildren<ElementContainerScript>().gameObject;
     }
+
+	public float getMaxObjectWidth()
+	{
+		float max = 0.0f;
+		foreach(GameObject go in elementArray)
+		{
+			Transform[] child_transforms = go.GetComponentsInChildren<Transform>();
+			foreach (Transform t in child_transforms)
+			{
+				if (t.gameObject.tag == "BasicElement" || t.localScale.z > max)
+				{
+					max = t.localScale.z;
+				}
+			}
+		}
+
+		return max;
+	}
 }

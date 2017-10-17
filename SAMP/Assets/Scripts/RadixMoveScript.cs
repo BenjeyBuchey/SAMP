@@ -13,6 +13,8 @@ public class RadixMoveScript : MonoBehaviour {
 	private Text score;
 	private float init_y_position = 0;
 	private List<BucketElementObject> queue_new;
+	private List<Vector3> init_positions = new List<Vector3>();
+	private int init_counter = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -66,6 +68,7 @@ public class RadixMoveScript : MonoBehaviour {
 	public void swap_new(List<BucketElementObject> _queue)
 	{
 		queue_new = _queue;
+		setInitialPositions();
 		StartCoroutine(DoMoving_new());
 	}
 
@@ -76,7 +79,6 @@ public class RadixMoveScript : MonoBehaviour {
 			GameObject go = queue_new[i].go;
 			Vector3 dest = getDestination(queue_new[i].bucket, queue_new[i].position, go);
 
-			Debug.Log(go.transform.parent.name);
 			changeColor(true);
 
 			LeanTween.move(go, dest, 1.0f);
@@ -122,7 +124,10 @@ public class RadixMoveScript : MonoBehaviour {
 
 	private Vector3 getDestination(int bucket, int position, GameObject go)
 	{
-		float object_width = go.transform.localScale.z;
+		if (init_counter >= init_positions.Count)
+			init_counter = 0;
+
+		float object_width = getObjectWidth(go);
 		BucketScript bs = go.GetComponentInParent<BucketScript>();
 		if (bs == null) return Vector3.zero;
 
@@ -130,10 +135,47 @@ public class RadixMoveScript : MonoBehaviour {
 		if(bucket_objects == null || bucket_objects.Count < bucket)
 			return Vector3.zero;
 
-		float z_offset = 5.0f + object_width*position;
-		Vector3 dest = bucket_objects[bucket].transform.position;
-		dest.z = dest.z + z_offset;
+		Vector3 dest = Vector3.zero;
+		// bucket -1 --> move to init positions
+		if (bucket == -1)
+		{
+			dest = init_positions[init_counter];
+			init_counter++;
+		}
+		else
+		{
+			float z_offset = 5.0f + object_width * position;
+			dest = bucket_objects[bucket].transform.position;
+			dest.z = dest.z + z_offset;
+		}
 
 		return dest;
 	}
+
+	private void setInitialPositions()
+	{
+		if (queue_new == null || queue_new.Count <= 0) return;
+
+		GameObject go = queue_new[0].go;
+		if (go == null) return;
+
+		SortingBoxScript sbs = go.GetComponentInParent<SortingBoxScript>();
+		if (sbs == null) return;
+
+		init_positions.Clear();
+		init_positions = sbs.getInitialPositionList();
+	}
+
+	private float getObjectWidth(GameObject go)
+	{
+		float width = 1.0f;
+		if (go == null) return width;
+
+		SortingBoxScript sbs = go.GetComponentInParent<SortingBoxScript>();
+		if (sbs == null) return width;
+
+		return sbs.getMaxObjectWidth();
+	}
+
+	// TODO: bigger sorting box height, more distance between buckets
 }
