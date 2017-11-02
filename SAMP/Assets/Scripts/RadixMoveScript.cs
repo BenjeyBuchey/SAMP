@@ -45,8 +45,6 @@ public class RadixMoveScript : MonoBehaviour {
 
 			dest1 = bucket_position;
 
-			//Debug.Log ("Dest1: " + dest1);
-
             LeanTween.move(go1, dest1, 1.0f);
 
 			while(go1.transform.position != dest1)
@@ -146,6 +144,7 @@ public class RadixMoveScript : MonoBehaviour {
 		{
 			float z_offset = 5.0f + object_width * position;
 			dest = bucket_objects[bucket].transform.position;
+			dest.y = dest.y - bucket_objects[bucket].transform.localScale.y / 2; //half bucket text size
 			dest.z = dest.z + z_offset;
 		}
 
@@ -176,6 +175,4 @@ public class RadixMoveScript : MonoBehaviour {
 
 		return sbs.getMaxObjectWidth();
 	}
-
-	// TODO: bigger sorting box height, more distance between buckets
 }

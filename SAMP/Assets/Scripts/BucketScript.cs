@@ -66,7 +66,8 @@ public class BucketScript : MonoBehaviour {
 		buckets.transform.localPosition = bucket_init_position;
 		buckets.transform.position = bucket_init_position;
 
-		buckets_space = container.transform.localScale.y / 2 + y_container_offset;
+		//buckets_space = container.transform.localScale.y / 2 + y_container_offset;
+		buckets_space = container.transform.localScale.y - y_container_offset;
 		setBucketPositions();
 	}
 
@@ -76,9 +77,10 @@ public class BucketScript : MonoBehaviour {
 		if (bucket_objects.Count == 0)
 			return;
 
-		float y_blank = 0.2f;
+		float y_blank = 2.0f; //0.2f;
 		float y_bucket_offset = 0.0f;
-		float bucket_size_y = (buckets_space- (bucket_objects.Count-1)*y_blank) / (bucket_objects.Count-1);
+		float y_bucket_text_size = bucket_objects[0].transform.localScale.y;
+		float bucket_size_y = (buckets_space- (bucket_objects.Count-1)*y_blank - y_bucket_text_size) / (bucket_objects.Count); // -1
 		float y_pos = 0.0f;
 
 		if (bucket_objects.Count > 0)

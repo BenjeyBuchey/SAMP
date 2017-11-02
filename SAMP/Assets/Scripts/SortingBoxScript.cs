@@ -50,19 +50,14 @@ public class SortingBoxScript : MonoBehaviour {
 
         // at this point we assume that the elements are already properly placed
         min_dist = elementArray[1].transform.position.z - elementArray[0].transform.position.z;
-        //Debug.Log("MIN DISTANCE: " + min_dist);
 
         max_dist = elementArray[elementArray.Length-1].transform.position.z - elementArray[0].transform.position.z;
-        //Debug.Log("MAX DISTANCE: " + max_dist);
 
         max_dist_diff = max_dist - min_dist;
-        //Debug.Log("MAX DISTANCE DIFFERENCE: " + max_dist_diff);
 
         float container_size = this.GetComponentInChildren<ElementContainerScript>().gameObject.transform.localScale.y;
         y_max_position = container_size / 2;
         y_min_position = min_dist;
-        //Debug.Log("Y MIN POSITION: " +y_min_position);
-        //Debug.Log("Y MAX POSITION: " +y_max_position);
     }
 
     public float getOffsetY(GameObject go1, GameObject go2)
@@ -71,9 +66,7 @@ public class SortingBoxScript : MonoBehaviour {
             return 0.0f;
 
         float distance = Mathf.Abs(go1.transform.position.z - go2.transform.position.z);
-        Debug.Log("DISTANCE: " + distance);
         float offset = y_min_position + ((y_max_position-y_min_position)*((distance-min_dist)/max_dist_diff));
-        Debug.Log("OFFSET: " + offset);
         return y_min_position + (y_max_position-y_min_position)*((distance-min_dist)/max_dist_diff);
     }
 
