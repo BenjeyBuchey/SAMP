@@ -299,8 +299,18 @@ public class ElementScript : MonoBehaviour {
 		foreach (GameObject[] array in elementArrays)
 		{
 		    setTrailRenderer(array, false);
-		    RadixSortScript ss = gameObject.AddComponent<RadixSortScript> ();
-		    ss.startSort(array);
+			RadixSortScript ss = new RadixSortScript();
+			setAlgorithmText(ss.name);
+			//RadixSortScript ss = gameObject.AddComponent<RadixSortScript> ();
+			//ss.startSort(array);
+
+			List<BucketElementObject> bucket_element_objects = ss.startSort(array);
+			if (bucket_element_objects != null && bucket_element_objects.Count >= 1)
+			{
+				RadixMoveScript m = gameObject.AddComponent<RadixMoveScript>();
+				m.swap_new(bucket_element_objects);
+			}
+
 		}
 		// TODO: yield till done sorting
         //deleteBuckets();
@@ -389,4 +399,18 @@ public class ElementScript : MonoBehaviour {
             }
         }
     }
+
+	private void setAlgorithmText(string text)
+	{
+		GameObject[] container = GameObject.FindGameObjectsWithTag("Container");
+		for (int i = 0; i < container.Length; i++)
+		{
+			if (container[i].GetComponent<ElementContainerScript>().getHighlighted())
+			{
+				SortingBoxScript ss = container[i].GetComponentInParent<SortingBoxScript>();
+				if (ss != null)
+					ss.setAlgorithmText(text);
+			}
+		}
+	}
 }

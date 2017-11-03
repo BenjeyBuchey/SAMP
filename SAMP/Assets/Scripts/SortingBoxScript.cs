@@ -11,7 +11,7 @@ public class SortingBoxScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+		setAlgorithmTextPosition();
 	}
 	
 	// Update is called once per frame
@@ -103,5 +103,28 @@ public class SortingBoxScript : MonoBehaviour {
 		}
 
 		return max;
+	}
+
+	private void setAlgorithmTextPosition()
+	{
+		// should be set on upper right corner of container
+		TextMesh tm = this.GetComponentInChildren<TextMesh>();
+		if (tm == null) return;
+
+		GameObject container = getContainer();
+		if (container == null) return;
+
+		Vector3 tm_position = container.transform.position;
+		tm_position.z = tm_position.z + container.transform.localScale.z / 2;
+		tm_position.y = tm_position.y + container.transform.localScale.y / 2;
+		tm.transform.position = tm_position;
+	}
+
+	public void setAlgorithmText(string text)
+	{
+		TextMesh tm = this.GetComponentInChildren<TextMesh>();
+		if (tm == null) return;
+
+		tm.text = text;
 	}
 }

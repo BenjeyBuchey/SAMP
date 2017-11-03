@@ -111,6 +111,7 @@
     <Compile Include="Assets\LeanTween\Examples\Scripts\PathSplines.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\TestingAllCS.cs" />
     <Compile Include="Assets\LeanTween\Examples\Scripts\TestingUnitTests.cs" />
+    <Compile Include="Assets\Scripts\Algorithms.cs" />
     <Compile Include="Assets\Scripts\BucketElementObject.cs" />
     <Compile Include="Assets\Scripts\BucketScript.cs" />
     <Compile Include="Assets\Scripts\CSI\CSharpInterpreter.cs" />

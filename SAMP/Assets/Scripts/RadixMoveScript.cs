@@ -87,6 +87,7 @@ public class RadixMoveScript : MonoBehaviour {
 			changeColor(false);
 		}
 		queue_new = null;
+		Destroy(this);
 	}
 
 	private void increaseCounter()
