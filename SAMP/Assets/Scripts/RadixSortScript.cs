@@ -20,25 +20,10 @@ public class RadixSortScript : Algorithms {
 	
 	}
 
-	public RadixSortScript()
+	public RadixSortScript() : base ("RadixSort")
 	{
-		base.name = "RadixSort";
+		
 	}
-
-	//public void startSort(GameObject[] array)
-	//{
-	//	swappingQueue.Clear ();
-	//	elementArray = array;
-	//	setBucketPositions ();
-	//	myRadixSort ();
-
-	//	if (bucket_element_objects != null && bucket_element_objects.Count >= 1)
-	//	{
-	//		//RadixMoveScript m = gameObject.AddComponent<RadixMoveScript>();
-	//		RadixMoveScript m = new RadixMoveScript();
-	//		m.swap_new(bucket_element_objects);
-	//	}
-	//}
 
 	public List<BucketElementObject> startSort(GameObject[] array)
 	{

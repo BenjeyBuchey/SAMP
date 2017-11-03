@@ -17,7 +17,7 @@ public class MoveScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        setValues();
+        //setValues();
 	}
 	
 	// Update is called once per frame
@@ -25,63 +25,13 @@ public class MoveScript : MonoBehaviour {
 	
 	}
 
-	void FixedUpdate ()
-	{
-//		if (queue == null || queue.Count < 1)
-//			return;
-//
-//		if (go1 == null || go2 == null)
-//			return;
-
-		//float step = speed * Time.deltaTime;
-		//rotated += step;
-
-		//go1.transform.RotateAround (rotationPoint, Vector3.right, step);
-		//go2.transform.RotateAround (rotationPoint, Vector3.right, step);
-
-        //LeanTween.move(go1, dest1, 1.5f);
-        //LeanTween.move(go2, dest2, 1.5f);
-	}
-	
-    // old moving
-	IEnumerator DoMoving()
-	{
-		for(int i = 0; i < queue.Count; i=i+2)
-		{
-			rotated = 0;
-			go1 = queue[i];
-			go2 = queue[i+1];
-
-			changeColor(true);
-
-			dest1 = go2.transform.position;
-			dest2 = go1.transform.position;
-			getRotationPoint();
-
-			Debug.Log ("Dest1: " + dest1);
-			Debug.Log ("Dest2: " + dest2);
-			Debug.Log ("Rotation Point: " + rotationPoint);
-
-			while(rotated < 180)
-				yield return null;
-
-			correctPositions();
-
-			increaseCounter ();
-
-			changeColor(false);
-		}
-		queue = null;
-	}
-
 	public void swap(List<GameObject> _queue)
 	{
 		queue = _queue;
-        if (queue == null || queue.Count < 2)
-            return;
+		if (queue == null || queue.Count < 2)
+			return;
         
         StartCoroutine(doSwap());
-		//StartCoroutine(DoMoving());
 	}
 
     IEnumerator doSwap()
@@ -117,7 +67,8 @@ public class MoveScript : MonoBehaviour {
 
             changeColor(false);
         }
-    }
+		stopSortingboxUsage();
+	}
 
 	private void increaseCounter()
 	{
@@ -131,10 +82,10 @@ public class MoveScript : MonoBehaviour {
 
 	private void changeColor(bool is_moving)
 	{
-		MoveHelperScript mhs = gameObject.AddComponent<MoveHelperScript> ();
+		MoveHelperScript mhs = new MoveHelperScript();
 		mhs.changeColor (go1, go2, is_moving, ref prevColor, ref prevColor2);
 		//Destroy (GetComponent<MoveHelperScript>());
-		Destroy (mhs);
+		//Destroy (mhs);
 	}
 
 	private void getRotationPoint()
@@ -171,10 +122,25 @@ public class MoveScript : MonoBehaviour {
         return go1.GetComponentInParent<SortingBoxScript>().getOffsetY(go1, go2);
     }
 
-    private void setValues()
-    {
-        // get min_dist + max_dist from sortingboxes
-        // calc max_dist_diff
-        // set y_min, y_max ? set global var as static !?
-    }
+	private void stopSortingboxUsage()
+	{
+		if (queue == null || queue.Count <= 0) return;
+
+		MoveHelperScript mhs = new MoveHelperScript();
+		mhs.stopSortingboxUsage(queue[0]);
+	}
+
+	private void stopSortingboxUsageGlobal()
+	{
+		ElementScript es = gameObject.GetComponentInParent<ElementScript>();
+		if (es == null) return;
+
+		GameObject sortingbox = es.sortingbox;
+		if (sortingbox == null) return;
+
+		SortingBoxScript sbs = sortingbox.GetComponent<SortingBoxScript>();
+		if (sbs == null) return;
+
+		sbs.setInUse(false);
+	}
 }

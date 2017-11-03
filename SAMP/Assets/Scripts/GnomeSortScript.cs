@@ -2,32 +2,23 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class GnomeSortScript : MonoBehaviour {
+public class GnomeSortScript : Algorithms {
 
 	private GameObject[] elementArray;
     private List<GameObject> swappingQueue = new List<GameObject> ();
 
-	// Use this for initialization
-	void Start () {
+	public GnomeSortScript() : base ("GnomeSort")
+	{
 
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
-	public void startSort(GameObject[] array)
+	public List<GameObject> startSort(GameObject[] array)
 	{
 		swappingQueue.Clear ();
 		elementArray = array;
 		myGnomeSort ();
 
-		if (swappingQueue != null && swappingQueue.Count >= 1) 
-		{
-			MoveScript m = gameObject.AddComponent<MoveScript> ();
-			m.swap (swappingQueue);
-		}
+		return swappingQueue;
 	}
 
 	private void myGnomeSort() 

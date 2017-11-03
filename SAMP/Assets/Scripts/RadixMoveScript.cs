@@ -31,38 +31,6 @@ public class RadixMoveScript : MonoBehaviour {
 
 	}
 
-	IEnumerator DoMoving()
-	{
-		for(int i = 0; i < queue.Count; i++)
-		{
-			ArrayList list = queue [i];
-			int go_index = 0, position_index = 1;
-
-			go1 = list[go_index] as GameObject;
-			Vector3 bucket_position = (Vector3)list [position_index];
-
-			changeColor(true);
-
-			dest1 = bucket_position;
-
-            LeanTween.move(go1, dest1, 1.0f);
-
-			while(go1.transform.position != dest1)
-				yield return null;
-
-			increaseCounter ();
-
-			changeColor(false);
-		}
-		queue = null;
-	}
-
-	public void swap(List<ArrayList> _queue)
-	{
-		queue = _queue;
-		StartCoroutine(DoMoving());
-	}
-
 	public void swap_new(List<BucketElementObject> _queue)
 	{
 		queue_new = _queue;
@@ -86,7 +54,8 @@ public class RadixMoveScript : MonoBehaviour {
 
 			changeColor(false);
 		}
-		queue_new = null;
+		//queue_new = null;
+		stopSortingboxUsage();
 		Destroy(this);
 	}
 
@@ -102,9 +71,9 @@ public class RadixMoveScript : MonoBehaviour {
 
 	private void changeColor(bool is_moving)
 	{
-		MoveHelperScript mhs = gameObject.AddComponent<MoveHelperScript> ();
+		MoveHelperScript mhs = new MoveHelperScript();
 		mhs.changeColor (go1, null, is_moving, ref prevColor, ref prevColor2);
-		Destroy (mhs);
+		//Destroy (mhs);
 	}
 
 	private void correctPositions()
@@ -175,5 +144,13 @@ public class RadixMoveScript : MonoBehaviour {
 		if (sbs == null) return width;
 
 		return sbs.getMaxObjectWidth();
+	}
+
+	private void stopSortingboxUsage()
+	{
+		if (queue_new == null || queue_new.Count <= 0) return;
+
+		MoveHelperScript mhs = new MoveHelperScript();
+		mhs.stopSortingboxUsage(queue_new[0].go);
 	}
 }

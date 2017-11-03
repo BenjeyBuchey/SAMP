@@ -3,32 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-public class MergeSortScript : MonoBehaviour {
+public class MergeSortScript : Algorithms {
 
 	private GameObject[] elementArray;
     private List<GameObject> swappingQueue = new List<GameObject> ();
 
-	// Use this for initialization
-	void Start () {
+	public MergeSortScript() : base ("MergeSort")
+	{
 
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
-	public void startSort(GameObject[] array)
+	public List<GameObject> startSort(GameObject[] array)
 	{
 		swappingQueue.Clear ();
 		elementArray = array;
 		myMergeSort (0, elementArray.Length-1);
 
-		if (swappingQueue != null && swappingQueue.Count >= 1)
-		{
-			MergeMoveScript m = gameObject.AddComponent<MergeMoveScript> ();
-			m.swap (swappingQueue);
-		}
+		return swappingQueue;		
 	}
 
 	public void myMergeSort(int left, int right)

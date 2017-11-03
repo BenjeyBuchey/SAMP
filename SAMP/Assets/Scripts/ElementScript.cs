@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class ElementScript : MonoBehaviour {
 
 	private GameObject[] elementArray;
-	private int locked;
 	public GameObject element;
 	public GameObject sortingbox;
     private int y_offset = 5;
@@ -15,7 +14,6 @@ public class ElementScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		locked = 0;
         int size = getArraySize();
         setElementDropdown(size);
 		spawnElements (size);
@@ -230,77 +228,107 @@ public class ElementScript : MonoBehaviour {
 
 	public void quickSort()
 	{
-		if (locked == 1)
-			return;
+		List<GameObject[]> elementArrays = getElementArrays();
+		if (elementArrays != null && elementArrays.Count > 0)
+			deleteBuckets();
 
-        List<GameObject[]> elementArrays = getElementArrays();
-        locked = 1;
-        foreach (GameObject[] array in elementArrays)
+		foreach (GameObject[] array in elementArrays)
         {
-            QuickSortScript ss = gameObject.AddComponent<QuickSortScript> ();
-            ss.startSort(array, 0, array.Length);
-        }
-        locked = 0;
+			setTrailRenderer(array, true);
+			QuickSortScript ss = new QuickSortScript();
+			setAlgorithmText(ss.getName());
+			List<GameObject> swappingQueue = ss.startSort(array, 0, array.Length);
+
+			if (swappingQueue != null && swappingQueue.Count >= 1)
+			{
+				MoveScript m = gameObject.AddComponent<MoveScript>();
+				m.swap(swappingQueue);
+			}
+			else
+				stopSortingboxUsage(array);
+		}
 	}
 
 	public void heapSort()
 	{
-		if (locked == 1)
-			return;
+		List<GameObject[]> elementArrays = getElementArrays();
+		if (elementArrays != null && elementArrays.Count > 0)
+			deleteBuckets();
 
-        List<GameObject[]> elementArrays = getElementArrays();
-        locked = 1;
-        foreach (GameObject[] array in elementArrays)
+		foreach (GameObject[] array in elementArrays)
         {
-            HeapSortScript ss = gameObject.AddComponent<HeapSortScript> ();
-            ss.startSort(array);
-        }
-        locked = 0;
+			setTrailRenderer(array, true);
+			HeapSortScript ss = new HeapSortScript();
+			setAlgorithmText(ss.getName());
+			List<GameObject> swappingQueue = ss.startSort(array);
+
+			if (swappingQueue != null && swappingQueue.Count >= 1)
+			{
+				MoveScript m = gameObject.AddComponent<MoveScript>();
+				m.swap(swappingQueue);
+			}
+			else
+				stopSortingboxUsage(array);
+		}
 	}
 
 	public void mergeSort()
 	{
-		if (locked == 1)
-			return;
+		List<GameObject[]> elementArrays = getElementArrays();
+		if (elementArrays != null && elementArrays.Count > 0)
+			deleteBuckets();
 
-        List<GameObject[]> elementArrays = getElementArrays();
-        locked = 1;
-        foreach (GameObject[] array in elementArrays)
+		foreach (GameObject[] array in elementArrays)
         {
-            MergeSortScript ss = gameObject.AddComponent<MergeSortScript> ();
-            ss.startSort(array);
-        }
-        locked = 0;
+			setTrailRenderer(array, true);
+			MergeSortScript ss = new MergeSortScript();
+			setAlgorithmText(ss.getName());
+			List<GameObject> swappingQueue = ss.startSort(array);
+
+			if (swappingQueue != null && swappingQueue.Count >= 1)
+			{
+				MergeMoveScript m = gameObject.AddComponent<MergeMoveScript>();
+				m.swap(swappingQueue);
+			}
+			else
+				stopSortingboxUsage(array);
+		}
 	}
 
 	public void gnomeSort()
 	{
-		if (locked == 1)
-			return;
+		List<GameObject[]> elementArrays = getElementArrays();
+		if (elementArrays != null && elementArrays.Count > 0)
+			deleteBuckets();
 
-        List<GameObject[]> elementArrays = getElementArrays();
-        locked = 1;
-        foreach (GameObject[] array in elementArrays)
+		foreach (GameObject[] array in elementArrays)
         {
-            GnomeSortScript ss = gameObject.AddComponent<GnomeSortScript> ();
-            ss.startSort(array);
-        }
-        locked = 0;
+			setTrailRenderer(array, true);
+			GnomeSortScript ss = new GnomeSortScript();
+			setAlgorithmText(ss.getName());
+			List<GameObject> swappingQueue = ss.startSort(array);
+
+			if (swappingQueue != null && swappingQueue.Count >= 1)
+			{
+				MoveScript m = gameObject.AddComponent<MoveScript>();
+				m.swap(swappingQueue);
+			}
+			else
+				stopSortingboxUsage(array);
+		}
 	}
 
 	public void radixSort()
 	{
-		if (locked == 1)
-			return;
-
-		createBuckets();
 		List<GameObject[]> elementArrays = getElementArrays();
-		locked = 1;
+		if(elementArrays != null && elementArrays.Count > 0)
+			createBuckets();
+
 		foreach (GameObject[] array in elementArrays)
 		{
 		    setTrailRenderer(array, false);
 			RadixSortScript ss = new RadixSortScript();
-			setAlgorithmText(ss.name);
+			setAlgorithmText(ss.getName());
 			//RadixSortScript ss = gameObject.AddComponent<RadixSortScript> ();
 			//ss.startSort(array);
 
@@ -310,11 +338,10 @@ public class ElementScript : MonoBehaviour {
 				RadixMoveScript m = gameObject.AddComponent<RadixMoveScript>();
 				m.swap_new(bucket_element_objects);
 			}
-
+			else
+				stopSortingboxUsage(array);
 		}
-		// TODO: yield till done sorting
         //deleteBuckets();
-		locked = 0;
 	}
 
     public List<GameObject[]> getElementArrays()
@@ -329,8 +356,12 @@ public class ElementScript : MonoBehaviour {
                 GameObject parent = container[i].transform.parent.gameObject;
                 if (parent != null)
                 {
-                    elementArrays.Add(parent.GetComponent<SortingBoxScript>().getElementArray());
-                    Debug.Log("Added element array");
+					if (!parent.GetComponent<SortingBoxScript>().isInUse())
+					{
+						parent.GetComponent<SortingBoxScript>().setInUse(true);
+						elementArrays.Add(parent.GetComponent<SortingBoxScript>().getElementArray());
+						Debug.Log("Added element array");
+					}
                 }
             }
         }
@@ -412,5 +443,13 @@ public class ElementScript : MonoBehaviour {
 					ss.setAlgorithmText(text);
 			}
 		}
+	}
+
+	private void stopSortingboxUsage(GameObject[] array)
+	{
+		if (array == null || array.Length == 0) return;
+
+		MoveHelperScript mhs = new MoveHelperScript();
+		mhs.stopSortingboxUsage(array[0]);
 	}
 }

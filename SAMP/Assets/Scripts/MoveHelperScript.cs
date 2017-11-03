@@ -1,17 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MoveHelperScript : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+public class MoveHelperScript {
 
 	public void changeColor(GameObject go1, GameObject go2, bool is_moving, ref Color prevColor, ref Color prevColor2)
 	{
@@ -65,5 +55,14 @@ public class MoveHelperScript : MonoBehaviour {
 			}
 		}
 	}
-		
+
+	public void stopSortingboxUsage(GameObject go)
+	{
+		if (go == null) return;
+
+		SortingBoxScript sbs = go.GetComponentInParent<SortingBoxScript>();
+		if (sbs == null) return;
+
+		sbs.setInUse(false);
+	}
 }

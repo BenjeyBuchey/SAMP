@@ -2,12 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Algorithms {
+public abstract class Algorithms {
 
-	public string name { get; set; }
+	private readonly string name;
 
-	public Algorithms()
+	protected Algorithms(string name)
 	{
+		this.name = name;
+	}
 
+	//public string getName {  get { return name;  } }
+	public string getName()
+	{
+		return name;
 	}
 }

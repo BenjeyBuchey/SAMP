@@ -2,31 +2,23 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class QuickSortScript : MonoBehaviour {
+public class QuickSortScript : Algorithms {
 
 	private GameObject[] elementArray;
     private List<GameObject> swappingQueue = new List<GameObject> ();
 
-	// Use this for initialization
-	void Start () {
-		//swappingQueue = new List<GameObject> ();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+	public QuickSortScript() : base ("QuickSort")
+	{
+
 	}
 
-	public void startSort(GameObject[] array, int left, int right)
+	public List<GameObject> startSort(GameObject[] array, int left, int right)
 	{
 		swappingQueue.Clear ();
 		elementArray = array;
 		myQuickSort (left, right);
-		if (swappingQueue != null && swappingQueue.Count >= 1) 
-		{
-			MoveScript m = gameObject.AddComponent<MoveScript> ();
-			m.swap (swappingQueue);
-		}
+
+		return swappingQueue;		
 	}
 
 	private void myQuickSort(int left, int right)

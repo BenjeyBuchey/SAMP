@@ -8,6 +8,7 @@ public class SortingBoxScript : MonoBehaviour {
     private float min_dist,max_dist,max_dist_diff;
     private float y_min_position, y_max_position;
 	private List<Vector3> init_element_positions = new List<Vector3>();
+	private bool inUse = false;
 
 	// Use this for initialization
 	void Start () {
@@ -126,5 +127,16 @@ public class SortingBoxScript : MonoBehaviour {
 		if (tm == null) return;
 
 		tm.text = text;
+	}
+
+	public bool isInUse()
+	{
+		return inUse;
+	}
+
+
+	public void setInUse(bool value)
+	{
+		inUse = value;
 	}
 }
