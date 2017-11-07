@@ -230,13 +230,13 @@ public class ElementScript : MonoBehaviour {
 	{
 		List<GameObject[]> elementArrays = getElementArrays();
 		if (elementArrays != null && elementArrays.Count > 0)
-			deleteBuckets();
+			deleteBuckets(elementArrays);
 
 		foreach (GameObject[] array in elementArrays)
         {
 			setTrailRenderer(array, true);
 			QuickSortScript ss = new QuickSortScript();
-			setAlgorithmText(ss.getName());
+			setAlgorithmText(ss.getName(), elementArrays);
 			List<GameObject> swappingQueue = ss.startSort(array, 0, array.Length);
 
 			if (swappingQueue != null && swappingQueue.Count >= 1)
@@ -253,13 +253,13 @@ public class ElementScript : MonoBehaviour {
 	{
 		List<GameObject[]> elementArrays = getElementArrays();
 		if (elementArrays != null && elementArrays.Count > 0)
-			deleteBuckets();
+			deleteBuckets(elementArrays);
 
 		foreach (GameObject[] array in elementArrays)
         {
 			setTrailRenderer(array, true);
 			HeapSortScript ss = new HeapSortScript();
-			setAlgorithmText(ss.getName());
+			setAlgorithmText(ss.getName(), elementArrays);
 			List<GameObject> swappingQueue = ss.startSort(array);
 
 			if (swappingQueue != null && swappingQueue.Count >= 1)
@@ -276,13 +276,13 @@ public class ElementScript : MonoBehaviour {
 	{
 		List<GameObject[]> elementArrays = getElementArrays();
 		if (elementArrays != null && elementArrays.Count > 0)
-			deleteBuckets();
+			deleteBuckets(elementArrays);
 
 		foreach (GameObject[] array in elementArrays)
         {
 			setTrailRenderer(array, true);
 			MergeSortScript ss = new MergeSortScript();
-			setAlgorithmText(ss.getName());
+			setAlgorithmText(ss.getName(), elementArrays);
 			List<GameObject> swappingQueue = ss.startSort(array);
 
 			if (swappingQueue != null && swappingQueue.Count >= 1)
@@ -299,13 +299,13 @@ public class ElementScript : MonoBehaviour {
 	{
 		List<GameObject[]> elementArrays = getElementArrays();
 		if (elementArrays != null && elementArrays.Count > 0)
-			deleteBuckets();
+			deleteBuckets(elementArrays);
 
 		foreach (GameObject[] array in elementArrays)
         {
 			setTrailRenderer(array, true);
 			GnomeSortScript ss = new GnomeSortScript();
-			setAlgorithmText(ss.getName());
+			setAlgorithmText(ss.getName(), elementArrays);
 			List<GameObject> swappingQueue = ss.startSort(array);
 
 			if (swappingQueue != null && swappingQueue.Count >= 1)
@@ -322,15 +322,13 @@ public class ElementScript : MonoBehaviour {
 	{
 		List<GameObject[]> elementArrays = getElementArrays();
 		if(elementArrays != null && elementArrays.Count > 0)
-			createBuckets();
+			createBuckets(elementArrays);
 
 		foreach (GameObject[] array in elementArrays)
 		{
 		    setTrailRenderer(array, false);
 			RadixSortScript ss = new RadixSortScript();
-			setAlgorithmText(ss.getName());
-			//RadixSortScript ss = gameObject.AddComponent<RadixSortScript> ();
-			//ss.startSort(array);
+			setAlgorithmText(ss.getName(), elementArrays);
 
 			List<BucketElementObject> bucket_element_objects = ss.startSort(array);
 			if (bucket_element_objects != null && bucket_element_objects.Count >= 1)
@@ -403,44 +401,64 @@ public class ElementScript : MonoBehaviour {
             go.GetComponentInChildren<TrailRenderer>().enabled = visible;
     }
 
-    private void createBuckets()
+    private void createBuckets(List<GameObject[]> elementArrays)
     {
-		GameObject[] container = GameObject.FindGameObjectsWithTag("Container");
-		for (int i = 0; i < container.Length; i++)
+		foreach (GameObject[] go_array in elementArrays)
 		{
-			if (container[i].GetComponent<ElementContainerScript>().getHighlighted())
+			if (go_array.Length > 0)
 			{
-				BucketScript bs = container[i].GetComponentInParent<BucketScript>();
-                if(bs != null)
-                    bs.createBuckets();
+				SortingBoxScript sbs = go_array[0].GetComponentInParent<SortingBoxScript>();
+				if (sbs == null) continue;
+
+				GameObject container = sbs.getContainer();
+				if (container == null) continue;
+
+				if (container.GetComponent<ElementContainerScript>().getHighlighted())
+				{
+					BucketScript bs = container.GetComponentInParent<BucketScript>();
+					if (bs != null)
+						bs.createBuckets();
+				}
 			}
 		}
 	}
 
-    private void deleteBuckets()
+    private void deleteBuckets(List<GameObject[]> elementArrays)
     {
-        GameObject[] container = GameObject.FindGameObjectsWithTag("Container");
-        for (int i = 0; i < container.Length; i++)
-        {
-            if (container[i].GetComponent<ElementContainerScript>().getHighlighted())
-            {
-                BucketScript bs = container[i].GetComponentInParent<BucketScript>();
-                if(bs != null)
-                    bs.deleteBuckets();
-            }
-        }
-    }
-
-	private void setAlgorithmText(string text)
-	{
-		GameObject[] container = GameObject.FindGameObjectsWithTag("Container");
-		for (int i = 0; i < container.Length; i++)
+		foreach (GameObject[] go_array in elementArrays)
 		{
-			if (container[i].GetComponent<ElementContainerScript>().getHighlighted())
+			if (go_array.Length > 0)
 			{
-				SortingBoxScript ss = container[i].GetComponentInParent<SortingBoxScript>();
-				if (ss != null)
-					ss.setAlgorithmText(text);
+				SortingBoxScript sbs = go_array[0].GetComponentInParent<SortingBoxScript>();
+				if (sbs == null) continue;
+
+				GameObject container = sbs.getContainer();
+				if (container == null) continue;
+
+				if (container.GetComponent<ElementContainerScript>().getHighlighted())
+				{
+					BucketScript bs = container.GetComponentInParent<BucketScript>();
+					if (bs != null)
+						bs.deleteBuckets();
+				}
+			}
+		}
+	}
+
+	private void setAlgorithmText(string text, List<GameObject[]> elementArrays)
+	{
+		foreach(GameObject[] go_array in elementArrays)
+		{
+			if(go_array.Length > 0)
+			{
+				SortingBoxScript sbs = go_array[0].GetComponentInParent<SortingBoxScript>();
+				if (sbs == null) continue;
+
+				GameObject container = sbs.getContainer();
+				if (container == null) continue;
+
+				if (container.GetComponent<ElementContainerScript>().getHighlighted())
+					sbs.setAlgorithmText(text);
 			}
 		}
 	}

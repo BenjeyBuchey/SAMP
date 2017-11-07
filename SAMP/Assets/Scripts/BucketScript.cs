@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class BucketScript : MonoBehaviour {
 
-	public GameObject buckets;
+	public GameObject buckets_prefab;
+	private GameObject buckets = null;
 	private float y_container_offset = 5.0f, buckets_space = 0.0f;
 	private List<GameObject> bucket_objects = new List<GameObject>();
 	private GameObject container;
@@ -39,7 +40,8 @@ public class BucketScript : MonoBehaviour {
 
 	private void spawnBuckets()
 	{
-		buckets = Instantiate(buckets, container.transform.parent);
+		//if (buckets == null) Debug.Log("NULLLLLLLLLLLLLLLLLLLLLLLLLLLL");
+		buckets = Instantiate(buckets_prefab, container.transform.parent) as GameObject;
 	}
 
 	private void setBucketObjects()
@@ -104,11 +106,13 @@ public class BucketScript : MonoBehaviour {
 
     public void deleteBuckets()
     {
-        foreach (GameObject bucket in bucket_objects)
-        {
-            Destroy(bucket);
-        }
-    }
+        //foreach (GameObject bucket in bucket_objects)
+        //{
+        //    Destroy(bucket);
+        //}
+		bucket_objects.Clear();
+		Destroy(buckets);
+	}
 
 	private bool hasBuckets()
 	{
