@@ -49,8 +49,11 @@ public class RadixMoveScript : MonoBehaviour {
 
 			LeanTween.move(go, dest, 1.0f);
 
-			while (go.transform.position != dest)
+			while (Vector3.Distance(go.transform.position, dest) > 0.1f)
 				yield return null;
+
+			//while (go.transform.position != dest)
+			//	yield return null;
 
 			changeColor(false);
 		}

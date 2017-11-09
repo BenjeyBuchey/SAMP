@@ -174,11 +174,13 @@ public class MergeMoveScript : MonoBehaviour {
             Debug.Log ("From: " + go2.transform.position +" to: " + dest2);
             Debug.Log ("Rotation Point: " + rotationPoint);
 
+			//while (Vector3.Distance(go1.transform.position, dest1) > 0.1f && Vector3.Distance(go2.transform.position, dest2) > 0.1f)
+			//	yield return null;
 
-            while (go1.transform.position != dest1 || go2.transform.position != dest2)
-                yield return null;
+			while (go1.transform.position != dest1 || go2.transform.position != dest2)
+				yield return null;
 
-            correctPositions();
+			correctPositions();
 
             increaseCounter ();
 
