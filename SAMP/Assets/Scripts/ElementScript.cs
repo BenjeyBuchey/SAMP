@@ -397,8 +397,11 @@ public class ElementScript : MonoBehaviour {
 
     private void setTrailRenderer(GameObject[] array, bool visible)
     {
-        foreach (GameObject go in array)
-            go.GetComponentInChildren<TrailRenderer>().enabled = visible;
+		foreach (GameObject go in array)
+		{
+			go.GetComponentInChildren<TrailRenderer>().enabled = visible;
+			go.GetComponentInChildren<TrailRenderer>().Clear();
+		}
     }
 
     private void createBuckets(List<GameObject[]> elementArrays)
