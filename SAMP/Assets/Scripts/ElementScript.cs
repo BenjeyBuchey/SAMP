@@ -366,6 +366,20 @@ public class ElementScript : MonoBehaviour {
         return elementArrays;
     }
 
+	public void clearSortingboxes()
+	{
+		GameObject[] boxes = GameObject.FindGameObjectsWithTag("SortingBoxes");
+		if (boxes == null || boxes.Length == 0) return;
+
+		foreach(GameObject box in boxes)
+		{
+			if(!box.GetComponent<SortingBoxScript>().isInUse())
+			{
+				Destroy(box);
+			}
+		}
+	}
+
     private int getNewElementSize()
     {
         Dropdown dd = GameObject.Find("ElementCountDropdown").GetComponent<Dropdown>();

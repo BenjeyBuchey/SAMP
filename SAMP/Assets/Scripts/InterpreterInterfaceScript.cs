@@ -87,6 +87,12 @@ public class InterpreterInterfaceScript : MonoBehaviour {
 
     private List<GameObject> fillQueue(int x, int y, GameObject[] elementArray)
 	{
+		if (x > elementArray.Length || y > elementArray.Length)
+		{
+			Debug.Log("Out of range! Can't swap " + x +" and " + y);
+			return null;
+		}
+
 		List<GameObject> queue = new List<GameObject> ();
 		int x_pos = -1, y_pos = -1;
 

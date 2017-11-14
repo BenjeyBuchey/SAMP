@@ -71,6 +71,7 @@ public class MoveScript : MonoBehaviour {
             changeColor(false);
         }
 		stopSortingboxUsage();
+		Destroy(this);
 	}
 
 	private void increaseCounter()
