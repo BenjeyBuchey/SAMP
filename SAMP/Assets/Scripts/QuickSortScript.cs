@@ -18,7 +18,7 @@ public class QuickSortScript : Algorithms {
 		elementArray = array;
 		myQuickSort (left, right);
 
-		return swappingQueue;		
+		return swappingQueue;
 	}
 
 	private void myQuickSort(int left, int right)
@@ -26,7 +26,7 @@ public class QuickSortScript : Algorithms {
 		if (elementArray == null || elementArray.Length <= 1)
 			return;
 		
-		if (left < right) 
+		if (left < right)
 		{
 			int pivot_id = myPartition(left,right);
 			myQuickSort(left,pivot_id-1);
