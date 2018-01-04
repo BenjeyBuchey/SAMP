@@ -137,6 +137,7 @@
     <Compile Include="Assets\Scripts\MergeSortScript.cs" />
     <Compile Include="Assets\Scripts\MoveHelperScript.cs" />
     <Compile Include="Assets\Scripts\MoveScript.cs" />
+    <Compile Include="Assets\Scripts\PopupWindowScript.cs" />
     <Compile Include="Assets\Scripts\QuestionMarkScript.cs" />
     <Compile Include="Assets\Scripts\QuickSortScript.cs" />
     <Compile Include="Assets\Scripts\RadixMoveScript.cs" />
