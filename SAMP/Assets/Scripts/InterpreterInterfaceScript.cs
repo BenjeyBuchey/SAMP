@@ -4,12 +4,9 @@ using System.Collections.Generic;
 
 public class InterpreterInterfaceScript : MonoBehaviour {
 
-	//private GameObject[] elementArray;
-	//private MoveScript ms;
-
 	// Use this for initialization
 	void Start () {
-		//ms = gameObject.AddComponent<MoveScript> ();
+
 	}
 	
 	// Update is called once per frame
