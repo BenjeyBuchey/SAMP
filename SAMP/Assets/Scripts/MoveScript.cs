@@ -59,8 +59,11 @@ public class MoveScript : MonoBehaviour {
 
             LeanTween.move(go1, new Vector3[] {dest2, temp1, temp1, dest1 }, 1.5f);
             LeanTween.move(go2, new Vector3[] {dest1, temp2, temp2, dest2 }, 1.5f);
-			
-			while(Vector3.Distance(go1.transform.position,dest1) > 0.1f && Vector3.Distance(go2.transform.position, dest2) > 0.1f)
+			//int id = LeanTween.move(go1, new Vector3[] { dest2, temp1, temp1, dest1 }, 1.5f).id;
+			//while (LeanTween.isTweening(id))
+			//	yield return null;
+
+			while (Vector3.Distance(go1.transform.position,dest1) > 0.1f && Vector3.Distance(go2.transform.position, dest2) > 0.1f)
 				yield return null;
 
 			//while (go1.transform.position != dest1 || go2.transform.position != dest2)
