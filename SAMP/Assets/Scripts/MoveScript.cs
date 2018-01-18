@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class MoveScript : MonoBehaviour {
 
 	private GameObject go1,go2;
-	private Vector3 dest1,dest2, rotationPoint;
+	private Vector3 dest1,dest2;
 	private float speed = 80, rotated = 0;
 	private List<GameObject> queue;
 	private Color prevColor, prevColor2;
@@ -44,23 +44,21 @@ public class MoveScript : MonoBehaviour {
             if (go1 == null || go2 == null)
                 yield return null;
 
-            changeColor(true);
+            ChangeColor(true);
 
-            dest1 = go2.transform.position;
-            dest2 = go1.transform.position;
-            getRotationPoint();
-
+            Vector3 rotationPoint = GetRotationPoint();
             float y_offset = getOffsetY();
-            Vector3 temp1 = rotationPoint;
-            temp1.y = temp1.y + y_offset;
 
-            Vector3 temp2 = rotationPoint;
-            temp2.y = temp2.y - y_offset;
+            Vector3 tempPoint1 = rotationPoint;
+			tempPoint1.y = tempPoint1.y + y_offset;
 
-			int go1_id = LeanTween.move(go1, new Vector3[] { dest2, temp1, temp1, dest1 }, 1.5f).id;
-			int go2_id = LeanTween.move(go2, new Vector3[] { dest1, temp2, temp2, dest2 }, 1.5f).id;
+            Vector3 tempPoint2 = rotationPoint;
+			tempPoint2.y = tempPoint2.y - y_offset;
 
-			while (LeanTween.isTweening(go1_id) && LeanTween.isTweening(go2_id))
+			int go1Id = LeanTween.move(go1, new Vector3[] { go1.transform.position, tempPoint1, tempPoint1, go2.transform.position }, 1.5f).id;
+			int go2Id = LeanTween.move(go2, new Vector3[] { go2.transform.position, tempPoint2, tempPoint2, go1.transform.position }, 1.5f).id;
+
+			while (LeanTween.isTweening(go1Id) && LeanTween.isTweening(go2Id))
 				yield return null;
 
 			//LeanTween.move(go1, new Vector3[] {dest2, temp1, temp1, dest1 }, 1.5f);
@@ -69,15 +67,15 @@ public class MoveScript : MonoBehaviour {
 			//while(Vector3.Distance(go1.transform.position,dest1) > 0.1f && Vector3.Distance(go2.transform.position, dest2) > 0.1f)
 			//	yield return null;
 
-            increaseCounter ();
+            IncreaseCounter ();
 
-            changeColor(false);
+            ChangeColor(false);
         }
 		stopSortingboxUsage();
 		Destroy(this);
 	}
 
-	private void increaseCounter()
+	private void IncreaseCounter()
 	{
 		Text score = GameObject.Find ("SwapCounter").GetComponent<Text> ();
 
@@ -87,7 +85,7 @@ public class MoveScript : MonoBehaviour {
 		score.GetComponent<SwapCounterScript> ().incCounter ();
 	}
 
-	private void changeColor(bool is_moving)
+	private void ChangeColor(bool is_moving)
 	{
 		MoveHelperScript mhs = new MoveHelperScript();
 		mhs.changeColor (go1, go2, is_moving, ref prevColor, ref prevColor2);
@@ -95,7 +93,7 @@ public class MoveScript : MonoBehaviour {
 		//Destroy (mhs);
 	}
 
-	private void getRotationPoint()
+	private Vector3 GetRotationPoint()
 	{
 		float distance = Mathf.Abs (go1.transform.position.z - go2.transform.position.z);
 		float z = 0.0f;
@@ -104,22 +102,19 @@ public class MoveScript : MonoBehaviour {
 		else
 			z = go1.transform.position.z + distance / 2;
 
-		rotationPoint = new Vector3(go1.transform.position.x,
-			go1.transform.position.y,
-			z);
-
+		return new Vector3(go1.transform.position.x,go1.transform.position.y,z);
 	}
 
-	private void correctPositions()
-	{
-		if (go1.transform.position != dest1 || go2.transform.position != dest2) 
-		{
-			go1.transform.rotation = Quaternion.identity;
-			go1.transform.position = dest1;
-			go2.transform.rotation = Quaternion.identity;
-			go2.transform.position = dest2;
-		}
-	}
+	//private void correctPositions()
+	//{
+	//	if (go1.transform.position != dest1 || go2.transform.position != dest2) 
+	//	{
+	//		go1.transform.rotation = Quaternion.identity;
+	//		go1.transform.position = dest1;
+	//		go2.transform.rotation = Quaternion.identity;
+	//		go2.transform.position = dest2;
+	//	}
+	//}
 
     private float getOffsetY()
     {
