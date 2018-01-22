@@ -16,25 +16,7 @@ public class InputScript : MonoBehaviour {
         queue = new List<List<GameObject>>();
 		e = new JintEngine();
 
-		e.SetFunction("log",
-			new Jint.Delegates.Action<object>((a) => Debug.Log(a)));
-
-		e.SetFunction("add",
-			new Jint.Delegates.Func<double, double, double>((a,b) => a + b));
-
-		e.SetFunction("swap",
-			new Jint.Delegates.Action<int,int>((a,b) => swap(a,b)));
-
-		e.SetFunction("size",
-			new Jint.Delegates.Func<int, double>((a) => size(a)));
-		
-		e.SetFunction("test123",
-			new Jint.Delegates.Action<int>((a) => test123(a)));
-
-		e.SetFunction("mul",
-			new Jint.Delegates.Action<object,object>((a,b) => mul(a,b)));
-
-        e.SetFunction("elementCount", new Jint.Delegates.Func<int>(() => elementCount()));
+		InitFunctions();
 	}
 	
 	// Update is called once per frame
@@ -47,6 +29,23 @@ public class InputScript : MonoBehaviour {
         queue.Clear();
 		e.Run (command);
         execQueue();
+	}
+
+	private void InitFunctions()
+	{
+		e.SetFunction("log",new Jint.Delegates.Action<object>((a) => Debug.Log(a)));
+
+		e.SetFunction("add",new Jint.Delegates.Func<double, double, double>((a, b) => a + b));
+
+		e.SetFunction("swap",new Jint.Delegates.Action<int, int>((a, b) => swap(a, b)));
+
+		e.SetFunction("size",new Jint.Delegates.Func<int, double>((a) => size(a)));
+
+		e.SetFunction("test123",new Jint.Delegates.Action<int>((a) => test123(a)));
+
+		e.SetFunction("mul",new Jint.Delegates.Action<object, object>((a, b) => mul(a, b)));
+
+		e.SetFunction("elementCount", new Jint.Delegates.Func<int>(() => elementCount()));
 	}
 		
 	private void swap(int a, int b)

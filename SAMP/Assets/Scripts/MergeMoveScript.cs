@@ -101,6 +101,7 @@ public class MergeMoveScript : MonoBehaviour {
     {
         for(int i = 0; i < queue.Count; i=i+2)
         {
+			int go1_id = 0, go2_id=0;
             if (go1 != null)
                 old_positions [go1.GetComponent<SingleElementScript> ().getElementId ()] = null_position;
 
@@ -150,8 +151,9 @@ public class MergeMoveScript : MonoBehaviour {
             if (go2.transform.position.y > init_y) 
             {
                 rotation = false;
-                LeanTween.move(go2, dest2, 1.5f);
-            } 
+                //LeanTween.move(go2, dest2, 1.5f);
+				go2_id = LeanTween.move(go2, dest2, 1.5f).id;
+			} 
             else 
             {
                 rotation = true;
@@ -164,21 +166,25 @@ public class MergeMoveScript : MonoBehaviour {
 
                 Debug.Log ("Temp1: " + temp1 +" Temp2: " + temp2);
 
-                //go2.transform.RotateAround (rotationPoint, Vector3.right, step);
-                LeanTween.move(go2, new Vector3[] {go2.transform.position, temp2, temp2, dest2 }, 1.5f);
-            }
+                //LeanTween.move(go2, new Vector3[] {go2.transform.position, temp2, temp2, dest2 }, 1.5f);
+				go2_id = LeanTween.move(go2, new Vector3[] { go2.transform.position, temp2, temp2, dest2 }, 1.5f).id;
+			}
                 
-            LeanTween.move(go1, dest1, 1.5f);
+            //LeanTween.move(go1, dest1, 1.5f);
+			go1_id = LeanTween.move(go1, dest1, 1.5f).id;
 
-            Debug.Log ("From: " + go1.transform.position +" to: " + dest1);
+			Debug.Log ("From: " + go1.transform.position +" to: " + dest1);
             Debug.Log ("From: " + go2.transform.position +" to: " + dest2);
             Debug.Log ("Rotation Point: " + rotationPoint);
+
+			while (LeanTween.isTweening(go1_id) && LeanTween.isTweening(go2_id))
+				yield return null;
 
 			//while (Vector3.Distance(go1.transform.position, dest1) > 0.1f && Vector3.Distance(go2.transform.position, dest2) > 0.1f)
 			//	yield return null;
 
-			while (go1.transform.position != dest1 || go2.transform.position != dest2)
-				yield return null;
+			//while (go1.transform.position != dest1 || go2.transform.position != dest2)
+			//	yield return null;
 
 			correctPositions();
 
