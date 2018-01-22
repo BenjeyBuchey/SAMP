@@ -50,12 +50,12 @@ public class MoveScript : MonoBehaviour {
             dest2 = go1.transform.position;
             getRotationPoint();
 
-            float y_offset = getOffsetY();
+            float yOffset = getOffsetY();
             Vector3 temp1 = rotationPoint;
-            temp1.y = temp1.y + y_offset;
+            temp1.y = temp1.y + yOffset;
 
             Vector3 temp2 = rotationPoint;
-            temp2.y = temp2.y - y_offset;
+            temp2.y = temp2.y - yOffset;
 
             LeanTween.move(go1, new Vector3[] {dest2, temp1, temp1, dest1 }, 1.5f);
             LeanTween.move(go2, new Vector3[] {dest1, temp2, temp2, dest2 }, 1.5f);

@@ -23,18 +23,18 @@ public class GnomeSortScript : Algorithms {
 
 	private void myGnomeSort() 
 	{ 
-		for ( int i = 1, temp_value; i < elementArray.Length; ) 
-		{ 
-			if ( getSize(i-1) <= getSize(i) ) 
-				i += 1; 
-			else 
-			{ 
-				swap (i - 1, i);
+		for(int i = 1;i < elementArray.Length;)
+		{
+			if(getSize(i-1)<=getSize(i)) 
+				i += 1;
+			else
+			{
+				swap (i-1,i);
 
-				i -= 1; 
-				if ( i == 0 ) 
-					i = 1; 
-			} 
+				i-=1; 
+				if(i==0) 
+					i=1;
+			}
 		} 
 	}
 
