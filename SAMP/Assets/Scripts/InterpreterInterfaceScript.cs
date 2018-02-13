@@ -14,9 +14,10 @@ public class InterpreterInterfaceScript : MonoBehaviour {
 	
 	}
 
+	// old functions used for jurassic
 	public void swap(int x, int y)
 	{
-        List<GameObject[]> elementArrays = setElementArrays();
+        List<GameObject[]> elementArrays = setElementArrays(true);
         if (elementArrays == null)
             return;
 
@@ -29,7 +30,7 @@ public class InterpreterInterfaceScript : MonoBehaviour {
 
     public List<List<GameObject>> swapNEW(int x, int y)
     {
-        List<GameObject[]> elementArrays = setElementArrays();
+        List<GameObject[]> elementArrays = setElementArrays(false);
         if (elementArrays == null)
             return null;
 
@@ -44,9 +45,9 @@ public class InterpreterInterfaceScript : MonoBehaviour {
         return queue;
     }
 
-	public double size(int x)
+	public double size_old(int x)
 	{
-        List<GameObject[]> elementArrays = setElementArrays();
+        List<GameObject[]> elementArrays = setElementArrays(false);
         if (elementArrays == null)
             return -1;
         
@@ -67,9 +68,28 @@ public class InterpreterInterfaceScript : MonoBehaviour {
 		return size;
 	}
 
-    public int getElementCount()
+	public double size(int index)
+	{
+		List<GameObject[]> elementArrays = setElementArrays(false);
+		if (elementArrays == null)
+			return -1;
+
+		double size = 0.0;
+
+		foreach (GameObject[] elementArray in elementArrays)
+		{
+			if(elementArray.Length <= index || elementArray[index] == null) return size;
+
+			size = elementArray[index].GetComponentInChildren<Rigidbody>().transform.localScale.x;
+			Debug.Log("Size of element on position " + index + " is: " + size);
+			break;
+		}
+		return size;
+	}
+
+	public int getElementCount()
     {
-        List<GameObject[]> elementArrays = setElementArrays();
+        List<GameObject[]> elementArrays = setElementArrays(false);
         if (elementArrays == null)
             return 0;
 
@@ -118,12 +138,12 @@ public class InterpreterInterfaceScript : MonoBehaviour {
 		ms.swap (queue); */
 	}
 
-    private List<GameObject[]> setElementArrays()
+    private List<GameObject[]> setElementArrays(bool getsSetToUse)
     {
         GameObject elements = GameObject.Find("Elements");
         if (elements == null)
             return null;
         
-        return elements.GetComponent<ElementScript>().getElementArrays();
+        return elements.GetComponent<ElementScript>().getElementArrays(getsSetToUse);
     }
 }

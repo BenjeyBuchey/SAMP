@@ -228,7 +228,7 @@ public class ElementScript : MonoBehaviour {
 
 	public void quickSort()
 	{
-		List<GameObject[]> elementArrays = getElementArrays();
+		List<GameObject[]> elementArrays = getElementArrays(true);
 		if (elementArrays != null && elementArrays.Count > 0)
 			deleteBuckets(elementArrays);
 
@@ -251,7 +251,7 @@ public class ElementScript : MonoBehaviour {
 
 	public void heapSort()
 	{
-		List<GameObject[]> elementArrays = getElementArrays();
+		List<GameObject[]> elementArrays = getElementArrays(true);
 		if (elementArrays != null && elementArrays.Count > 0)
 			deleteBuckets(elementArrays);
 
@@ -274,7 +274,7 @@ public class ElementScript : MonoBehaviour {
 
 	public void mergeSort()
 	{
-		List<GameObject[]> elementArrays = getElementArrays();
+		List<GameObject[]> elementArrays = getElementArrays(true);
 		if (elementArrays != null && elementArrays.Count > 0)
 			deleteBuckets(elementArrays);
 
@@ -297,7 +297,7 @@ public class ElementScript : MonoBehaviour {
 
 	public void gnomeSort()
 	{
-		List<GameObject[]> elementArrays = getElementArrays();
+		List<GameObject[]> elementArrays = getElementArrays(true);
 		if (elementArrays != null && elementArrays.Count > 0)
 			deleteBuckets(elementArrays);
 
@@ -320,7 +320,7 @@ public class ElementScript : MonoBehaviour {
 
 	public void radixSort()
 	{
-		List<GameObject[]> elementArrays = getElementArrays();
+		List<GameObject[]> elementArrays = getElementArrays(true);
 		if(elementArrays != null && elementArrays.Count > 0)
 			createBuckets(elementArrays);
 
@@ -342,7 +342,7 @@ public class ElementScript : MonoBehaviour {
         //deleteBuckets();
 	}
 
-    public List<GameObject[]> getElementArrays()
+    public List<GameObject[]> getElementArrays(bool getsSetToInUse)
     {
         GameObject[] container = GameObject.FindGameObjectsWithTag("Container");
         List<GameObject[]> elementArrays = new List<GameObject[]>();
@@ -356,7 +356,9 @@ public class ElementScript : MonoBehaviour {
                 {
 					if (!parent.GetComponent<SortingBoxScript>().isInUse())
 					{
-						parent.GetComponent<SortingBoxScript>().setInUse(true);
+						if(getsSetToInUse)
+							parent.GetComponent<SortingBoxScript>().setInUse(true);
+
 						elementArrays.Add(parent.GetComponent<SortingBoxScript>().getElementArray());
 						Debug.Log("Added element array");
 					}
