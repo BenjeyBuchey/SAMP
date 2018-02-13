@@ -9,15 +9,17 @@ public class SortingBoxScript : MonoBehaviour {
     private float y_min_position, y_max_position;
 	private List<Vector3> init_element_positions = new List<Vector3>();
 	private bool inUse = false;
+	private uint swapsCounter = 0;
 
 	// Use this for initialization
 	void Start () {
 		setAlgorithmTextPosition();
+		setSwapsCounterPosition();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+		updateSwapsCounter();
 	}
 
     public void setElementArray(GameObject[] array)
@@ -109,24 +111,89 @@ public class SortingBoxScript : MonoBehaviour {
 	private void setAlgorithmTextPosition()
 	{
 		// should be set on upper right corner of container
-		TextMesh tm = this.GetComponentInChildren<TextMesh>();
-		if (tm == null) return;
+		foreach (TextMesh tm in this.GetComponentsInChildren<TextMesh>())
+		{
+			if (tm == null ||!tm.name.Equals("AlgorithmText"))
+				continue;
 
-		GameObject container = getContainer();
-		if (container == null) return;
+			GameObject container = getContainer();
+			if (container == null) return;
 
-		Vector3 tm_position = container.transform.position;
-		tm_position.z = tm_position.z + container.transform.localScale.z / 2;
-		tm_position.y = tm_position.y + container.transform.localScale.y / 2;
-		tm.transform.position = tm_position;
+			Vector3 tm_position = container.transform.position;
+			tm_position.z = tm_position.z + container.transform.localScale.z / 2;
+			tm_position.y = tm_position.y + container.transform.localScale.y / 2;
+			tm.transform.position = tm_position;
+		}
+		//TextMesh tm = this.GetComponentInChildren<TextMesh>();
+		//if (tm == null) return;
+
+		//GameObject container = getContainer();
+		//if (container == null) return;
+
+		//Vector3 tm_position = container.transform.position;
+		//tm_position.z = tm_position.z + container.transform.localScale.z / 2;
+		//tm_position.y = tm_position.y + container.transform.localScale.y / 2;
+		//tm.transform.position = tm_position;
+	}
+
+	private void setSwapsCounterPosition()
+	{
+		// set on upper left corner of container
+		// set gameobject inactive till called
+		foreach (TextMesh tm in this.GetComponentsInChildren<TextMesh>())
+		{
+			if (tm == null || !tm.name.Equals("SwapsCounter"))
+				continue;
+
+			GameObject container = getContainer();
+			if (container == null) return;
+
+			tm.text = "Swaps: " + swapsCounter;
+			Vector3 tm_position = container.transform.position;
+			tm_position.z = tm_position.z - container.transform.localScale.z / 2;// + HelperScript.GetTextMeshWidth(tm);
+			tm_position.y = tm_position.y + container.transform.localScale.y / 2;
+			tm.transform.position = tm_position;
+
+			tm.text = string.Empty;
+		}
 	}
 
 	public void setAlgorithmText(string text)
 	{
-		TextMesh tm = this.GetComponentInChildren<TextMesh>();
-		if (tm == null) return;
+		foreach (TextMesh tm in this.GetComponentsInChildren<TextMesh>())
+		{
+			if (tm.name.Equals("AlgorithmText"))
+				tm.text = text;
+		}
+		//TextMesh tm = this.GetComponentInChildren<TextMesh>();
+		//if (tm == null) return;
 
-		tm.text = text;
+		//tm.text = text;
+	}
+
+	public void incSwapsCounter()
+	{
+		swapsCounter++;
+	}
+
+	private void updateSwapsCounter()
+	{
+		if (swapsCounter <= 0) return;
+		updateSwapsCounterText();
+	}
+
+	private void updateSwapsCounterText()
+	{
+		foreach (TextMesh tm in this.GetComponentsInChildren<TextMesh>())
+		{
+			if (tm.name.Equals("SwapsCounter"))
+				tm.text = "Swaps: " + swapsCounter;
+		}
+	}
+
+	public void ActivateSwapsCounter()
+	{
+		updateSwapsCounterText();
 	}
 
 	public bool isInUse()

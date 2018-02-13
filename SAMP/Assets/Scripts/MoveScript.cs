@@ -69,9 +69,9 @@ public class MoveScript : MonoBehaviour {
 			//while (go1.transform.position != dest1 || go2.transform.position != dest2)
    //             yield return null;
 
-            increaseCounter ();
+			increaseSwapCounter();
 
-            changeColor(false);
+			changeColor(false);
         }
 		stopSortingboxUsage();
 		Destroy(this);
@@ -85,6 +85,16 @@ public class MoveScript : MonoBehaviour {
 			return;
 
 		score.GetComponent<SwapCounterScript> ().incCounter ();
+	}
+
+	private void increaseSwapCounter()
+	{
+		if (go1 == null) return;
+
+		SortingBoxScript sbs = go1.GetComponentInParent<SortingBoxScript>();
+		if (sbs == null) return;
+
+		sbs.incSwapsCounter();
 	}
 
 	private void changeColor(bool is_moving)

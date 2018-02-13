@@ -36,4 +36,19 @@ public static class HelperScript
 		}
 		return null;
 	}
+
+	// gets the scale of a textmesh text
+	public static float GetTextMeshWidth(TextMesh mesh)
+	{
+		float width = 0;
+		foreach (char symbol in mesh.text)
+		{
+			CharacterInfo info;
+			if (mesh.font.GetCharacterInfo(symbol, out info))
+			{
+				width += info.advance;
+			}
+		}
+		return width * mesh.characterSize * 0.1f * mesh.transform.lossyScale.x;
+	}
 }

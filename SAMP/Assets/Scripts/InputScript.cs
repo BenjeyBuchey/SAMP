@@ -47,7 +47,8 @@ public class InputScript : MonoBehaviour {
 
 		e.SetFunction("elementCount", new Jint.Delegates.Func<int>(() => elementCount()));
 	}
-		
+	
+	// swaps array elements in positions a & b
 	private void swap(int a, int b)
 	{
         List<List<GameObject>> temp = iis.swapNEW(a, b);
@@ -63,6 +64,7 @@ public class InputScript : MonoBehaviour {
         }
 	}
 
+	// returns the size of the element in array position a
 	private double size(int a)
 	{
 		return iis.size (a);

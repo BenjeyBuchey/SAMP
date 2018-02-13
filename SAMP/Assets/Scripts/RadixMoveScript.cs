@@ -63,16 +63,6 @@ public class RadixMoveScript : MonoBehaviour {
 		Destroy(this);
 	}
 
-	private void increaseCounter()
-	{
-		Text score = GameObject.Find ("SwapCounter").GetComponent<Text> ();
-
-		if (score == null)
-			return;
-
-		score.GetComponent<SwapCounterScript> ().incCounter ();
-	}
-
 	private void changeColor(bool is_moving)
 	{
 		MoveHelperScript mhs = new MoveHelperScript();

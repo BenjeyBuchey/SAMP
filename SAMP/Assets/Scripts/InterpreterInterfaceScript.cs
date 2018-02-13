@@ -81,7 +81,7 @@ public class InterpreterInterfaceScript : MonoBehaviour {
 			if(elementArray.Length <= index || elementArray[index] == null) return size;
 
 			size = elementArray[index].GetComponentInChildren<Rigidbody>().transform.localScale.x;
-			Debug.Log("Size of element on position " + index + " is: " + size);
+			//Debug.Log("Size of element on position " + index + " is: " + size);
 			break;
 		}
 		return size;
@@ -95,14 +95,45 @@ public class InterpreterInterfaceScript : MonoBehaviour {
 
         foreach (GameObject[] elementArray in elementArrays)
         {
-            Debug.Log("Number of Elements: " + elementArray.Length);
+            //Debug.Log("Number of Elements: " + elementArray.Length);
             return elementArray.Length;
         }
 
         return 0;
     }
 
-    private List<GameObject> fillQueue(int x, int y, GameObject[] elementArray)
+	private List<GameObject> fillQueue(int x, int y, GameObject[] elementArray)
+	{
+		if (x > elementArray.Length || y > elementArray.Length)
+		{
+			Debug.Log("Out of range! Can't swap " + x + " and " + y);
+			return null;
+		}
+
+		List<GameObject> queue = new List<GameObject>();
+
+		queue.Add(elementArray[x]);
+		queue.Add(elementArray[y]);
+
+		string debug = "ELEMENT ORDER: ";
+
+		for (int i = 0; i < elementArray.Length; i++)
+		{
+			debug += elementArray[i].GetComponent<SingleElementScript>().getElementId() + " ";
+		}
+		Debug.Log(debug);
+		// swap in array
+		GameObject tmp = elementArray[x];
+		elementArray[x] = elementArray[y];
+		elementArray[y] = tmp;
+
+		return queue;
+		/*
+        MoveScript ms = gameObject.AddComponent<MoveScript> ();
+		ms.swap (queue); */
+	}
+
+	private List<GameObject> fillQueue_old(int x, int y, GameObject[] elementArray)
 	{
 		if (x > elementArray.Length || y > elementArray.Length)
 		{
@@ -112,9 +143,11 @@ public class InterpreterInterfaceScript : MonoBehaviour {
 
 		List<GameObject> queue = new List<GameObject> ();
 		int x_pos = -1, y_pos = -1;
+		string debug = "ELEMENT ORDER: ";
 
 		for (int i = 0; i < elementArray.Length; i++) 
 		{
+			debug += elementArray[i].GetComponent<SingleElementScript>().getElementId() + " ";
 			if (elementArray [i].GetComponent<SingleElementScript> ().getElementId () == x) 
 			{
 				queue.Add (elementArray [i]);
@@ -124,9 +157,8 @@ public class InterpreterInterfaceScript : MonoBehaviour {
 				queue.Add (elementArray [i]);
 				y_pos = i;
 			}
-
 		}
-
+		Debug.Log(debug);
 		// swap in array
 		GameObject tmp = elementArray [x_pos];
 		elementArray [x_pos] = elementArray [y_pos];

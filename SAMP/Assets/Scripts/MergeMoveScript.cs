@@ -188,8 +188,6 @@ public class MergeMoveScript : MonoBehaviour {
 
 			correctPositions();
 
-            increaseCounter ();
-
             changeColor(false);
         }
 		stopSortingboxUsage();
