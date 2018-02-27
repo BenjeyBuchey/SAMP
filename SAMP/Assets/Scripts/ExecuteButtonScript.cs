@@ -41,7 +41,8 @@ public class ExecuteButtonScript : MonoBehaviour {
 		GameObject codefield = execute_button.transform.parent.gameObject;
 		if (codefield == null) return;
 
-		var inputfield = codefield.GetComponent<UnityEngine.UI.InputField>();
+		//var inputfield = codefield.GetComponent<UnityEngine.UI.InputField>();
+		var inputfield = codefield.GetComponent<TMPro.TMP_InputField>();
 		if (inputfield == null) return;
 
 		gameObject.GetComponent<InputScript>().exec(inputfield.text);
