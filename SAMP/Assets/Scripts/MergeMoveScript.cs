@@ -56,16 +56,6 @@ public class MergeMoveScript : MonoBehaviour {
 		}
 	}
 
-	private void increaseCounter()
-	{
-		Text score = GameObject.Find ("SwapCounter").GetComponent<Text> ();
-
-		if (score == null)
-			return;
-
-		score.GetComponent<SwapCounterScript> ().incCounter ();
-	}
-
 	private void changeColor(bool is_moving)
 	{
 		MoveHelperScript mhs = new MoveHelperScript();
@@ -82,7 +72,7 @@ public class MergeMoveScript : MonoBehaviour {
 		else
 			z = dest2.z + distance / 2;
 
-        Debug.Log("INIT Y: " +init_y);
+        //Debug.Log("INIT Y: " +init_y);
         rotationPoint = new Vector3(dest2.x,init_y,z);
 	}
 
@@ -102,14 +92,14 @@ public class MergeMoveScript : MonoBehaviour {
         for(int i = 0; i < queue.Count; i=i+2)
         {
 			int go1_id = 0, go2_id=0;
-            if (go1 != null)
-                old_positions [go1.GetComponent<SingleElementScript> ().getElementId ()] = null_position;
+			if (go1 != null)
+				old_positions[go1.GetComponent<SingleElementScript>().getElementId()] = null_position;
 
-            rotated = 0;
+			rotated = 0;
             go1 = queue[i];
             go2 = queue[i+1];
 
-            changeColor(true);
+			changeColor(true);
 
             // changed 0 to init_y
             if (go1.transform.position.y == init_y && go2.transform.position.y == init_y) 
@@ -122,13 +112,15 @@ public class MergeMoveScript : MonoBehaviour {
                     dest2 = go1.transform.position;
                 } else 
                 {
+					// set dest2 to old_positions entry
                     dest2 = old_positions [go1.GetComponent<SingleElementScript> ().getElementId ()];
-                    dest1 = go1.transform.position;
+
+					dest1 = go1.transform.position;
                     if (dest1 == dest2)
                         dest1.y += 10;
                 }
                 old_positions [go2.GetComponent<SingleElementScript> ().getElementId ()] = go2.transform.position;
-                Debug.Log ("SET OLD " + go2.GetComponent<SingleElementScript> ().getElementId ());
+                //Debug.Log ("SET OLD " + go2.GetComponent<SingleElementScript> ().getElementId ());
             }
 
             if (go2.transform.position.y > init_y && go1.transform.position.y == init_y) 
@@ -164,7 +156,9 @@ public class MergeMoveScript : MonoBehaviour {
                 Vector3 temp2 = rotationPoint;
                 temp2.y = temp2.y - y_offset;
 
-                Debug.Log ("Temp1: " + temp1 +" Temp2: " + temp2);
+                //Debug.Log ("Temp1: " + temp1 +" Temp2: " + temp2);
+				
+				// TODO: check start -> temp -> dest
 
                 //LeanTween.move(go2, new Vector3[] {go2.transform.position, temp2, temp2, dest2 }, 1.5f);
 				go2_id = LeanTween.move(go2, new Vector3[] { go2.transform.position, temp2, temp2, dest2 }, 1.5f).id;
@@ -173,9 +167,9 @@ public class MergeMoveScript : MonoBehaviour {
             //LeanTween.move(go1, dest1, 1.5f);
 			go1_id = LeanTween.move(go1, dest1, 1.5f).id;
 
-			Debug.Log ("From: " + go1.transform.position +" to: " + dest1);
-            Debug.Log ("From: " + go2.transform.position +" to: " + dest2);
-            Debug.Log ("Rotation Point: " + rotationPoint);
+			//Debug.Log ("From: " + go1.transform.position +" to: " + dest1);
+   //         Debug.Log ("From: " + go2.transform.position +" to: " + dest2);
+   //         Debug.Log ("Rotation Point: " + rotationPoint);
 
 			while (LeanTween.isTweening(go1_id) && LeanTween.isTweening(go2_id))
 				yield return null;
@@ -186,12 +180,13 @@ public class MergeMoveScript : MonoBehaviour {
 			//while (go1.transform.position != dest1 || go2.transform.position != dest2)
 			//	yield return null;
 
-			correctPositions();
+			//correctPositions();
 
             changeColor(false);
         }
 		stopSortingboxUsage();
-    }
+		Destroy(this);
+	}
 
     private float getOffsetY()
     {
