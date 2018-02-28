@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2017
+# Visual Studio 2015
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAMP.Plugins", "SAMP.Plugins.csproj", "{502C0DE9-CE9E-D77F-8EAD-52A2B2287E86}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAMP", "SAMP.csproj", "{4473713E-F49E-A76B-A4CE-2668C8FA6C8E}"
