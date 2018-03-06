@@ -14,6 +14,7 @@ public class MergeMoveScript : MonoBehaviour {
 	Color prevColor, prevColor2;
 	private Text score;
     private float init_y = 0.0f;
+	private float swapSpeed = 1.5f;
 
 	// Use this for initialization
 	void Start () {
@@ -100,6 +101,10 @@ public class MergeMoveScript : MonoBehaviour {
             go1 = queue[i];
             go2 = queue[i+1];
 
+			if (go1 == null || go2 == null)
+				yield return null;
+
+			updateSwapSpeed();
 			changeColor(true);
 
             // changed 0 to init_y
@@ -145,7 +150,7 @@ public class MergeMoveScript : MonoBehaviour {
 
             if ((go2.transform.position.y-0.1f) > init_y) 
             {
-				go2_id = LeanTween.move(go2, dest2, 1.5f).id;
+				go2_id = LeanTween.move(go2, dest2, swapSpeed).id;
 				//Debug.Log("GO2(" + go2.GetComponent<SingleElementScript>().getElementId() +"): FROM: " + go2.transform.position + " VIA: " + Vector3.zero + " TO: " + dest2);
 			} 
             else 
@@ -160,11 +165,11 @@ public class MergeMoveScript : MonoBehaviour {
 				//Debug.Log("Rotation Point: " + rotationPoint + " Offset Y: " + y_offset);
 				//Debug.Log("GO2(" + go2.GetComponent<SingleElementScript>().getElementId() +"): FROM: " + go2.transform.position + " VIA: " + temp2 + " TO: " + dest2);
 
-				go2_id = LeanTween.move(go2, new Vector3[] { go2.transform.position, temp2, temp2, dest2 }, 1.5f).id;
+				go2_id = LeanTween.move(go2, new Vector3[] { go2.transform.position, temp2, temp2, dest2 }, swapSpeed).id;
 			}
 			//Debug.Log("GO1(" + go1.GetComponent<SingleElementScript>().getElementId() +"): FROM: " + go1.transform.position + " TO: " + dest1);
 			//Debug.Log("-------------------------------------------------------");
-			go1_id = LeanTween.move(go1, dest1, 1.5f).id;
+			go1_id = LeanTween.move(go1, dest1, swapSpeed).id;
 
 			while (LeanTween.isTweening(go1_id) && LeanTween.isTweening(go2_id))
 				yield return null;
@@ -189,5 +194,16 @@ public class MergeMoveScript : MonoBehaviour {
 
 		MoveHelperScript mhs = new MoveHelperScript();
 		mhs.stopSortingboxUsage(queue[0]);
+	}
+
+	private void updateSwapSpeed()
+	{
+		GameObject go = GameObject.Find("SwapSpeedSlider");
+		if (go == null) return;
+
+		Slider s = go.GetComponent<Slider>();
+		if (s == null) return;
+
+		swapSpeed = s.value;
 	}
 }

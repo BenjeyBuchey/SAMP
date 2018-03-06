@@ -15,6 +15,7 @@ public class RadixMoveScript : MonoBehaviour {
 	private List<BucketElementObject> queue_new;
 	private List<Vector3> init_positions = new List<Vector3>();
 	private int init_counter = 0;
+	private float swapSpeed = 1.5f;
 
 	// Use this for initialization
 	void Start () {
@@ -45,10 +46,11 @@ public class RadixMoveScript : MonoBehaviour {
 			GameObject go = queue_new[i].go;
 			Vector3 dest = getDestination(queue_new[i].bucket, queue_new[i].position, go);
 
+			updateSwapSpeed();
 			changeColor(true);
 
 			//LeanTween.move(go, dest, 1.0f);
-			int go1_id = LeanTween.move(go, dest, 1.0f).id;
+			int go1_id = LeanTween.move(go, dest, swapSpeed).id;
 
 			while (LeanTween.isTweening(go1_id))
 				yield return null;
@@ -146,5 +148,16 @@ public class RadixMoveScript : MonoBehaviour {
 
 		MoveHelperScript mhs = new MoveHelperScript();
 		mhs.stopSortingboxUsage(queue_new[0].go);
+	}
+
+	private void updateSwapSpeed()
+	{
+		GameObject go = GameObject.Find("SwapSpeedSlider");
+		if (go == null) return;
+
+		Slider s = go.GetComponent<Slider>();
+		if (s == null) return;
+
+		swapSpeed = s.value;
 	}
 }

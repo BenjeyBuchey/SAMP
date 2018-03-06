@@ -14,15 +14,18 @@ public class MoveScript : MonoBehaviour {
     private float min_dist, max_dist; // minimum & maximum distance possible between two elements
     private float max_dist_diff; // difference between min_dist & max_dist
     private float y_min, y_max; // minimum & maximum y position values for swapping movement
+	private float swapSpeed = 1.5f;
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+	{
         //setValues();
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	
+	void Update ()
+	{
+
 	}
 
 	public void swap(List<GameObject> _queue)
@@ -44,7 +47,8 @@ public class MoveScript : MonoBehaviour {
             if (go1 == null || go2 == null)
                 yield return null;
 
-            changeColor(true);
+			updateSwapSpeed();
+			changeColor(true);
 
             dest1 = go2.transform.position;
             dest2 = go1.transform.position;
@@ -57,17 +61,14 @@ public class MoveScript : MonoBehaviour {
             Vector3 temp2 = rotationPoint;
             temp2.y = temp2.y - yOffset;
 
-            LeanTween.move(go1, new Vector3[] {dest2, temp1, temp1, dest1 }, 1.5f);
-            LeanTween.move(go2, new Vector3[] {dest1, temp2, temp2, dest2 }, 1.5f);
+            LeanTween.move(go1, new Vector3[] {dest2, temp1, temp1, dest1 }, swapSpeed);
+            LeanTween.move(go2, new Vector3[] {dest1, temp2, temp2, dest2 }, swapSpeed);
 			//int id = LeanTween.move(go1, new Vector3[] { dest2, temp1, temp1, dest1 }, 1.5f).id;
 			//while (LeanTween.isTweening(id))
 			//	yield return null;
 
-			while (Vector3.Distance(go1.transform.position,dest1) > 0.1f && Vector3.Distance(go2.transform.position, dest2) > 0.1f)
+			while (Vector3.Distance(go1.transform.position, dest1) > 0.1f && Vector3.Distance(go2.transform.position, dest2) > 0.1f)
 				yield return null;
-
-			//while (go1.transform.position != dest1 || go2.transform.position != dest2)
-   //             yield return null;
 
 			increaseSwapCounter();
 
@@ -159,5 +160,16 @@ public class MoveScript : MonoBehaviour {
 		if (sbs == null) return;
 
 		sbs.setInUse(false);
+	}
+
+	private void updateSwapSpeed()
+	{
+		GameObject go = GameObject.Find("SwapSpeedSlider");
+		if (go == null) return;
+
+		Slider s = go.GetComponent<Slider>();
+		if (s == null) return;
+
+		swapSpeed = s.value;
 	}
 }
