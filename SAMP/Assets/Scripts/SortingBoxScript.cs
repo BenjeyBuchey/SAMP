@@ -10,11 +10,15 @@ public class SortingBoxScript : MonoBehaviour {
 	private List<Vector3> init_element_positions = new List<Vector3>();
 	private bool inUse = false;
 	private uint swapsCounter = 0;
+	public GameObject elementIndexText;
+	private Vector3 indexPosition = Vector3.zero;
 
 	// Use this for initialization
 	void Start () {
-		setAlgorithmTextPosition();
-		setSwapsCounterPosition();
+		SetAlgorithmTextPosition();
+		SetSwapsCounterPosition();
+		SetIndexTextPosition();
+		SetIndexesTexts();
 	}
 	
 	// Update is called once per frame
@@ -108,7 +112,7 @@ public class SortingBoxScript : MonoBehaviour {
 		return max;
 	}
 
-	private void setAlgorithmTextPosition()
+	private void SetAlgorithmTextPosition()
 	{
 		// should be set on upper right corner of container
 		foreach (TextMesh tm in this.GetComponentsInChildren<TextMesh>())
@@ -124,19 +128,44 @@ public class SortingBoxScript : MonoBehaviour {
 			tm_position.y = tm_position.y + container.transform.localScale.y / 2;
 			tm.transform.position = tm_position;
 		}
-		//TextMesh tm = this.GetComponentInChildren<TextMesh>();
-		//if (tm == null) return;
-
-		//GameObject container = getContainer();
-		//if (container == null) return;
-
-		//Vector3 tm_position = container.transform.position;
-		//tm_position.z = tm_position.z + container.transform.localScale.z / 2;
-		//tm_position.y = tm_position.y + container.transform.localScale.y / 2;
-		//tm.transform.position = tm_position;
 	}
 
-	private void setSwapsCounterPosition()
+	private void SetIndexTextPosition()
+	{
+		// set on lower left corner of container
+		// set gameobject inactive till called
+		foreach (TextMesh tm in this.GetComponentsInChildren<TextMesh>())
+		{
+			if (tm == null || !tm.name.Equals("IndexText"))
+				continue;
+
+			GameObject container = getContainer();
+			if (container == null) return;
+
+			tm.text = "Index: ";
+			Vector3 tm_position = container.transform.position;
+			tm_position.z = tm_position.z - container.transform.localScale.z / 2;
+			tm_position.y = tm_position.y - container.transform.localScale.y / 2;
+			tm.transform.position = tm_position;
+			indexPosition = tm_position;
+		}
+	}
+
+	private void SetIndexesTexts()
+	{
+		// create text for every element
+		for(int i = 0; i < elementArray.Length; i++)
+		{
+			var elementIndex = Instantiate(elementIndexText, this.transform);
+
+			// set z coordinate to go
+			indexPosition.z = elementArray[i].transform.position.z;
+			elementIndex.transform.position = indexPosition;
+			elementIndex.GetComponent<TextMesh>().text = i.ToString();
+		}
+	}
+
+	private void SetSwapsCounterPosition()
 	{
 		// set on upper left corner of container
 		// set gameobject inactive till called
@@ -165,10 +194,6 @@ public class SortingBoxScript : MonoBehaviour {
 			if (tm.name.Equals("AlgorithmText"))
 				tm.text = text;
 		}
-		//TextMesh tm = this.GetComponentInChildren<TextMesh>();
-		//if (tm == null) return;
-
-		//tm.text = text;
 	}
 
 	public void incSwapsCounter()
