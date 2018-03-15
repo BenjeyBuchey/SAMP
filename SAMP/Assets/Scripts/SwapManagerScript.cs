@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class SwapManagerScript : MonoBehaviour {
 
-	public Button pause, resume;
+	public Button pauseResume;
+	public Sprite pauseSprite, resumeSprite;
 	private bool isPaused;
 	// Use this for initialization
 	void Start () {
@@ -17,14 +18,9 @@ public class SwapManagerScript : MonoBehaviour {
 		
 	}
 
-	public void OnPauseClick()
+	public void OnPauseResumeClick()
 	{
-		SetPaused(true);
-	}
-
-	public void OnResumeClick()
-	{
-		SetPaused(false);
+		SetPaused(!isPaused);
 	}
 
 	private void SetPaused(bool isPaused_)
@@ -33,14 +29,12 @@ public class SwapManagerScript : MonoBehaviour {
 		if (isPaused)
 		{
 			LeanTween.pauseAll();
-			pause.interactable = false;
-			resume.interactable = true;
+			pauseResume.image.sprite = resumeSprite;
 		}
 		else
 		{
 			LeanTween.resumeAll();
-			pause.interactable = true;
-			resume.interactable = false;
+			pauseResume.image.sprite = pauseSprite;
 		}
 	}
 }
