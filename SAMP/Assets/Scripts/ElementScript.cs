@@ -125,12 +125,14 @@ public class ElementScript : MonoBehaviour {
         if (elements.Length % 2 == 0)
             position_z -= container_z_offset / 2.0f;
         float[] scale_array = fillScaleArray (elements.Length);
-        int i = 0;
+		List<int> randomNumbers = GetRandomNumbers(elements.Length);
+		int i = 0;
         foreach (GameObject go in elements)
         {
-            //set text & id
-            go.GetComponentInChildren<TextMesh>().text = (i).ToString ();
-            go.GetComponent<SingleElementScript> ().setElementId (i);
+			//set text & id
+			go.GetComponentInChildren<TextMesh>().text = randomNumbers[i].ToString();
+			//go.GetComponentInChildren<TextMesh>().text = (i).ToString ();
+			go.GetComponent<SingleElementScript> ().setElementId (i);
 
 
             //adjust rigidbody
@@ -493,5 +495,16 @@ public class ElementScript : MonoBehaviour {
 
 		MoveHelperScript mhs = new MoveHelperScript();
 		mhs.stopSortingboxUsage(array[0]);
+	}
+
+	// generates a sorted list with random numbers
+	private List<int> GetRandomNumbers(int length)
+	{
+		List<int> randomNumbers = new List<int>();
+		for (int i = 0; i < length; i++)
+			randomNumbers.Add(Random.Range(1,99));
+
+		randomNumbers.Sort();
+		return randomNumbers;
 	}
 }

@@ -94,7 +94,7 @@ public class SortingBoxScript : MonoBehaviour {
         return this.GetComponentInChildren<ElementContainerScript>().gameObject;
     }
 
-	public float getMaxObjectWidth()
+	public float GetMaxObjectWidth()
 	{
 		float max = 0.0f;
 		foreach(GameObject go in elementArray)
@@ -143,8 +143,9 @@ public class SortingBoxScript : MonoBehaviour {
 			if (container == null) return;
 
 			tm.text = "Index: ";
+			float zOffset = 7.5f;
 			Vector3 tm_position = container.transform.position;
-			tm_position.z = tm_position.z - container.transform.localScale.z / 2;
+			tm_position.z = tm_position.z - container.transform.localScale.z / 2 + zOffset;
 			tm_position.y = tm_position.y - container.transform.localScale.y / 2;
 			tm.transform.position = tm_position;
 			indexPosition = tm_position;

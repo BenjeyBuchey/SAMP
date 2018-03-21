@@ -139,7 +139,7 @@ public class RadixMoveScript : MonoBehaviour {
 		SortingBoxScript sbs = go.GetComponentInParent<SortingBoxScript>();
 		if (sbs == null) return width;
 
-		return sbs.getMaxObjectWidth();
+		return sbs.GetMaxObjectWidth();
 	}
 
 	private void stopSortingboxUsage()
