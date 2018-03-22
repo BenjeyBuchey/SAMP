@@ -144,9 +144,11 @@ public class SortingBoxScript : MonoBehaviour {
 
 			tm.text = "Index: ";
 			float zOffset = 7.5f;
+			float yOffset = tm.transform.localScale.z / 2;
 			Vector3 tm_position = container.transform.position;
 			tm_position.z = tm_position.z - container.transform.localScale.z / 2 + zOffset;
-			tm_position.y = tm_position.y - container.transform.localScale.y / 2;
+			tm_position.y = tm_position.y - container.transform.localScale.y / 2 + yOffset;
+			tm_position.x = 0.0f;
 			tm.transform.position = tm_position;
 			indexPosition = tm_position;
 		}

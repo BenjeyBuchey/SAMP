@@ -362,7 +362,6 @@ public class ElementScript : MonoBehaviour {
 							parent.GetComponent<SortingBoxScript>().setInUse(true);
 
 						elementArrays.Add(parent.GetComponent<SortingBoxScript>().getElementArray());
-						//Debug.Log("Added element array");
 					}
                 }
             }
