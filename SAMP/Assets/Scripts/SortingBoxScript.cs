@@ -142,7 +142,8 @@ public class SortingBoxScript : MonoBehaviour {
 			GameObject container = getContainer();
 			if (container == null) return;
 
-			tm.text = "Index: ";
+			//tm.text = "Index: ";
+			tm.text = string.Empty;
 			float zOffset = 7.5f;
 			float yOffset = tm.transform.localScale.z / 2;
 			Vector3 tm_position = container.transform.position;
