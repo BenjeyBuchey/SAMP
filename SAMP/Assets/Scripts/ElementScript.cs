@@ -135,18 +135,30 @@ public class ElementScript : MonoBehaviour {
 			go.GetComponent<SingleElementScript> ().setElementId (i);
 
 
-            //adjust rigidbody
+			//adjust rigidbody
+			int scaleArrayIndex = GetCorrectScaleIndex(elements, i);
             Rigidbody rb = go.GetComponentInChildren<Rigidbody>();
-            rb.transform.localScale = new Vector3(scale_array[i],scale_array[i],scale_array[i]);
-            setColor (go,scale_array[i]);
+            rb.transform.localScale = new Vector3(scale_array[scaleArrayIndex],scale_array[scaleArrayIndex],scale_array[scaleArrayIndex]);
+            setColor (go,scale_array[scaleArrayIndex]);
             go.transform.position = new Vector3(rb.position.x,rb.position.y,position_z);
 
-            Debug.Log("POSI Z: " + position_z);
             position_z += 5.0f;
             i++;
         }
         shuffleGameObjects ();
     }
+
+	private int GetCorrectScaleIndex(GameObject[] elements, int i)
+	{
+		//checks is previous go has the same number
+		//--> go should have the same size
+		if (i < 1) return i;
+
+		if (elements[i].GetComponentInChildren<TextMesh>().text == elements[i - 1].GetComponentInChildren<TextMesh>().text)
+			return i - 1;
+
+		return i;
+	}
 
 	private void setColor(GameObject go, float scale)
 	{
