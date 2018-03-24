@@ -242,6 +242,8 @@ public class ElementScript : MonoBehaviour {
 
 	public void quickSort()
 	{
+		if (HelperScript.IsPaused()) return;
+
 		List<GameObject[]> elementArrays = getElementArrays(true);
 		if (elementArrays != null && elementArrays.Count > 0)
 			deleteBuckets(elementArrays);
@@ -265,6 +267,8 @@ public class ElementScript : MonoBehaviour {
 
 	public void heapSort()
 	{
+		if (HelperScript.IsPaused()) return;
+
 		List<GameObject[]> elementArrays = getElementArrays(true);
 		if (elementArrays != null && elementArrays.Count > 0)
 			deleteBuckets(elementArrays);
@@ -288,6 +292,8 @@ public class ElementScript : MonoBehaviour {
 
 	public void mergeSort()
 	{
+		if (HelperScript.IsPaused()) return;
+
 		List<GameObject[]> elementArrays = getElementArrays(true);
 		if (elementArrays != null && elementArrays.Count > 0)
 			deleteBuckets(elementArrays);
@@ -311,6 +317,8 @@ public class ElementScript : MonoBehaviour {
 
 	public void gnomeSort()
 	{
+		if (HelperScript.IsPaused()) return;
+
 		List<GameObject[]> elementArrays = getElementArrays(true);
 		if (elementArrays != null && elementArrays.Count > 0)
 			deleteBuckets(elementArrays);
@@ -334,6 +342,8 @@ public class ElementScript : MonoBehaviour {
 
 	public void radixSort()
 	{
+		if (HelperScript.IsPaused()) return;
+
 		List<GameObject[]> elementArrays = getElementArrays(true);
 		if(elementArrays != null && elementArrays.Count > 0)
 			createBuckets(elementArrays);
@@ -383,6 +393,8 @@ public class ElementScript : MonoBehaviour {
 
 	public void clearSortingboxes()
 	{
+		if (HelperScript.IsPaused()) return;
+
 		GameObject[] boxes = GameObject.FindGameObjectsWithTag("SortingBoxes");
 		if (boxes == null || boxes.Length == 0) return;
 

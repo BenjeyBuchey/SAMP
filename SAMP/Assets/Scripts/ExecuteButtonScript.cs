@@ -36,6 +36,8 @@ public class ExecuteButtonScript : MonoBehaviour {
 
 	public void exec()
 	{
+		if (HelperScript.IsPaused()) return;
+		
 		//get command string from codefield
 		//execute inputscript function
 		GameObject codefield = execute_button.transform.parent.gameObject;

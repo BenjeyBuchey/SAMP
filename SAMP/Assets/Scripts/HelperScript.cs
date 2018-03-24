@@ -51,4 +51,13 @@ public static class HelperScript
 		}
 		return width * mesh.characterSize * 0.1f * mesh.transform.lossyScale.x;
 	}
+
+	// checks if program is paused
+	public static bool IsPaused()
+	{
+		SwapManagerScript sms = GameObject.Find("SwapManager").GetComponent<SwapManagerScript>();
+		if (sms == null) return false;
+
+		return sms.isPaused;
+	}
 }

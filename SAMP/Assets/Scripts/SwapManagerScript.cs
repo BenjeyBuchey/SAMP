@@ -7,7 +7,7 @@ public class SwapManagerScript : MonoBehaviour {
 
 	public Button pauseResume;
 	public Sprite pauseSprite, resumeSprite;
-	private bool isPaused;
+	public bool isPaused;
 	// Use this for initialization
 	void Start () {
 		SetPaused(false);
