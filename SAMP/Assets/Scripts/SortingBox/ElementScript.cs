@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System.Linq;
 
 public class ElementScript : MonoBehaviour {
 
@@ -124,8 +125,11 @@ public class ElementScript : MonoBehaviour {
         float position_z = -(elements.Length-1) * container_z_offset/2;
         if (elements.Length % 2 == 0)
             position_z -= container_z_offset / 2.0f;
-        float[] scale_array = fillScaleArray (elements.Length);
+        
 		List<int> randomNumbers = GetRandomNumbers(elements.Length);
+		int uniqueNumbers = randomNumbers.Distinct().Count();
+		float[] scale_array = fillScaleArray(uniqueNumbers);
+		Dictionary<int, float> scalePerElement = GenerateScalePerElement(scale_array, randomNumbers);
 		int i = 0;
         foreach (GameObject go in elements)
         {
@@ -134,13 +138,16 @@ public class ElementScript : MonoBehaviour {
 			//go.GetComponentInChildren<TextMesh>().text = (i).ToString ();
 			go.GetComponent<SingleElementScript> ().setElementId (i);
 
-
 			//adjust rigidbody
-			int scaleArrayIndex = GetCorrectScaleIndex(elements, i);
-            Rigidbody rb = go.GetComponentInChildren<Rigidbody>();
-            rb.transform.localScale = new Vector3(scale_array[scaleArrayIndex],scale_array[scaleArrayIndex],scale_array[scaleArrayIndex]);
-            setColor (go,scale_array[scaleArrayIndex]);
-            go.transform.position = new Vector3(rb.position.x,rb.position.y,position_z);
+			//int scaleArrayIndex = GetCorrectScaleIndex(elements, i);
+			//         Rigidbody rb = go.GetComponentInChildren<Rigidbody>();
+			//rb.transform.localScale = new Vector3(scale_array[scaleArrayIndex], scale_array[scaleArrayIndex], scale_array[scaleArrayIndex]);
+			//setColor (go,scale_array[scaleArrayIndex]);
+
+			float scale = scalePerElement[randomNumbers[i]];
+			SetElementScale(go, randomNumbers[i], scale, position_z);
+            setColor (go, scale);
+            //go.transform.position = new Vector3(rb.position.x,rb.position.y,position_z);
 
             position_z += 5.0f;
             i++;
@@ -148,9 +155,33 @@ public class ElementScript : MonoBehaviour {
         shuffleGameObjects ();
     }
 
+	private void SetElementScale(GameObject go, int number, float scale, float position_z)
+	{
+		Rigidbody rb = go.GetComponentInChildren<Rigidbody>();
+		rb.transform.localScale = new Vector3(scale, scale, scale);
+
+		go.transform.position = new Vector3(rb.position.x, rb.position.y, position_z);
+	}
+
+	private Dictionary<int,float> GenerateScalePerElement(float[] scale_array, List<int> randomNumbers)
+	{
+		Dictionary<int, float> scalePerElement = new Dictionary<int, float>();
+		int i = 0;
+		foreach(int randomNumber in randomNumbers)
+		{
+			if (scalePerElement.ContainsKey(randomNumber))
+				continue;
+
+			scalePerElement.Add(randomNumber, scale_array[i]);
+			i++;
+		}
+
+		return scalePerElement;
+	}
+
 	private int GetCorrectScaleIndex(GameObject[] elements, int i)
 	{
-		//checks is previous go has the same number
+		//checks if previous go has the same number
 		//--> go should have the same size
 		if (i < 1) return i;
 
@@ -527,7 +558,20 @@ public class ElementScript : MonoBehaviour {
 		for (int i = 0; i < length; i++)
 			randomNumbers.Add(Random.Range(1,99));
 
+		//SetDebugNumbers(randomNumbers);
 		randomNumbers.Sort();
 		return randomNumbers;
+	}
+
+	private void SetDebugNumbers(List<int> randomNumbers)
+	{
+		// debug
+		randomNumbers[0] = 5;
+		randomNumbers[1] = 5;
+		randomNumbers[2] = 5;
+		randomNumbers[3] = 66;
+		randomNumbers[4] = 66;
+		randomNumbers[5] = 66;
+		randomNumbers[6] = 66;
 	}
 }
