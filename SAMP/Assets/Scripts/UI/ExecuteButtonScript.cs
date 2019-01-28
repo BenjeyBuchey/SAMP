@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ExecuteButtonScript : MonoBehaviour {
 
 	public GameObject execute_button;
+	public TMP_InputField inputField;
 	// Use this for initialization
 	void Start () {
-		setPosition();
+		//setPosition();
 	}
 	
 	// Update is called once per frame
@@ -40,13 +42,13 @@ public class ExecuteButtonScript : MonoBehaviour {
 		
 		//get command string from codefield
 		//execute inputscript function
-		GameObject codefield = execute_button.transform.parent.gameObject;
-		if (codefield == null) return;
+		//GameObject codefield = execute_button.transform.parent.gameObject;
+		//if (codefield == null) return;
 
 		//var inputfield = codefield.GetComponent<UnityEngine.UI.InputField>();
-		var inputfield = codefield.GetComponent<TMPro.TMP_InputField>();
-		if (inputfield == null) return;
+		//var inputfield = codefield.GetComponent<TMP_InputField>();
+		if (inputField == null) return;
 
-		gameObject.GetComponent<InputScript>().exec(inputfield.text);
+		gameObject.GetComponent<InputScript>().exec(inputField.text);
 	}
 }

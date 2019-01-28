@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class QuestionMarkScript : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler
 {
-	GameObject panel;
+	public GameObject panel;
 
 	private void Start()
 	{
@@ -32,7 +32,7 @@ public class QuestionMarkScript : MonoBehaviour, IPointerClickHandler, IPointerD
 
 	private void setPanel()
 	{
-		panel = this.transform.FindChild("PopupWindowPanel").gameObject;
+		//panel = this.transform.Find("PopupWindowPanel").gameObject;
 		panel.SetActive(false);
 	}
 }
