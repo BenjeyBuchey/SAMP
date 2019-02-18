@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class Algorithms {
 
+	public static string QUICKSORT = "QuickSort", RADIXSORT = "RadixSort", GNOMESORT = "GnomeSort", MERGESORT = "MergeSort", HEAPSORT = "HeapSort";
 	private readonly string name;
 
 	protected Algorithms(string name)

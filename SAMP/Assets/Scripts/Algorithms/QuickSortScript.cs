@@ -7,7 +7,7 @@ public class QuickSortScript : Algorithms {
 	private GameObject[] elementArray;
     private List<GameObject> swappingQueue = new List<GameObject> ();
 
-	public QuickSortScript() : base ("QuickSort")
+	public QuickSortScript() : base (Algorithms.QUICKSORT)
 	{
 
 	}

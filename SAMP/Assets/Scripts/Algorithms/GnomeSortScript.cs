@@ -7,7 +7,7 @@ public class GnomeSortScript : Algorithms {
 	private GameObject[] elementArray;
     private List<GameObject> swappingQueue = new List<GameObject> ();
 
-	public GnomeSortScript() : base ("GnomeSort")
+	public GnomeSortScript() : base (Algorithms.GNOMESORT)
 	{
 
 	}

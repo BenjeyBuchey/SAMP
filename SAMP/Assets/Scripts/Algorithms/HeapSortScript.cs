@@ -7,7 +7,7 @@ public class HeapSortScript : Algorithms {
 	private GameObject[] elementArray;
     private List<GameObject> swappingQueue = new List<GameObject> ();
 
-	public HeapSortScript() : base ("HeapSort")
+	public HeapSortScript() : base (Algorithms.HEAPSORT)
 	{ }
 
 	public List<GameObject> startSort(GameObject[] array)

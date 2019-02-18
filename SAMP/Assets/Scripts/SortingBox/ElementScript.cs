@@ -271,6 +271,24 @@ public class ElementScript : MonoBehaviour {
 		}
 	}
 
+	// all sortingboxes with a set algorithm get started
+	public void StartSort()
+	{
+		if (HelperScript.IsPaused()) return;
+
+
+		GameObject[] boxes = GameObject.FindGameObjectsWithTag("SortingBoxes");
+		foreach(GameObject box in boxes)
+		{
+			if (box == null) continue;
+
+			SortingBoxScript sbs = box.GetComponent<SortingBoxScript>();
+			if (sbs == null || string.IsNullOrEmpty(sbs.GetAlgorithmText())) continue;
+
+
+		}
+	}
+
 	public void quickSort()
 	{
 		if (HelperScript.IsPaused()) return;

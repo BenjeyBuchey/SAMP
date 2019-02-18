@@ -20,7 +20,7 @@ public class RadixSortScript : Algorithms {
 	
 	}
 
-	public RadixSortScript() : base ("RadixSort")
+	public RadixSortScript() : base (Algorithms.RADIXSORT)
 	{
 		
 	}

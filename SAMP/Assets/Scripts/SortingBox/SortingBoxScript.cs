@@ -200,6 +200,17 @@ public class SortingBoxScript : MonoBehaviour {
 		}
 	}
 
+	public string GetAlgorithmText()
+	{
+		foreach (TextMesh tm in this.GetComponentsInChildren<TextMesh>())
+		{
+			if (tm.name.Equals("AlgorithmText"))
+				return tm.text;
+		}
+
+		return string.Empty;
+	}
+
 	public void incSwapsCounter()
 	{
 		swapsCounter++;
