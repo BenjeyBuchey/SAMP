@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Algorithms {
 
-	public static string QUICKSORT = "QuickSort", RADIXSORT = "RadixSort", GNOMESORT = "GnomeSort", MERGESORT = "MergeSort", HEAPSORT = "HeapSort";
+	public const string QUICKSORT = "QuickSort", RADIXSORT = "RadixSort", GNOMESORT = "GnomeSort", MERGESORT = "MergeSort", HEAPSORT = "HeapSort";
 	private readonly string name;
 
 	protected Algorithms(string name)
@@ -12,7 +12,6 @@ public abstract class Algorithms {
 		this.name = name;
 	}
 
-	//public string getName {  get { return name;  } }
 	public string getName()
 	{
 		return name;

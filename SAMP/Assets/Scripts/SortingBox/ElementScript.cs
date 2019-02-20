@@ -276,143 +276,184 @@ public class ElementScript : MonoBehaviour {
 	{
 		if (HelperScript.IsPaused()) return;
 
-
 		GameObject[] boxes = GameObject.FindGameObjectsWithTag("SortingBoxes");
 		foreach(GameObject box in boxes)
 		{
 			if (box == null) continue;
 
+			// ignore when sbs null or no algorithm text is set or already in use
 			SortingBoxScript sbs = box.GetComponent<SortingBoxScript>();
-			if (sbs == null || string.IsNullOrEmpty(sbs.GetAlgorithmText())) continue;
+			if (sbs == null || string.IsNullOrEmpty(sbs.GetAlgorithmText()) || sbs.isInUse()) continue;
 
+			BucketScript bs = box.GetComponent<BucketScript>();
+			if (bs == null) continue;
 
+			sbs.setInUse(true);
+			bs.deleteBuckets();
+
+			switch(sbs.GetAlgorithmText())
+			{
+				case Algorithms.QUICKSORT:
+					StartSortQuickSort(sbs);
+					break;
+
+				case Algorithms.HEAPSORT:
+					StartSortHeapSort(sbs);
+					break;
+
+				case Algorithms.MERGESORT:
+					StartSortMergeSort(sbs);
+					break;
+
+				case Algorithms.GNOMESORT:
+					StartSortGnomeSort(sbs);
+					break;
+
+				case Algorithms.RADIXSORT:
+					StartSortRadixSort(sbs,bs);
+					break;
+			}
 		}
 	}
 
-	public void quickSort()
+	private void StartSortQuickSort(SortingBoxScript sbs)
+	{
+		if (sbs == null) return;
+
+		setTrailRenderer(sbs.getElementArray(), true);
+		sbs.ActivateSwapsCounter();
+
+		QuickSortScript ss = new QuickSortScript();
+		List<GameObject> swappingQueue = ss.startSort(sbs.getElementArray(), 0, sbs.getElementArray().Length);
+
+		if (swappingQueue != null && swappingQueue.Count >= 1)
+		{
+			MoveScript m = gameObject.AddComponent<MoveScript>();
+			m.swap(swappingQueue);
+		}
+		else
+			sbs.setInUse(false);
+	}
+
+	private void StartSortHeapSort(SortingBoxScript sbs)
+	{
+		if (sbs == null) return;
+
+		setTrailRenderer(sbs.getElementArray(), true);
+		sbs.ActivateSwapsCounter();
+
+		HeapSortScript ss = new HeapSortScript();
+		List<GameObject> swappingQueue = ss.startSort(sbs.getElementArray());
+
+		if (swappingQueue != null && swappingQueue.Count >= 1)
+		{
+			MoveScript m = gameObject.AddComponent<MoveScript>();
+			m.swap(swappingQueue);
+		}
+		else
+			sbs.setInUse(false);
+	}
+
+	private void StartSortMergeSort(SortingBoxScript sbs)
+	{
+		if (sbs == null) return;
+
+		setTrailRenderer(sbs.getElementArray(), true);
+
+		MergeSortScript ss = new MergeSortScript();
+		List<GameObject> swappingQueue = ss.startSort(sbs.getElementArray());
+
+		if (swappingQueue != null && swappingQueue.Count >= 1)
+		{
+			MergeMoveScript m = gameObject.AddComponent<MergeMoveScript>();
+			m.swap(swappingQueue);
+		}
+		else
+			sbs.setInUse(false);
+	}
+
+	private void StartSortGnomeSort(SortingBoxScript sbs)
+	{
+		if (sbs == null) return;
+
+		setTrailRenderer(sbs.getElementArray(), true);
+		sbs.ActivateSwapsCounter();
+
+		GnomeSortScript ss = new GnomeSortScript();
+		List<GameObject> swappingQueue = ss.startSort(sbs.getElementArray());
+
+		if (swappingQueue != null && swappingQueue.Count >= 1)
+		{
+			MoveScript m = gameObject.AddComponent<MoveScript>();
+			m.swap(swappingQueue);
+		}
+		else
+			sbs.setInUse(false);
+	}
+
+	private void StartSortRadixSort(SortingBoxScript sbs, BucketScript bs)
+	{
+		if (sbs == null || bs == null) return;
+
+		setTrailRenderer(sbs.getElementArray(), false);
+		bs.createBuckets();
+
+		RadixSortScript ss = new RadixSortScript();
+		List<BucketElementObject> bucket_element_objects = ss.startSort(sbs.getElementArray());
+
+		if (bucket_element_objects != null && bucket_element_objects.Count >= 1)
+		{
+			RadixMoveScript m = gameObject.AddComponent<RadixMoveScript>();
+			m.swap_new(bucket_element_objects);
+		}
+		else
+			sbs.setInUse(false);
+	}
+
+	private void ApplyAlgorithmText(string text)
 	{
 		if (HelperScript.IsPaused()) return;
 
-		List<GameObject[]> elementArrays = getElementArrays(true);
-		if (elementArrays != null && elementArrays.Count > 0)
-			deleteBuckets(elementArrays);
+		GameObject[] boxes = GameObject.FindGameObjectsWithTag("SortingBoxes");
+		foreach (GameObject box in boxes)
+		{
+			if (box == null) continue;
 
-		foreach (GameObject[] array in elementArrays)
-        {
-			setTrailRenderer(array, true);
-			QuickSortScript ss = new QuickSortScript();
-			setAlgorithmText(ss.getName(), elementArrays, true);
-			List<GameObject> swappingQueue = ss.startSort(array, 0, array.Length);
+			SortingBoxScript sbs = box.GetComponent<SortingBoxScript>();
+			if (sbs == null || sbs.isInUse()) continue;
 
-			if (swappingQueue != null && swappingQueue.Count >= 1)
-			{
-				MoveScript m = gameObject.AddComponent<MoveScript>();
-				m.swap(swappingQueue);
-			}
-			else
-				stopSortingboxUsage(array);
+			GameObject container = sbs.getContainer();
+			if (container == null) continue;
+
+			if (container.GetComponent<ElementContainerScript>().getHighlighted())
+				sbs.setAlgorithmText(text);
 		}
+	}
+
+	// only assigns sorting algo to sortingbox
+	public void quickSort()
+	{
+		ApplyAlgorithmText(Algorithms.QUICKSORT);
 	}
 
 	public void heapSort()
 	{
-		if (HelperScript.IsPaused()) return;
-
-		List<GameObject[]> elementArrays = getElementArrays(true);
-		if (elementArrays != null && elementArrays.Count > 0)
-			deleteBuckets(elementArrays);
-
-		foreach (GameObject[] array in elementArrays)
-        {
-			setTrailRenderer(array, true);
-			HeapSortScript ss = new HeapSortScript();
-			setAlgorithmText(ss.getName(), elementArrays, true);
-			List<GameObject> swappingQueue = ss.startSort(array);
-
-			if (swappingQueue != null && swappingQueue.Count >= 1)
-			{
-				MoveScript m = gameObject.AddComponent<MoveScript>();
-				m.swap(swappingQueue);
-			}
-			else
-				stopSortingboxUsage(array);
-		}
+		ApplyAlgorithmText(Algorithms.HEAPSORT);
 	}
 
 	public void mergeSort()
 	{
-		if (HelperScript.IsPaused()) return;
-
-		List<GameObject[]> elementArrays = getElementArrays(true);
-		if (elementArrays != null && elementArrays.Count > 0)
-			deleteBuckets(elementArrays);
-
-		foreach (GameObject[] array in elementArrays)
-        {
-			setTrailRenderer(array, true);
-			MergeSortScript ss = new MergeSortScript();
-			setAlgorithmText(ss.getName(), elementArrays, false);
-			List<GameObject> swappingQueue = ss.startSort(array);
-
-			if (swappingQueue != null && swappingQueue.Count >= 1)
-			{
-				MergeMoveScript m = gameObject.AddComponent<MergeMoveScript>();
-				m.swap(swappingQueue);
-			}
-			else
-				stopSortingboxUsage(array);
-		}
+		ApplyAlgorithmText(Algorithms.MERGESORT);
 	}
 
 	public void gnomeSort()
 	{
-		if (HelperScript.IsPaused()) return;
-
-		List<GameObject[]> elementArrays = getElementArrays(true);
-		if (elementArrays != null && elementArrays.Count > 0)
-			deleteBuckets(elementArrays);
-
-		foreach (GameObject[] array in elementArrays)
-        {
-			setTrailRenderer(array, true);
-			GnomeSortScript ss = new GnomeSortScript();
-			setAlgorithmText(ss.getName(), elementArrays, true);
-			List<GameObject> swappingQueue = ss.startSort(array);
-
-			if (swappingQueue != null && swappingQueue.Count >= 1)
-			{
-				MoveScript m = gameObject.AddComponent<MoveScript>();
-				m.swap(swappingQueue);
-			}
-			else
-				stopSortingboxUsage(array);
-		}
+		ApplyAlgorithmText(Algorithms.GNOMESORT);
 	}
 
 	public void radixSort()
 	{
-		if (HelperScript.IsPaused()) return;
-
-		List<GameObject[]> elementArrays = getElementArrays(true);
-		if(elementArrays != null && elementArrays.Count > 0)
-			createBuckets(elementArrays);
-
-		foreach (GameObject[] array in elementArrays)
-		{
-		    setTrailRenderer(array, false);
-			RadixSortScript ss = new RadixSortScript();
-			setAlgorithmText(ss.getName(), elementArrays, false);
-
-			List<BucketElementObject> bucket_element_objects = ss.startSort(array);
-			if (bucket_element_objects != null && bucket_element_objects.Count >= 1)
-			{
-				RadixMoveScript m = gameObject.AddComponent<RadixMoveScript>();
-				m.swap_new(bucket_element_objects);
-			}
-			else
-				stopSortingboxUsage(array);
-		}
-        //deleteBuckets();
+		ApplyAlgorithmText(Algorithms.RADIXSORT);
 	}
 
     public List<GameObject[]> getElementArrays(bool getsSetToInUse)
