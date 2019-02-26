@@ -11,6 +11,7 @@ public class ElementScript : MonoBehaviour {
 	public GameObject sortingbox;
     private int y_offset = 5;
     private int container_z_offset = 5, outer_z_offset = 15;
+	private Dictionary<int, List<int>> randomNumberArrays = new Dictionary<int, List<int>>();
 
 	// Use this for initialization
 	void Start () {
@@ -125,8 +126,22 @@ public class ElementScript : MonoBehaviour {
         float position_z = -(elements.Length-1) * container_z_offset/2;
         if (elements.Length % 2 == 0)
             position_z -= container_z_offset / 2.0f;
-        
-		List<int> randomNumbers = GetRandomNumbers(elements.Length);
+
+
+		// reshuffle if everything got cleared (1 gets spawned before here)
+		GameObject[] boxes = GameObject.FindGameObjectsWithTag("SortingBoxes");
+		if (boxes == null || boxes.Length == 1)
+			randomNumberArrays.Clear();
+
+		// replace with global array / dictionary with elementsize. if it doesn't exist yet create, else take same numbers.
+		List<int> randomNumbers = new List<int>();
+		if(!randomNumberArrays.TryGetValue(elements.Length, out randomNumbers))
+		{
+			randomNumbers = GetRandomNumbers(elements.Length);
+			randomNumberArrays.Add(elements.Length, randomNumbers);
+		}
+
+		//List<int> randomNumbers = GetRandomNumbers(elements.Length);
 		int uniqueNumbers = randomNumbers.Distinct().Count();
 		float[] scale_array = fillScaleArray(uniqueNumbers);
 		Dictionary<int, float> scalePerElement = GenerateScalePerElement(scale_array, randomNumbers);
@@ -135,24 +150,17 @@ public class ElementScript : MonoBehaviour {
         {
 			//set text & id
 			go.GetComponentInChildren<TextMesh>().text = randomNumbers[i].ToString();
-			//go.GetComponentInChildren<TextMesh>().text = (i).ToString ();
 			go.GetComponent<SingleElementScript> ().setElementId (i);
 
 			//adjust rigidbody
-			//int scaleArrayIndex = GetCorrectScaleIndex(elements, i);
-			//         Rigidbody rb = go.GetComponentInChildren<Rigidbody>();
-			//rb.transform.localScale = new Vector3(scale_array[scaleArrayIndex], scale_array[scaleArrayIndex], scale_array[scaleArrayIndex]);
-			//setColor (go,scale_array[scaleArrayIndex]);
-
 			float scale = scalePerElement[randomNumbers[i]];
 			SetElementScale(go, randomNumbers[i], scale, position_z);
             setColor (go, scale);
-            //go.transform.position = new Vector3(rb.position.x,rb.position.y,position_z);
 
             position_z += 5.0f;
             i++;
         }
-        shuffleGameObjects ();
+        //shuffleGameObjects ();
     }
 
 	private void SetElementScale(GameObject go, int number, float scale, float position_z)
@@ -166,8 +174,11 @@ public class ElementScript : MonoBehaviour {
 	private Dictionary<int,float> GenerateScalePerElement(float[] scale_array, List<int> randomNumbers)
 	{
 		Dictionary<int, float> scalePerElement = new Dictionary<int, float>();
+		List<int> randomNumbersSorted = new List<int>(randomNumbers.ToArray());
+		randomNumbersSorted.Sort();
+
 		int i = 0;
-		foreach(int randomNumber in randomNumbers)
+		foreach(int randomNumber in randomNumbersSorted)
 		{
 			if (scalePerElement.ContainsKey(randomNumber))
 				continue;
@@ -618,7 +629,7 @@ public class ElementScript : MonoBehaviour {
 			randomNumbers.Add(Random.Range(1,99));
 
 		//SetDebugNumbers(randomNumbers);
-		randomNumbers.Sort();
+		//randomNumbers.Sort();
 		return randomNumbers;
 	}
 
