@@ -49,14 +49,10 @@ public class RadixMoveScript : MonoBehaviour {
 			updateSwapSpeed();
 			changeColor(true);
 
-			//LeanTween.move(go, dest, 1.0f);
 			int go1_id = LeanTween.move(go, dest, swapSpeed).id;
 
 			while (LeanTween.isTweening(go1_id))
 				yield return null;
-
-			//while (Vector3.Distance(go.transform.position, dest) > 0.1f)
-			//	yield return null;
 
 			changeColor(false);
 		}
@@ -159,5 +155,13 @@ public class RadixMoveScript : MonoBehaviour {
 		if (s == null) return;
 
 		swapSpeed = s.value;
+	}
+
+	private void PrintInfo(GameObject go, Vector3 dest)
+	{
+		string elementValue = go.GetComponentInChildren<TextMesh>().text;
+		Vector3 elementLocation = go.transform.position;
+		Debug.Log("ELEMENT: " + elementValue + " - Location: " + elementLocation);
+		Debug.Log("Destination: " + dest);
 	}
 }

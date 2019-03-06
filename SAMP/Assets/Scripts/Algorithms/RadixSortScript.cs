@@ -51,7 +51,8 @@ public class RadixSortScript : Algorithms {
 
 			foreach (GameObject go in elementArray)
 			{
-				int value = go.GetComponent<SingleElementScript> ().getElementId ();
+				//int value = go.GetComponent<SingleElementScript> ().getElementId ();
+				int value = GetElementValue(go);
 				int bucketNumber = GetBucketNumber(value, digitPosition);
 				if (bucketNumber > 0)
 				{
@@ -82,7 +83,9 @@ public class RadixSortScript : Algorithms {
 				bucket_number++;
 			}
 
-			setToInitialPositions ();
+			if(!isFinished)
+				setToInitialPositions ();
+
 			digitPosition++;
 		}
 	}
@@ -116,5 +119,14 @@ public class RadixSortScript : Algorithms {
 		{
 			bucket_positions.Add (elementArray [i].transform.position);
 		}
+	}
+
+	private int GetElementValue(GameObject go)
+	{
+		string text = go.GetComponentInChildren<TextMesh>().text;
+		int value = 0;
+		Int32.TryParse(text, out value);
+
+		return value;
 	}
 }
