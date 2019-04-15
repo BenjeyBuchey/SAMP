@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DragAndDropHandler : MonoBehaviour, IDragHandler, IEndDragHandler {
+public class DragAndDropHandler : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHandler {
 
 	private Vector3 position;
 
@@ -12,6 +12,11 @@ public class DragAndDropHandler : MonoBehaviour, IDragHandler, IEndDragHandler {
 		if (HelperScript.IsPaused()) return;
 
 		transform.position = Input.mousePosition;
+	}
+
+	public void OnBeginDrag(PointerEventData eventData)
+	{
+		position = transform.position;
 	}
 
 	public void OnEndDrag(PointerEventData eventData)
@@ -48,7 +53,7 @@ public class DragAndDropHandler : MonoBehaviour, IDragHandler, IEndDragHandler {
 
 	// Use this for initialization
 	void Start () {
-		position = transform.position;
+		//position = transform.position;
 	}
 	
 	// Update is called once per frame
