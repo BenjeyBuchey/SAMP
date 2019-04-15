@@ -116,6 +116,7 @@
     <Compile Include="Assets\Scripts\SortingBox\ElementTextScript.cs" />
     <Compile Include="Assets\Scripts\SortingBox\SingleElementScript.cs" />
     <Compile Include="Assets\Scripts\SortingBox\SortingBoxScript.cs" />
+    <Compile Include="Assets\Scripts\UI\DragAndDropHandler.cs" />
     <Compile Include="Assets\Scripts\UI\ExecuteButtonScript.cs" />
     <Compile Include="Assets\Scripts\UI\PopupWindowScript.cs" />
     <Compile Include="Assets\Scripts\UI\QuestionMarkScript.cs" />

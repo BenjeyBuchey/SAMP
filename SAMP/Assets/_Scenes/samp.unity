@@ -713,9 +713,10 @@ GameObject:
   - component: {fileID: 334967132}
   - component: {fileID: 334967131}
   - component: {fileID: 334967130}
+  - component: {fileID: 334967133}
   m_Layer: 5
   m_Name: GnomeSortButton
-  m_TagString: Untagged
+  m_TagString: GnomeSort
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -777,18 +778,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 334967131}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 29711548}
-        m_MethodName: gnomeSort
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &334967131
@@ -825,6 +815,17 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 334967128}
   m_CullTransparentMesh: 0
+--- !u!114 &334967133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 334967128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8585419aa50ebd344a243f951a22bca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &335607462
 GameObject:
   m_ObjectHideFlags: 0
@@ -1023,9 +1024,10 @@ GameObject:
   - component: {fileID: 518881887}
   - component: {fileID: 518881886}
   - component: {fileID: 518881885}
+  - component: {fileID: 518881888}
   m_Layer: 5
   m_Name: RadixSortButton
-  m_TagString: Untagged
+  m_TagString: RadixSort
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1087,18 +1089,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 518881886}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 29711548}
-        m_MethodName: radixSort
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &518881886
@@ -1135,6 +1126,17 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 518881883}
   m_CullTransparentMesh: 0
+--- !u!114 &518881888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 518881883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8585419aa50ebd344a243f951a22bca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &556644814
 GameObject:
   m_ObjectHideFlags: 0
@@ -2012,9 +2014,10 @@ GameObject:
   - component: {fileID: 760592335}
   - component: {fileID: 760592334}
   - component: {fileID: 760592333}
+  - component: {fileID: 760592336}
   m_Layer: 5
   m_Name: MergeSortButton
-  m_TagString: Untagged
+  m_TagString: MergeSort
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2076,18 +2079,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 760592334}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 29711548}
-        m_MethodName: mergeSort
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &760592334
@@ -2124,6 +2116,17 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 760592331}
   m_CullTransparentMesh: 0
+--- !u!114 &760592336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 760592331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8585419aa50ebd344a243f951a22bca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &775839201
 GameObject:
   m_ObjectHideFlags: 0
@@ -2258,9 +2261,10 @@ GameObject:
   - component: {fileID: 801814626}
   - component: {fileID: 801814625}
   - component: {fileID: 801814624}
+  - component: {fileID: 801814627}
   m_Layer: 5
   m_Name: QuickSortButton
-  m_TagString: Untagged
+  m_TagString: QuickSort
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2322,18 +2326,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 801814625}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 29711548}
-        m_MethodName: quickSort
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &801814625
@@ -2370,6 +2363,17 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 801814622}
   m_CullTransparentMesh: 0
+--- !u!114 &801814627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 801814622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8585419aa50ebd344a243f951a22bca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &849985142
 GameObject:
   m_ObjectHideFlags: 0
@@ -5617,9 +5621,10 @@ GameObject:
   - component: {fileID: 2065027539}
   - component: {fileID: 2065027538}
   - component: {fileID: 2065027537}
+  - component: {fileID: 2065027540}
   m_Layer: 5
   m_Name: HeapSortButton
-  m_TagString: Untagged
+  m_TagString: HeapSort
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5681,18 +5686,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2065027538}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 29711548}
-        m_MethodName: heapSort
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &2065027538
@@ -5729,6 +5723,17 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2065027535}
   m_CullTransparentMesh: 0
+--- !u!114 &2065027540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2065027535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8585419aa50ebd344a243f951a22bca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2098798404
 GameObject:
   m_ObjectHideFlags: 0
