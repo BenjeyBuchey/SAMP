@@ -7,13 +7,17 @@ public class InputScript : MonoBehaviour {
 
 	private InterpreterInterfaceScript iis;
 	private JintEngine e;
-    private List<List<GameObject>> queue;
+	//private List<List<GameObject>> queue;
+	private List<List<SortingVisualItem>> queue;
 
 	// Use this for initialization
 	void Start () {
-	
-		iis = gameObject.AddComponent<InterpreterInterfaceScript>();
-        queue = new List<List<GameObject>>();
+
+		//iis = gameObject.AddComponent<InterpreterInterfaceScript>();
+
+		iis = new InterpreterInterfaceScript();
+		//queue = new List<List<GameObject>>();
+		queue = new List<List<SortingVisualItem>>();
 		e = new JintEngine();
 
 		InitFunctions();
@@ -37,7 +41,7 @@ public class InputScript : MonoBehaviour {
 
 		e.SetFunction("add",new Jint.Delegates.Func<double, double, double>((a, b) => a + b));
 
-		e.SetFunction("swap",new Jint.Delegates.Action<int, int>((a, b) => swap(a, b)));
+		e.SetFunction("swap",new Jint.Delegates.Action<int, int>((a, b) => Swap(a, b)));
 
 		e.SetFunction("size",new Jint.Delegates.Func<int, double>((a) => size(a)));
 
@@ -47,22 +51,38 @@ public class InputScript : MonoBehaviour {
 
 		e.SetFunction("elementCount", new Jint.Delegates.Func<int>(() => elementCount()));
 	}
-	
-	// swaps array elements in positions a & b
-	private void swap(int a, int b)
-	{
-        List<List<GameObject>> temp = iis.swapNEW(a, b);
-        if (queue.Count == 0)
-        {
-            queue = temp;
-            return;
-        }
 
-        for (int i = 0; i < temp.Count; i++)
-        {
-            queue[i].AddRange(temp[i]);
-        }
+	// swaps array elements in positions a & b
+	private void Swap(int a, int b)
+	{
+		List<List<SortingVisualItem>> temp = iis.Swap(a, b);
+		if (queue.Count == 0)
+		{
+			queue = temp;
+			return;
+		}
+
+		for (int i = 0; i < temp.Count; i++)
+		{
+			queue[i].AddRange(temp[i]);
+		}
 	}
+
+	// swaps array elements in positions a & b
+	//private void swap(int a, int b)
+	//{
+ //       List<List<GameObject>> temp = iis.swapNEW(a, b);
+ //       if (queue.Count == 0)
+ //       {
+ //           queue = temp;
+ //           return;
+ //       }
+
+ //       for (int i = 0; i < temp.Count; i++)
+ //       {
+ //           queue[i].AddRange(temp[i]);
+ //       }
+	//}
 
 	// returns the size of the element in array position a
 	private double size(int a)
@@ -89,16 +109,27 @@ public class InputScript : MonoBehaviour {
 		Debug.Log (a);
 	}
 
-    private void execQueue()
-    {
-        if (queue != null && queue.Count == 0)
-            return;
+	//private void execQueue()
+	//{
+	//    if (queue != null && queue.Count == 0)
+	//        return;
 
-        foreach (List<GameObject> container_queue in queue)
-        {
-            MoveScript ms = gameObject.AddComponent<MoveScript> ();
-            ms.swap (container_queue);
-        }
-    }
-		
+	//    foreach (List<GameObject> container_queue in queue)
+	//    {
+	//        MoveScript ms = gameObject.AddComponent<MoveScript> ();
+	//        //ms.swap (container_queue);
+	//    }
+	//}
+
+	private void execQueue()
+	{
+		if (queue != null && queue.Count == 0)
+			return;
+
+		foreach (List<SortingVisualItem> container_queue in queue)
+		{
+			MoveScript ms = gameObject.AddComponent<MoveScript>();
+			ms.Swap (container_queue);
+		}
+	}
 }

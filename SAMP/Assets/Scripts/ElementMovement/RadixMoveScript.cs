@@ -7,11 +7,7 @@ public class RadixMoveScript : MonoBehaviour {
 
 	private GameObject go1;
 	private Vector3 dest1;
-	private float speed = 20;
-	private List<ArrayList> queue;
 	private Color prevColor, prevColor2;
-	private Text score;
-	private float init_y_position = 0;
 	private List<BucketElementObject> queue_new;
 	private List<Vector3> init_positions = new List<Vector3>();
 	private int init_counter = 0;
@@ -75,11 +71,6 @@ public class RadixMoveScript : MonoBehaviour {
 			go1.transform.rotation = Quaternion.identity;
 			go1.transform.position = dest1;
 		}
-	}
-
-	private void setSpeed()
-	{
-		speed = Vector3.Distance(go1.transform.position,dest1);
 	}
 
 	private Vector3 getDestination(int bucket, int position, GameObject go)
@@ -157,11 +148,9 @@ public class RadixMoveScript : MonoBehaviour {
 		swapSpeed = s.value;
 	}
 
-	private void PrintInfo(GameObject go, Vector3 dest)
+	private void UpdateSwapSpeed(int type)
 	{
-		string elementValue = go.GetComponentInChildren<TextMesh>().text;
-		Vector3 elementLocation = go.transform.position;
-		Debug.Log("ELEMENT: " + elementValue + " - Location: " + elementLocation);
-		Debug.Log("Destination: " + dest);
+		MoveHelperScript mhs = new MoveHelperScript();
+		swapSpeed = mhs.GetSwapSpeed(type);
 	}
 }

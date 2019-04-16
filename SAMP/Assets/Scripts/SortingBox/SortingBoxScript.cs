@@ -9,7 +9,7 @@ public class SortingBoxScript : MonoBehaviour {
     private float y_min_position, y_max_position;
 	private List<Vector3> init_element_positions = new List<Vector3>();
 	private bool inUse = false;
-	private uint swapsCounter = 0;
+	private uint swapsCounter = 0, comparisonCounter = 0;
 	public GameObject elementIndexText;
 	private Vector3 indexPosition = Vector3.zero;
 
@@ -216,9 +216,14 @@ public class SortingBoxScript : MonoBehaviour {
 		swapsCounter++;
 	}
 
+	public void IncComparisonCounter()
+	{
+		comparisonCounter++;
+	}
+
 	private void updateSwapsCounter()
 	{
-		if (swapsCounter <= 0) return;
+		//if (swapsCounter <= 0) return;
 		updateSwapsCounterText();
 	}
 
@@ -227,12 +232,14 @@ public class SortingBoxScript : MonoBehaviour {
 		foreach (TextMesh tm in this.GetComponentsInChildren<TextMesh>())
 		{
 			if (tm.name.Equals("SwapsCounter"))
-				tm.text = "Swaps: " + swapsCounter;
+				tm.text = "Swaps: " + swapsCounter + " / Comparisons: " +comparisonCounter;
 		}
 	}
 
 	public void ActivateSwapsCounter()
 	{
+		swapsCounter = 0;
+		comparisonCounter = 0;
 		updateSwapsCounterText();
 	}
 

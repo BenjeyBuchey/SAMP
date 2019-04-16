@@ -75,16 +75,16 @@ public class MergeMoveScript : MonoBehaviour {
         rotationPoint = new Vector3(dest2.x,init_y,z);
 	}
 
-	private void correctPositions()
-	{
-		if (go1.transform.position != dest1 || go2.transform.position != dest2) 
-		{
-			go1.transform.rotation = Quaternion.identity;
-			go1.transform.position = dest1;
-			go2.transform.rotation = Quaternion.identity;
-			go2.transform.position = dest2;
-		}
-	}
+	//private void correctPositions()
+	//{
+	//	if (go1.transform.position != dest1 || go2.transform.position != dest2) 
+	//	{
+	//		go1.transform.rotation = Quaternion.identity;
+	//		go1.transform.position = dest1;
+	//		go2.transform.rotation = Quaternion.identity;
+	//		go2.transform.position = dest2;
+	//	}
+	//}
 
     IEnumerator DoSwap()
     {
@@ -205,5 +205,11 @@ public class MergeMoveScript : MonoBehaviour {
 		if (s == null) return;
 
 		swapSpeed = s.value;
+	}
+
+	private void UpdateSwapSpeed(int type)
+	{
+		MoveHelperScript mhs = new MoveHelperScript();
+		swapSpeed = mhs.GetSwapSpeed(type);
 	}
 }

@@ -335,12 +335,13 @@ public class ElementScript : MonoBehaviour {
 		sbs.ActivateSwapsCounter();
 
 		QuickSortScript ss = new QuickSortScript();
-		List<GameObject> swappingQueue = ss.startSort(sbs.getElementArray(), 0, sbs.getElementArray().Length);
+		//List<GameObject> swappingQueue = ss.startSort(sbs.getElementArray(), 0, sbs.getElementArray().Length);
+		List<SortingVisualItem> swappingQueue = ss.StartSort(sbs.getElementArray(), 0, sbs.getElementArray().Length);
 
 		if (swappingQueue != null && swappingQueue.Count >= 1)
 		{
 			MoveScript m = gameObject.AddComponent<MoveScript>();
-			m.swap(swappingQueue);
+			m.Swap(swappingQueue);
 		}
 		else
 			sbs.setInUse(false);
@@ -354,12 +355,13 @@ public class ElementScript : MonoBehaviour {
 		sbs.ActivateSwapsCounter();
 
 		HeapSortScript ss = new HeapSortScript();
-		List<GameObject> swappingQueue = ss.startSort(sbs.getElementArray());
+		//List<GameObject> swappingQueue = ss.startSort(sbs.getElementArray());
+		List<SortingVisualItem> swappingQueue = ss.StartSort(sbs.getElementArray());
 
 		if (swappingQueue != null && swappingQueue.Count >= 1)
 		{
 			MoveScript m = gameObject.AddComponent<MoveScript>();
-			m.swap(swappingQueue);
+			m.Swap(swappingQueue);
 		}
 		else
 			sbs.setInUse(false);
@@ -391,12 +393,13 @@ public class ElementScript : MonoBehaviour {
 		sbs.ActivateSwapsCounter();
 
 		GnomeSortScript ss = new GnomeSortScript();
-		List<GameObject> swappingQueue = ss.startSort(sbs.getElementArray());
+		//List<GameObject> swappingQueue = ss.startSort(sbs.getElementArray());
+		List<SortingVisualItem> swappingQueue = ss.StartSort(sbs.getElementArray());
 
 		if (swappingQueue != null && swappingQueue.Count >= 1)
 		{
 			MoveScript m = gameObject.AddComponent<MoveScript>();
-			m.swap(swappingQueue);
+			m.Swap(swappingQueue);
 		}
 		else
 			sbs.setInUse(false);

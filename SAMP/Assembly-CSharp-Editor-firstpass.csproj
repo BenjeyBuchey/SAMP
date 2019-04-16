@@ -10,10 +10,10 @@
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace>
     </RootNamespace>
-    <ProjectGuid>{ACFFBE8D-D0FC-AB5C-D481-2A57587D3DBB}</ProjectGuid>
+    <ProjectGuid>{B881427E-6DC1-2261-3894-4A4EA062C84F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
+    <AssemblyName>Assembly-CSharp-Editor-firstpass</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -48,7 +48,7 @@
   <PropertyGroup>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <UnityProjectGenerator>Unity/VSTU</UnityProjectGenerator>
-    <UnityProjectType>Editor:5</UnityProjectType>
+    <UnityProjectType>EditorPlugins:7</UnityProjectType>
     <UnityBuildTarget>WebGL:20</UnityBuildTarget>
     <UnityVersion>2018.2.8f1</UnityVersion>
   </PropertyGroup>
@@ -61,7 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\LeanTween\Editor\LeanTweenDocumentationEditor.cs" />
+    <Compile Include="Assets\Standard Assets\LeanTween\Editor\LeanTweenDocumentationEditor.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>C:/Users/Benjey/Documents/GitHub/SAMP/SAMP/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
@@ -382,10 +382,6 @@
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
       <Project>{84AECD1C-74CC-3AE4-BCAC-B1848CC8AC8D}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
-    </ProjectReference>
-    <ProjectReference Include="Assembly-CSharp.csproj">
-      <Project>{0D2FCF9F-2F5A-A30E-313F-803E3491B168}</Project>
-      <Name>Assembly-CSharp</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

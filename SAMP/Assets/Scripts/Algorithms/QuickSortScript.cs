@@ -4,12 +4,22 @@ using System.Collections.Generic;
 
 public class QuickSortScript : Algorithms {
 
-	private GameObject[] elementArray;
+	//private GameObject[] elementArray;
     private List<GameObject> swappingQueue = new List<GameObject> ();
+	//private List<SortingVisualItem> visualItems = new List<SortingVisualItem>();
 
 	public QuickSortScript() : base (Algorithms.QUICKSORT)
 	{
 
+	}
+
+	public List<SortingVisualItem> StartSort(GameObject[] array, int left, int right)
+	{
+		visualItems.Clear();
+		elementArray = array;
+		myQuickSort(left, right);
+
+		return visualItems;
 	}
 
 	public List<GameObject> startSort(GameObject[] array, int left, int right)
@@ -43,13 +53,18 @@ public class QuickSortScript : Algorithms {
 		
 		while (true) 
 		{
-			//while(left <= right && elementArray[left].transform.localScale.x <= pivot.transform.localScale.x)
 			while(left <= right && elementArray[left].GetComponentInChildren<Rigidbody>().transform.localScale.x <= pivot.GetComponentInChildren<Rigidbody>().transform.localScale.x)
+			{
+				visualItems.Add(new SortingVisualItem((int)SortingVisualType.Comparison, elementArray[left], pivot));
 				left++;
-			
-			//while(left <= right && elementArray[right].transform.localScale.x > pivot.transform.localScale.x)
-			while(left <= right && elementArray[right].GetComponentInChildren<Rigidbody>().transform.localScale.x > pivot.GetComponentInChildren<Rigidbody>().transform.localScale.x)
+			}
+
+
+			while (left <= right && elementArray[right].GetComponentInChildren<Rigidbody>().transform.localScale.x > pivot.GetComponentInChildren<Rigidbody>().transform.localScale.x)
+			{
+				visualItems.Add(new SortingVisualItem((int)SortingVisualType.Comparison, elementArray[right], pivot));
 				right--;
+			}
 			
 			if(left > right)
 			{
@@ -61,17 +76,18 @@ public class QuickSortScript : Algorithms {
 		}
 	}
 	
-	private void swap(int i, int j)
-	{
-		if (i == j)
-			return;
+	//private void swap(int i, int j)
+	//{
+	//	if (i == j)
+	//		return;
 
-		// add to queue and swap element array position
-		swappingQueue.Add (elementArray [i]);
-		swappingQueue.Add (elementArray [j]);
+	//	// add to queue and swap element array position
+	//	swappingQueue.Add (elementArray [i]);
+	//	swappingQueue.Add (elementArray [j]);
+	//	visualItems.Add(new SortingVisualItem((int)SortingVisualType.Swap, elementArray[i], elementArray[j]));
 
-		GameObject tmp = elementArray [i];
-		elementArray [i] = elementArray [j];
-		elementArray [j] = tmp;
-	}
+	//	GameObject tmp = elementArray [i];
+	//	elementArray [i] = elementArray [j];
+	//	elementArray [j] = tmp;
+	//}
 }

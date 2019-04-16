@@ -2,31 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class InterpreterInterfaceScript : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
-	// old functions used for jurassic
-	public void swap(int x, int y)
-	{
-        List<GameObject[]> elementArrays = setElementArrays(true);
-        if (elementArrays == null)
-            return;
-
-		Debug.Log ("Swapping " +x +" and " +y);
-        foreach (GameObject[] elementArray in elementArrays)
-        {
-            fillQueue(x, y, elementArray);
-        }
-	}
+public class InterpreterInterfaceScript {
 
     public List<List<GameObject>> swapNEW(int x, int y)
     {
@@ -45,27 +21,21 @@ public class InterpreterInterfaceScript : MonoBehaviour {
         return queue;
     }
 
-	public double size_old(int x)
+	public List<List<SortingVisualItem>> Swap(int x, int y)
 	{
-        List<GameObject[]> elementArrays = setElementArrays(false);
-        if (elementArrays == null)
-            return -1;
-        
-		double size = 0.0;
+		List<GameObject[]> elementArrays = setElementArrays(false);
+		if (elementArrays == null)
+			return null;
 
-        foreach (GameObject[] elementArray in elementArrays)
-        {
-            foreach (GameObject go in elementArray)
-            {
-                if (go.GetComponent<SingleElementScript>().getElementId() == x)
-                {
-                    size = go.GetComponentInChildren<Rigidbody>().transform.localScale.x;
-                    Debug.Log("Size of Element " + x + " is: " + size);
-                    break;
-                }
-            }
-        }
-		return size;
+		List<List<SortingVisualItem>> queue = new List<List<SortingVisualItem>>();
+		Debug.Log("Swapping " + x + " and " + y);
+		foreach (GameObject[] elementArray in elementArrays)
+		{
+			//queue.AddRange(fillQueue(x, y, elementArray));
+			queue.Add(FillQueue(x, y, elementArray));
+		}
+
+		return queue;
 	}
 
 	public double size(int index)
@@ -102,6 +72,25 @@ public class InterpreterInterfaceScript : MonoBehaviour {
         return 0;
     }
 
+	private List<SortingVisualItem> FillQueue(int x, int y, GameObject[] elementArray)
+	{
+		if (x > elementArray.Length || y > elementArray.Length || x < 0 || y < 0)
+		{
+			Debug.Log("Out of range! Can't swap " + x + " and " + y);
+			return null;
+		}
+
+		List<SortingVisualItem> queue = new List<SortingVisualItem>();
+		queue.Add(new SortingVisualItem((int)SortingVisualType.Swap, elementArray[x], elementArray[y]));
+
+		// swap in array
+		GameObject tmp = elementArray[x];
+		elementArray[x] = elementArray[y];
+		elementArray[y] = tmp;
+
+		return queue;
+	}
+
 	private List<GameObject> fillQueue(int x, int y, GameObject[] elementArray)
 	{
 		if (x > elementArray.Length || y > elementArray.Length)
@@ -129,43 +118,6 @@ public class InterpreterInterfaceScript : MonoBehaviour {
 
 		return queue;
 		/*
-        MoveScript ms = gameObject.AddComponent<MoveScript> ();
-		ms.swap (queue); */
-	}
-
-	private List<GameObject> fillQueue_old(int x, int y, GameObject[] elementArray)
-	{
-		if (x > elementArray.Length || y > elementArray.Length)
-		{
-			Debug.Log("Out of range! Can't swap " + x +" and " + y);
-			return null;
-		}
-
-		List<GameObject> queue = new List<GameObject> ();
-		int x_pos = -1, y_pos = -1;
-		string debug = "ELEMENT ORDER: ";
-
-		for (int i = 0; i < elementArray.Length; i++) 
-		{
-			debug += elementArray[i].GetComponent<SingleElementScript>().getElementId() + " ";
-			if (elementArray [i].GetComponent<SingleElementScript> ().getElementId () == x) 
-			{
-				queue.Add (elementArray [i]);
-				x_pos = i;
-			} else if (elementArray [i].GetComponent<SingleElementScript> ().getElementId () == y) 
-			{
-				queue.Add (elementArray [i]);
-				y_pos = i;
-			}
-		}
-		Debug.Log(debug);
-		// swap in array
-		GameObject tmp = elementArray [x_pos];
-		elementArray [x_pos] = elementArray [y_pos];
-		elementArray [y_pos] = tmp;
-
-        return queue;
-        /*
         MoveScript ms = gameObject.AddComponent<MoveScript> ();
 		ms.swap (queue); */
 	}

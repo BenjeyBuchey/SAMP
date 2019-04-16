@@ -28,12 +28,12 @@ public class SwapManagerScript : MonoBehaviour {
 		isPaused = isPaused_;
 		if (isPaused)
 		{
-			LeanTween.pauseAll();
+			//LeanTween.pauseAll();
 			pauseResume.image.sprite = resumeSprite;
 		}
 		else
 		{
-			LeanTween.resumeAll();
+			//LeanTween.resumeAll();
 			pauseResume.image.sprite = pauseSprite;
 		}
 	}
