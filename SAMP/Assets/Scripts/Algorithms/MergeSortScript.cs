@@ -5,7 +5,6 @@ using System;
 
 public class MergeSortScript : Algorithms {
 
-	private GameObject[] elementArray;
     private List<GameObject> swappingQueue = new List<GameObject> ();
 
 	public MergeSortScript() : base (Algorithms.MERGESORT)

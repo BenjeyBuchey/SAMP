@@ -5,10 +5,8 @@ using System;
 
 public class RadixSortScript : Algorithms {
 
-	private GameObject[] elementArray;
-    private List<ArrayList> swappingQueue = new List<ArrayList> (); // 0 = GameObject, 1 = id
+	//private GameObject[] elementArray;
     private List<Vector3> bucket_positions = new List<Vector3> ();
-	private List<BucketElementObject> bucket_element_objects = new List<BucketElementObject>();
 
 	// Use this for initialization
 	void Start () {
@@ -25,15 +23,14 @@ public class RadixSortScript : Algorithms {
 		
 	}
 
-	public List<BucketElementObject> startSort(GameObject[] array)
+	public List<SortingVisualItem> StartSort(GameObject[] array)
 	{
-		swappingQueue.Clear();
+		visualItems.Clear();
 		elementArray = array;
 		setBucketPositions();
 		myRadixSort();
 
-		return bucket_element_objects;
-		
+		return visualItems;
 	}
 
 	// Source: http://algorithmsandstuff.blogspot.co.at/2014/06/radix-sort-in-c-sharp.html
@@ -75,7 +72,7 @@ public class RadixSortScript : Algorithms {
 
 					if (bucket_size != elementArray.Length)
 					{
-						bucket_element_objects.Add(new BucketElementObject(elementArray[i], bucket_number, bucket_position));
+						visualItems.Add(new SortingVisualItem((int)SortingVisualType.Radix, elementArray[i], null, bucket_number, bucket_position));
 					}
 					bucket_position++;
 					i++;
@@ -94,7 +91,7 @@ public class RadixSortScript : Algorithms {
 	{
 		for (int i = 0; i < elementArray.Length; i++) 
 		{
-			bucket_element_objects.Add(new BucketElementObject(elementArray[i], -1, i));
+			visualItems.Add(new SortingVisualItem((int)SortingVisualType.Radix, elementArray[i], null, -1, i));
 		}
 	}
 

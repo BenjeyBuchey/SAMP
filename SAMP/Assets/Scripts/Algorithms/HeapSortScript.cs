@@ -4,9 +4,6 @@ using System.Collections.Generic;
 
 public class HeapSortScript : Algorithms {
 
-	//private GameObject[] elementArray;
-    private List<GameObject> swappingQueue = new List<GameObject> ();
-
 	public HeapSortScript() : base (Algorithms.HEAPSORT)
 	{ }
 
@@ -17,15 +14,6 @@ public class HeapSortScript : Algorithms {
 		myHeapSort();
 
 		return visualItems;
-	}
-
-	public List<GameObject> startSort(GameObject[] array)
-	{
-		swappingQueue.Clear ();
-		elementArray = array;
-		myHeapSort ();
-
-		return swappingQueue;		
 	}
 
 	private void myHeapSort()
@@ -67,9 +55,6 @@ public class HeapSortScript : Algorithms {
 		else
 			largest = index;
 
-		//if (right < heapSize && getSize(right) > getSize(largest))
-		//	largest = right;
-
 		if(right < heapSize)
 		{
 			visualItems.Add(new SortingVisualItem((int)SortingVisualType.Comparison, elementArray[right], elementArray[largest]));
@@ -84,22 +69,6 @@ public class HeapSortScript : Algorithms {
 			maxHeapify (heapSize, largest);
 		}
 	}
-
-	//private void swap(int i, int j)
-	//{
-	//	if (i == j)
-	//		return;
-
-	//	// add to queue and swap element array position
-	//	swappingQueue.Add (elementArray [i]);
-	//	swappingQueue.Add (elementArray [j]);
-
-	//	visualItems.Add(new SortingVisualItem((int)SortingVisualType.Swap, elementArray[i], elementArray[j]));
-
-	//	GameObject tmp = elementArray [i];
-	//	elementArray [i] = elementArray [j];
-	//	elementArray [j] = tmp;
-	//}
 
 	private double getSize(int index)
 	{

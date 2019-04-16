@@ -14,6 +14,9 @@ public class MoveScript : MonoBehaviour {
 	private float swapSpeed = 1.5f;
 	private List<SortingVisualItem> _visualItems;
 	private GameObject sortingBox = null;
+	private int init_counter = 0;
+	private string _algorithm = null;
+	private List<Vector3> initPositions = new List<Vector3>();
 
 	// Use this for initialization
 	void Start ()
@@ -27,20 +30,33 @@ public class MoveScript : MonoBehaviour {
 
 	}
 
-	public void Swap(List<SortingVisualItem> visualItems)
+	public void Swap(List<SortingVisualItem> visualItems, string algorithm = null)
 	{
 		_visualItems = visualItems;
-		if (_visualItems == null || _visualItems.Count == 0)
-			return;
+		_algorithm = algorithm;
+		if (_visualItems == null || _visualItems.Count == 0) return;
 
+		if (sortingBox == null)
+			SetSortingBox();
+
+		InitByAlgorithm();
 		StartCoroutine(DoSwap());
+	}
+
+	private void InitByAlgorithm()
+	{
+		if (_algorithm == null) return;
+
+		switch(_algorithm)
+		{
+			case Algorithms.RADIXSORT:
+				SetInitialPositions();
+				break;
+		}
 	}
 
 	IEnumerator DoSwap()
 	{
-		if (sortingBox == null)
-			SetSortingBox();
-
 		for (int i = 0; i < _visualItems.Count; i++)
 		{
 			UpdateSwapSpeed(_visualItems[i].Type);
@@ -71,7 +87,24 @@ public class MoveScript : MonoBehaviour {
 			case (int)SortingVisualType.Comparison:
 				HandleComparison(element1, element2, isDefaultColor);
 				break;
+			case (int)SortingVisualType.Radix:
+				HandleRadix(element1, item.Bucket, item.BucketPosition, isDefaultColor);
+				break;
 		}
+	}
+
+	private void HandleRadix(GameObject element1, int bucket, int bucketPosition, bool isDefaultColor)
+	{
+		ChangeColor(element1, null, (int)SortingVisualType.Radix, isDefaultColor);
+
+		if (!isDefaultColor)
+			MoveRadix(element1, bucket, bucketPosition);
+	}
+
+	private void MoveRadix(GameObject element1, int bucket, int bucketPosition)
+	{
+		Vector3 dest = GetRadixDestination(bucket, bucketPosition, element1);
+		LeanTween.move(element1, dest, swapSpeed);
 	}
 
 	private void HandleComparison(GameObject element1, GameObject element2, bool isDefaultColor)
@@ -79,10 +112,6 @@ public class MoveScript : MonoBehaviour {
 		ChangeColor(element1, element2, (int)SortingVisualType.Comparison, isDefaultColor);
 		if (!isDefaultColor)
 			IncreaseComparisonCounter();
-
-		//if (!isDefaultColor)
-		//	SwapElements(element1, element2);blablaasdfasd
-
 	}
 
 	private void HandleSwap(GameObject element1, GameObject element2, bool isDefaultColor)
@@ -113,58 +142,6 @@ public class MoveScript : MonoBehaviour {
 		IncreaseSwapCounter();
 	}
 
-	//public void swap(List<GameObject> _queue)
-	//{
-	//	queue = _queue;
-	//	if (queue == null || queue.Count < 2)
-	//		return;
-
-	//       StartCoroutine(doSwap());
-	//}
-
-	//   IEnumerator doSwap()
-	//   {
-	//       for (int i = 0; i < queue.Count; i = i + 2)
-	//       {
-	//           go1 = queue[i];
-	//           go2 = queue[i+1];
-
-	//           if (go1 == null || go2 == null)
-	//               yield return null;
-
-	//		updateSwapSpeed();
-	//		changeColor(true);
-
-	//           dest1 = go2.transform.position;
-	//           dest2 = go1.transform.position;
-	//           getRotationPoint();
-
-	//           float yOffset = getOffsetY();
-	//           Vector3 temp1 = rotationPoint;
-	//           temp1.y = temp1.y + yOffset;
-
-	//           Vector3 temp2 = rotationPoint;
-	//           temp2.y = temp2.y - yOffset;
-
-	//           LeanTween.move(go1, new Vector3[] {dest2, temp1, temp1, dest1 }, swapSpeed);
-	//           LeanTween.move(go2, new Vector3[] {dest1, temp2, temp2, dest2 }, swapSpeed);
-	//		//int id = LeanTween.move(go1, new Vector3[] { dest2, temp1, temp1, dest1 }, 1.5f).id;
-	//		//while (LeanTween.isTweening(id))
-	//		//	yield return null;
-
-	//		//yield return new WaitForSeconds(swapSpeed);
-
-	//		while (Vector3.Distance(go1.transform.position, dest1) > 0.1f && Vector3.Distance(go2.transform.position, dest2) > 0.1f)
-	//			yield return null;
-
-	//		increaseSwapCounter();
-
-	//		changeColor(false);
-	//       }
-	//	stopSortingboxUsage();
-	//	Destroy(this);
-	//}
-
 	private void increaseCounter()
 	{
 		Text score = GameObject.Find ("SwapCounter").GetComponent<Text> ();
@@ -175,16 +152,6 @@ public class MoveScript : MonoBehaviour {
 		score.GetComponent<SwapCounterScript> ().incCounter ();
 	}
 
-	//private void increaseSwapCounter()
-	//{
-	//	if (go1 == null) return;
-
-	//	SortingBoxScript sbs = go1.GetComponentInParent<SortingBoxScript>();
-	//	if (sbs == null) return;
-
-	//	sbs.incSwapsCounter();
-	//}
-
 	private void SetSortingBox()
 	{
 		if (_visualItems == null || _visualItems.Count == 0) return;
@@ -193,6 +160,11 @@ public class MoveScript : MonoBehaviour {
 		if (element == null) return;
 
 		sortingBox = element.transform.parent.gameObject;
+		if (sortingBox == null) return;
+
+		// set in use
+		SortingBoxScript sbs = sortingBox.GetComponent<SortingBoxScript>();
+		sbs.setInUse(true);
 	}
 
 	private void IncreaseSwapCounter()
@@ -211,32 +183,11 @@ public class MoveScript : MonoBehaviour {
 		sbs.IncComparisonCounter();
 	}
 
-	//private void changeColor(bool is_moving)
-	//{
-	//	MoveHelperScript mhs = new MoveHelperScript();
-	//	mhs.changeColor (go1, go2, is_moving, ref prevColor, ref prevColor2);
-	//}
-
 	private void ChangeColor(GameObject element1, GameObject element2, int type, bool isDefaultColor)
 	{
 		MoveHelperScript mhs = new MoveHelperScript();
 		mhs.ChangeColor(element1, element2, type, isDefaultColor);
 	}
-
-	//private void getRotationPoint()
-	//{
-	//	float distance = Mathf.Abs (go1.transform.position.z - go2.transform.position.z);
-	//	float z = 0.0f;
-	//	if (go1.transform.position.z > go2.transform.position.z)
-	//		z = go1.transform.position.z - distance / 2;
-	//	else
-	//		z = go1.transform.position.z + distance / 2;
-
-	//	rotationPoint = new Vector3(go1.transform.position.x,
-	//		go1.transform.position.y,
-	//		z);
-
-	//}
 
 	private Vector3 GetRotationPoint(GameObject element1, GameObject element2)
 	{
@@ -249,25 +200,6 @@ public class MoveScript : MonoBehaviour {
 
 		return new Vector3(element1.transform.position.x, element1.transform.position.y,z);
 	}
-
-	//private void correctPositions()
-	//{
-	//	if (go1.transform.position != dest1 || go2.transform.position != dest2) 
-	//	{
-	//		go1.transform.rotation = Quaternion.identity;
-	//		go1.transform.position = dest1;
-	//		go2.transform.rotation = Quaternion.identity;
-	//		go2.transform.position = dest2;
-	//	}
-	//}
-
-	//private float getOffsetY()
- //   {
- //       if (go1 == null || go2 == null)
- //           return 0.0f;
-
- //       return go1.GetComponentInParent<SortingBoxScript>().getOffsetY(go1, go2);
- //   }
 
 	private float GetOffsetY(GameObject element1, GameObject element2)
 	{
@@ -302,16 +234,6 @@ public class MoveScript : MonoBehaviour {
 
 	private void UpdateSwapSpeed(int type)
 	{
-		//GameObject go = GameObject.Find("SwapSpeedSlider");
-		//if (go == null) return;
-
-		//Slider s = go.GetComponent<Slider>();
-		//if (s == null) return;
-
-		//float modifier = (type == (int)SortingVisualType.Comparison) ? 2.0f : 1.0f;
-
-		//swapSpeed = s.value*-1/ modifier;
-
 		MoveHelperScript mhs = new MoveHelperScript();
 		swapSpeed = mhs.GetSwapSpeed(type);
 	}
@@ -325,5 +247,58 @@ public class MoveScript : MonoBehaviour {
 		if (sms == null) return false;
 
 		return sms.isPaused;
+	}
+
+	private Vector3 GetRadixDestination(int bucket, int position, GameObject go)
+	{
+		if (init_counter >= initPositions.Count)
+			init_counter = 0;
+
+		float object_width = GetObjectWidth();
+		BucketScript bs = go.GetComponentInParent<BucketScript>();
+		if (bs == null) return Vector3.zero;
+
+		List<GameObject> bucket_objects = bs.getBucketObjects();
+		if (bucket_objects == null || bucket_objects.Count < bucket)
+			return Vector3.zero;
+
+		Vector3 dest = Vector3.zero;
+		// bucket -1 --> move to init positions
+		if (bucket == -1)
+		{
+			dest = initPositions[init_counter];
+			init_counter++;
+		}
+		else
+		{
+			float z_offset = 5.0f + object_width * position;
+			dest = bucket_objects[bucket].transform.position;
+			dest.y = dest.y - bucket_objects[bucket].transform.localScale.y / 2; //half bucket text size
+			dest.z = dest.z + z_offset;
+		}
+
+		return dest;
+	}
+
+	private float GetObjectWidth()
+	{
+		if (sortingBox == null) return 1.0f;
+
+		SortingBoxScript sbs = sortingBox.GetComponent<SortingBoxScript>();
+		if (sbs == null) return 1.0f;
+
+		return sbs.GetMaxObjectWidth();
+	}
+
+	private void SetInitialPositions()
+	{
+		GameObject go = _visualItems[0].Element1;
+		if (go == null) return;
+
+		SortingBoxScript sbs = go.GetComponentInParent<SortingBoxScript>();
+		if (sbs == null) return;
+
+		initPositions.Clear();
+		initPositions = sbs.getInitialPositionList();
 	}
 }

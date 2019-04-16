@@ -25,6 +25,7 @@ public class MoveHelperScript {
 				switch(type)
 				{
 					case (int)SortingVisualType.Swap:
+					case (int)SortingVisualType.Radix:
 						if (isDefaultColor)
 							child.GetComponent<Renderer>().material.color = DEFAULT_COLOR;
 						else

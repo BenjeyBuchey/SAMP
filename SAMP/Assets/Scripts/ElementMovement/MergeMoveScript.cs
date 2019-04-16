@@ -204,7 +204,7 @@ public class MergeMoveScript : MonoBehaviour {
 		Slider s = go.GetComponent<Slider>();
 		if (s == null) return;
 
-		swapSpeed = s.value;
+		swapSpeed = s.value*-1;
 	}
 
 	private void UpdateSwapSpeed(int type)

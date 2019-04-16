@@ -22,15 +22,6 @@ public class QuickSortScript : Algorithms {
 		return visualItems;
 	}
 
-	public List<GameObject> startSort(GameObject[] array, int left, int right)
-	{
-		swappingQueue.Clear ();
-		elementArray = array;
-		myQuickSort (left, right);
-
-		return swappingQueue;
-	}
-
 	private void myQuickSort(int left, int right)
 	{
 		if (elementArray == null || elementArray.Length <= 1)
@@ -75,19 +66,4 @@ public class QuickSortScript : Algorithms {
 			swap (left,right);
 		}
 	}
-	
-	//private void swap(int i, int j)
-	//{
-	//	if (i == j)
-	//		return;
-
-	//	// add to queue and swap element array position
-	//	swappingQueue.Add (elementArray [i]);
-	//	swappingQueue.Add (elementArray [j]);
-	//	visualItems.Add(new SortingVisualItem((int)SortingVisualType.Swap, elementArray[i], elementArray[j]));
-
-	//	GameObject tmp = elementArray [i];
-	//	elementArray [i] = elementArray [j];
-	//	elementArray [j] = tmp;
-	//}
 }

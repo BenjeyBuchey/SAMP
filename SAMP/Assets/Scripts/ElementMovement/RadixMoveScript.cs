@@ -15,7 +15,7 @@ public class RadixMoveScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		//score = GameObject.Find ("SwapCounter").GetComponent<Text> ();
+
 	}
 
 	// Update is called once per frame
@@ -42,17 +42,19 @@ public class RadixMoveScript : MonoBehaviour {
 			GameObject go = queue_new[i].go;
 			Vector3 dest = getDestination(queue_new[i].bucket, queue_new[i].position, go);
 
-			updateSwapSpeed();
-			changeColor(true);
+			UpdateSwapSpeed((int)SortingVisualType.Swap);
+			ChangeColor(go, null, (int)SortingVisualType.Swap, false);
 
 			int go1_id = LeanTween.move(go, dest, swapSpeed).id;
 
 			while (LeanTween.isTweening(go1_id))
 				yield return null;
 
-			changeColor(false);
+			while (IsPaused())
+				yield return null;
+
+			ChangeColor(go, null, (int)SortingVisualType.Swap, true);
 		}
-		//queue_new = null;
 		stopSortingboxUsage();
 		Destroy(this);
 	}
@@ -62,15 +64,6 @@ public class RadixMoveScript : MonoBehaviour {
 		MoveHelperScript mhs = new MoveHelperScript();
 		mhs.changeColor (go1, null, is_moving, ref prevColor, ref prevColor2);
 		//Destroy (mhs);
-	}
-
-	private void correctPositions()
-	{
-		if (go1.transform.position != dest1) 
-		{
-			go1.transform.rotation = Quaternion.identity;
-			go1.transform.position = dest1;
-		}
 	}
 
 	private Vector3 getDestination(int bucket, int position, GameObject go)
@@ -152,5 +145,22 @@ public class RadixMoveScript : MonoBehaviour {
 	{
 		MoveHelperScript mhs = new MoveHelperScript();
 		swapSpeed = mhs.GetSwapSpeed(type);
+	}
+
+	private bool IsPaused()
+	{
+		GameObject go = GameObject.Find("SwapManager");
+		if (go == null) return false;
+
+		SwapManagerScript sms = go.GetComponent<SwapManagerScript>();
+		if (sms == null) return false;
+
+		return sms.isPaused;
+	}
+
+	private void ChangeColor(GameObject element1, GameObject element2, int type, bool isDefaultColor)
+	{
+		MoveHelperScript mhs = new MoveHelperScript();
+		mhs.ChangeColor(element1, element2, type, isDefaultColor);
 	}
 }

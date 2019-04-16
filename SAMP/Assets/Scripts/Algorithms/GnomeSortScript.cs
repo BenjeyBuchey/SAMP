@@ -4,9 +4,6 @@ using System.Collections.Generic;
 
 public class GnomeSortScript : Algorithms {
 
-	//private GameObject[] elementArray;
-    private List<GameObject> swappingQueue = new List<GameObject> ();
-
 	public GnomeSortScript() : base (Algorithms.GNOMESORT)
 	{
 
@@ -19,15 +16,6 @@ public class GnomeSortScript : Algorithms {
 		myGnomeSort();
 
 		return visualItems;
-	}
-
-	public List<GameObject> startSort(GameObject[] array)
-	{
-		swappingQueue.Clear ();
-		elementArray = array;
-		myGnomeSort ();
-
-		return swappingQueue;
 	}
 
 	private void myGnomeSort() 
@@ -47,20 +35,6 @@ public class GnomeSortScript : Algorithms {
 			}
 		} 
 	}
-
-	//private void swap(int i, int j)
-	//{
-	//	if (i == j)
-	//		return;
-
-	//	// add to queue and swap element array position
-	//	swappingQueue.Add (elementArray [i]);
-	//	swappingQueue.Add (elementArray [j]);
-
-	//	GameObject tmp = elementArray [i];
-	//	elementArray [i] = elementArray [j];
-	//	elementArray [j] = tmp;
-	//}
 
 	private double getSize(int index)
 	{

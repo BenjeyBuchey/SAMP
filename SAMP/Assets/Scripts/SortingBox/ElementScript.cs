@@ -413,15 +413,25 @@ public class ElementScript : MonoBehaviour {
 		bs.createBuckets();
 
 		RadixSortScript ss = new RadixSortScript();
-		List<BucketElementObject> bucket_element_objects = ss.startSort(sbs.getElementArray());
+		List<SortingVisualItem> swappingQueue = ss.StartSort(sbs.getElementArray());
 
-		if (bucket_element_objects != null && bucket_element_objects.Count >= 1)
+		if (swappingQueue != null && swappingQueue.Count >= 1)
 		{
-			RadixMoveScript m = gameObject.AddComponent<RadixMoveScript>();
-			m.swap_new(bucket_element_objects);
+			MoveScript m = gameObject.AddComponent<MoveScript>();
+			m.Swap(swappingQueue, Algorithms.RADIXSORT);
 		}
 		else
 			sbs.setInUse(false);
+
+		//List<BucketElementObject> bucket_element_objects = ss.startSort(sbs.getElementArray());
+
+		//if (bucket_element_objects != null && bucket_element_objects.Count >= 1)
+		//{
+		//	RadixMoveScript m = gameObject.AddComponent<RadixMoveScript>();
+		//	m.swap_new(bucket_element_objects);
+		//}
+		//else
+		//	sbs.setInUse(false);
 	}
 
 	private void ApplyAlgorithmText(string text)
