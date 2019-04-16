@@ -7,6 +7,8 @@
 /[Ll]ibrary/
 /Library/
 \Library
+Library/
+Temp/
 sysinfo.txt
 *.stackdump
  
