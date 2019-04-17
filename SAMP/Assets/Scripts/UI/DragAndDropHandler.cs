@@ -31,29 +31,16 @@ public class DragAndDropHandler : MonoBehaviour, IDragHandler, IEndDragHandler, 
 			{
 				if (hit.transform.gameObject.tag == "Container")
 				{
-					Debug.Log("DRAG AND DROP HIT: " + hit.transform.gameObject.name);
 					ApplyAlgorithmText(hit.transform.gameObject);
 				}
 			}
 		}
-
-		//PointerEventData pointerData = new PointerEventData(EventSystem.current);
-
-		//pointerData.position = Input.mousePosition;
-
-		//List<RaycastResult> results = new List<RaycastResult>();
-		//EventSystem.current.RaycastAll(pointerData, results);
-		//foreach(RaycastResult result in results)
-		//{
-		//	Debug.Log("DRAG AND DROP HIT: " + result.gameObject.name);
-		//}
-
 		transform.position = position;
 	}
 
 	// Use this for initialization
 	void Start () {
-		//position = transform.position;
+		
 	}
 	
 	// Update is called once per frame

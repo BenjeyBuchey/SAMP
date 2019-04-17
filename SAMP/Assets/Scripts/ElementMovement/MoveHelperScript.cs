@@ -5,7 +5,8 @@ using UnityEngine.UI;
 public class MoveHelperScript {
 
 	private Color DEFAULT_COLOR = Color.red, SWAP_COLOR = Color.green, COMPARISON_COLOR = Color.blue;
-
+	private Color LEFTARRAY_COLOR = new Color(0.6f, 0.96f, 1.0f), RIGHTARRAY_COLOR = new Color(0.28f, 0.24f, 0.55f);
+	
 	public void ChangeColor(GameObject element1, GameObject element2, int type, bool isDefaultColor)
 	{
 		//if (element1 == null || element2 == null) return;
@@ -14,7 +15,17 @@ public class MoveHelperScript {
 		HandleColor(element2, type, isDefaultColor);
 	}
 
-	private void HandleColor(GameObject element, int type, bool isDefaultColor)
+	public void ChangeColor(GameObject[] array, int type, bool isLeftArray, bool isDefaultColor)
+	{
+		if (array == null) return;
+
+		foreach(GameObject element in array)
+		{
+			HandleColor(element, type, isDefaultColor, isLeftArray);
+		}
+	}
+
+	private void HandleColor(GameObject element, int type, bool isDefaultColor, bool isLeftArray = false)
 	{
 		if (element == null) return;
 
@@ -26,6 +37,7 @@ public class MoveHelperScript {
 				{
 					case (int)SortingVisualType.Swap:
 					case (int)SortingVisualType.Radix:
+					case (int)SortingVisualType.MergeMove:
 						if (isDefaultColor)
 							child.GetComponent<Renderer>().material.color = DEFAULT_COLOR;
 						else
@@ -35,6 +47,16 @@ public class MoveHelperScript {
 						if (isDefaultColor)
 							child.GetComponent<Renderer>().material.color = DEFAULT_COLOR;
 						else
+							child.GetComponent<Renderer>().material.color = COMPARISON_COLOR;
+						break;
+					case (int)SortingVisualType.MergeArray:
+						if (isLeftArray)
+							child.GetComponent<Renderer>().material.color = LEFTARRAY_COLOR;
+						else
+							child.GetComponent<Renderer>().material.color = RIGHTARRAY_COLOR;
+						break;
+					case (int)SortingVisualType.MergeComparison:
+						if (!isDefaultColor)
 							child.GetComponent<Renderer>().material.color = COMPARISON_COLOR;
 						break;
 				}

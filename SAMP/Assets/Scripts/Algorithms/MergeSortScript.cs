@@ -12,13 +12,13 @@ public class MergeSortScript : Algorithms {
 
 	}
 
-	public List<GameObject> startSort(GameObject[] array)
+	public List<SortingVisualItem> StartSort(GameObject[] array)
 	{
-		swappingQueue.Clear ();
+		visualItems.Clear();
 		elementArray = array;
-		myMergeSort (0, elementArray.Length-1);
+		myMergeSort(0, elementArray.Length - 1);
 
-		return swappingQueue;		
+		return visualItems;
 	}
 
 	public void myMergeSort(int left, int right)
@@ -37,6 +37,9 @@ public class MergeSortScript : Algorithms {
 			Array.Copy(elementArray, left, leftArray, 0, middle - left + 1);
 			Array.Copy(elementArray, middle + 1, rightArray, 0, right - middle);
 
+			visualItems.Add(new SortingVisualItem((int)SortingVisualType.MergeArray, null, null, array: leftArray, isLeftArray: true));
+			visualItems.Add(new SortingVisualItem((int)SortingVisualType.MergeArray, null, null, array: rightArray, isLeftArray: false));
+
 			int i = 0;
 			int j = 0;
 			Debug.Log ("NEW LOOP");
@@ -46,25 +49,31 @@ public class MergeSortScript : Algorithms {
 			{
 				if (i == leftArray.Length)
 				{
-					swap (elementArray [k], rightArray [j]);
+					visualItems.Add(new SortingVisualItem((int)SortingVisualType.MergeMove, rightArray[j], null, mergePosition: k));
+
 					elementArray[k] = rightArray[j];
 					j++;
 				}
 				else if (j == rightArray.Length)
 				{
-					swap (elementArray [k], leftArray [i]);
+					visualItems.Add(new SortingVisualItem((int)SortingVisualType.MergeMove, leftArray[i], null, mergePosition: k));
+
 					elementArray[k] = leftArray[i];
 					i++;
 				}
 				else if (getGameObjectSize(leftArray[i]) <= getGameObjectSize(rightArray[j]))
 				{
-					swap (elementArray [k], leftArray [i]);
+					visualItems.Add(new SortingVisualItem((int)SortingVisualType.MergeComparison, leftArray[i], rightArray[j]));
+					visualItems.Add(new SortingVisualItem((int)SortingVisualType.MergeMove, leftArray[i], null, mergePosition: k));
+
 					elementArray[k] = leftArray[i];
 					i++;
 				}
 				else
 				{
-					swap (elementArray [k], rightArray [j]);
+					visualItems.Add(new SortingVisualItem((int)SortingVisualType.MergeComparison, leftArray[i], rightArray[j]));
+					visualItems.Add(new SortingVisualItem((int)SortingVisualType.MergeMove, rightArray[j], null, mergePosition: k));
+
 					elementArray[k] = rightArray[j];
 					j++;
 				}
@@ -81,16 +90,6 @@ public class MergeSortScript : Algorithms {
 		}
 
 		Debug.Log (name + s);
-	}
-
-	private void swap(GameObject go1, GameObject go2)
-	{
-		if (go1.GetComponent<SingleElementScript> ().getElementId () == go2.GetComponent<SingleElementScript> ().getElementId ())
-			return;
-
-		// add to queue and swap element array position
-		swappingQueue.Add (go1);
-		swappingQueue.Add (go2);
 	}
 
 	private double getGameObjectSize(GameObject go)

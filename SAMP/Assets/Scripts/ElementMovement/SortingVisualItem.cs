@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-enum SortingVisualType { Swap = 0, Comparison = 1, Radix = 2 }
+enum SortingVisualType { Swap = 0, Comparison = 1, Radix = 2, MergeArray = 3, MergeMove = 4, MergeComparison = 5 }
 
 public class SortingVisualItem {
 
 	private readonly GameObject _element1, _element2;
-	private readonly int _type, _bucket, _bucketPosition;
+	private readonly int _type, _bucket, _bucketPosition, _mergePosition;
+	private readonly GameObject[] _array;//, _rightArray;
+	private readonly bool _isLeftArray;
 
 	public GameObject Element1
 	{
@@ -50,12 +52,47 @@ public class SortingVisualItem {
 		}
 	}
 
-	public SortingVisualItem(int type, GameObject element1, GameObject element2, int bucket = -1, int bucketPosition = -1)
+	public GameObject[] Array
+	{
+		get
+		{
+			return _array;
+		}
+	}
+
+	public bool IsLeftArray
+	{
+		get
+		{
+			return _isLeftArray;
+		}
+	}
+
+	public int MergePosition
+	{
+		get
+		{
+			return _mergePosition;
+		}
+	}
+
+	//public GameObject[] RightArray
+	//{
+	//	get
+	//	{
+	//		return _rightArray;
+	//	}
+	//}
+
+	public SortingVisualItem(int type, GameObject element1, GameObject element2, int bucket = -1, int bucketPosition = -1, GameObject[] array = null, bool isLeftArray = false, int mergePosition = -1)
 	{
 		_type = type;
 		_element1 = element1;
 		_element2 = element2;
 		_bucket = bucket;
 		_bucketPosition = bucketPosition;
+		_array = array;
+		_isLeftArray = isLeftArray;
+		_mergePosition = mergePosition;
 	}
 }

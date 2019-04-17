@@ -38,7 +38,6 @@ public class ElementScript : MonoBehaviour {
     {
         //get number of existing sorting boxes
         int sortingbox_count = GameObject.FindGameObjectsWithTag("SortingBoxes").Length;
-        Debug.Log("SORTING BOX COUNT: " + sortingbox_count);
 
         //spawn sorting box
         var sortingbox_go = Instantiate(sortingbox);
@@ -263,25 +262,6 @@ public class ElementScript : MonoBehaviour {
 		}
 	}
 
-	private void printGameObjects()
-	{
-		for (int i = 0; i < elementArray.Length; i++) 
-		{
-			Debug.Log (elementArray [i].name + " - Scale: " + elementArray [i].GetComponentInChildren<Rigidbody> ().transform.localScale
-				+ " - Position: " + elementArray [i].GetComponentInChildren<Rigidbody> ().position);
-
-		}
-	}
-
-	public void printElementIDs()
-	{
-		Debug.Log ("Element IDs");
-		foreach (GameObject go in elementArray) 
-		{
-			Debug.Log (go.GetComponent<SingleElementScript> ().getElementId ());
-		}
-	}
-
 	// all sortingboxes with a set algorithm get started
 	public void StartSort()
 	{
@@ -332,16 +312,15 @@ public class ElementScript : MonoBehaviour {
 		if (sbs == null) return;
 
 		setTrailRenderer(sbs.getElementArray(), true);
-		sbs.ActivateSwapsCounter();
 
 		QuickSortScript ss = new QuickSortScript();
-		//List<GameObject> swappingQueue = ss.startSort(sbs.getElementArray(), 0, sbs.getElementArray().Length);
 		List<SortingVisualItem> swappingQueue = ss.StartSort(sbs.getElementArray(), 0, sbs.getElementArray().Length);
 
 		if (swappingQueue != null && swappingQueue.Count >= 1)
 		{
 			MoveScript m = gameObject.AddComponent<MoveScript>();
-			m.Swap(swappingQueue);
+			m.SortingBox = sbs.gameObject;
+			m.Swap(swappingQueue, Algorithms.QUICKSORT);
 		}
 		else
 			sbs.setInUse(false);
@@ -355,13 +334,13 @@ public class ElementScript : MonoBehaviour {
 		sbs.ActivateSwapsCounter();
 
 		HeapSortScript ss = new HeapSortScript();
-		//List<GameObject> swappingQueue = ss.startSort(sbs.getElementArray());
 		List<SortingVisualItem> swappingQueue = ss.StartSort(sbs.getElementArray());
 
 		if (swappingQueue != null && swappingQueue.Count >= 1)
 		{
 			MoveScript m = gameObject.AddComponent<MoveScript>();
-			m.Swap(swappingQueue);
+			m.SortingBox = sbs.gameObject;
+			m.Swap(swappingQueue, Algorithms.HEAPSORT);
 		}
 		else
 			sbs.setInUse(false);
@@ -371,15 +350,16 @@ public class ElementScript : MonoBehaviour {
 	{
 		if (sbs == null) return;
 
-		setTrailRenderer(sbs.getElementArray(), true);
+		setTrailRenderer(sbs.getElementArray(), false);
 
 		MergeSortScript ss = new MergeSortScript();
-		List<GameObject> swappingQueue = ss.startSort(sbs.getElementArray());
+		List<SortingVisualItem> swappingQueue = ss.StartSort(sbs.getElementArray());
 
 		if (swappingQueue != null && swappingQueue.Count >= 1)
 		{
-			MergeMoveScript m = gameObject.AddComponent<MergeMoveScript>();
-			m.swap(swappingQueue);
+			MoveScript m = gameObject.AddComponent<MoveScript>();
+			m.SortingBox = sbs.gameObject;
+			m.Swap(swappingQueue, Algorithms.MERGESORT);
 		}
 		else
 			sbs.setInUse(false);
@@ -393,13 +373,13 @@ public class ElementScript : MonoBehaviour {
 		sbs.ActivateSwapsCounter();
 
 		GnomeSortScript ss = new GnomeSortScript();
-		//List<GameObject> swappingQueue = ss.startSort(sbs.getElementArray());
 		List<SortingVisualItem> swappingQueue = ss.StartSort(sbs.getElementArray());
 
 		if (swappingQueue != null && swappingQueue.Count >= 1)
 		{
 			MoveScript m = gameObject.AddComponent<MoveScript>();
-			m.Swap(swappingQueue);
+			m.SortingBox = sbs.gameObject;
+			m.Swap(swappingQueue, Algorithms.GNOMESORT);
 		}
 		else
 			sbs.setInUse(false);
@@ -418,20 +398,11 @@ public class ElementScript : MonoBehaviour {
 		if (swappingQueue != null && swappingQueue.Count >= 1)
 		{
 			MoveScript m = gameObject.AddComponent<MoveScript>();
+			m.SortingBox = sbs.gameObject;
 			m.Swap(swappingQueue, Algorithms.RADIXSORT);
 		}
 		else
 			sbs.setInUse(false);
-
-		//List<BucketElementObject> bucket_element_objects = ss.startSort(sbs.getElementArray());
-
-		//if (bucket_element_objects != null && bucket_element_objects.Count >= 1)
-		//{
-		//	RadixMoveScript m = gameObject.AddComponent<RadixMoveScript>();
-		//	m.swap_new(bucket_element_objects);
-		//}
-		//else
-		//	sbs.setInUse(false);
 	}
 
 	private void ApplyAlgorithmText(string text)
@@ -559,81 +530,6 @@ public class ElementScript : MonoBehaviour {
 		}
     }
 
-    private void createBuckets(List<GameObject[]> elementArrays)
-    {
-		foreach (GameObject[] go_array in elementArrays)
-		{
-			if (go_array.Length > 0)
-			{
-				SortingBoxScript sbs = go_array[0].GetComponentInParent<SortingBoxScript>();
-				if (sbs == null) continue;
-
-				GameObject container = sbs.getContainer();
-				if (container == null) continue;
-
-				if (container.GetComponent<ElementContainerScript>().getHighlighted())
-				{
-					BucketScript bs = container.GetComponentInParent<BucketScript>();
-					if (bs != null)
-						bs.createBuckets();
-				}
-			}
-		}
-	}
-
-    private void deleteBuckets(List<GameObject[]> elementArrays)
-    {
-		foreach (GameObject[] go_array in elementArrays)
-		{
-			if (go_array.Length > 0)
-			{
-				SortingBoxScript sbs = go_array[0].GetComponentInParent<SortingBoxScript>();
-				if (sbs == null) continue;
-
-				GameObject container = sbs.getContainer();
-				if (container == null) continue;
-
-				if (container.GetComponent<ElementContainerScript>().getHighlighted())
-				{
-					BucketScript bs = container.GetComponentInParent<BucketScript>();
-					if (bs != null)
-						bs.deleteBuckets();
-				}
-			}
-		}
-	}
-
-	// sets algorithm name in container
-	// activates swapscounter for some algorithms
-	private void setAlgorithmText(string text, List<GameObject[]> elementArrays, bool activateSwapsCounter)
-	{
-		foreach(GameObject[] go_array in elementArrays)
-		{
-			if(go_array.Length > 0)
-			{
-				SortingBoxScript sbs = go_array[0].GetComponentInParent<SortingBoxScript>();
-				if (sbs == null) continue;
-
-				GameObject container = sbs.getContainer();
-				if (container == null) continue;
-
-				if (container.GetComponent<ElementContainerScript>().getHighlighted())
-					sbs.setAlgorithmText(text);
-
-				if (activateSwapsCounter)
-					sbs.ActivateSwapsCounter();
-			}
-		}
-	}
-
-	private void stopSortingboxUsage(GameObject[] array)
-	{
-		if (array == null || array.Length == 0) return;
-
-		MoveHelperScript mhs = new MoveHelperScript();
-		mhs.stopSortingboxUsage(array[0]);
-	}
-
 	// generates a sorted list with random numbers
 	private List<int> GetRandomNumbers(int length)
 	{
@@ -641,20 +537,6 @@ public class ElementScript : MonoBehaviour {
 		for (int i = 0; i < length; i++)
 			randomNumbers.Add(Random.Range(1,99));
 
-		//SetDebugNumbers(randomNumbers);
-		//randomNumbers.Sort();
 		return randomNumbers;
-	}
-
-	private void SetDebugNumbers(List<int> randomNumbers)
-	{
-		// debug
-		randomNumbers[0] = 5;
-		randomNumbers[1] = 5;
-		randomNumbers[2] = 5;
-		randomNumbers[3] = 66;
-		randomNumbers[4] = 66;
-		randomNumbers[5] = 66;
-		randomNumbers[6] = 66;
 	}
 }

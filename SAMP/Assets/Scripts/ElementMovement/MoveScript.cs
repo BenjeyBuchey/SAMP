@@ -6,17 +6,25 @@ using System;
 
 public class MoveScript : MonoBehaviour {
 
-	//private GameObject go1,go2;
-	//private Vector3 dest1,dest2, rotationPoint;
-	//private List<GameObject> queue;
-	private Color prevColor, prevColor2;
-	private Text score;
-	private float swapSpeed = 1.5f;
+	private float swapSpeed = 1.5f, mergeDiffY = 10.0f;
 	private List<SortingVisualItem> _visualItems;
 	private GameObject sortingBox = null;
-	private int init_counter = 0;
+	private int initCounter = 0;
 	private string _algorithm = null;
 	private List<Vector3> initPositions = new List<Vector3>();
+
+	public GameObject SortingBox
+	{
+		get
+		{
+			return sortingBox;
+		}
+
+		set
+		{
+			sortingBox = value;
+		}
+	}
 
 	// Use this for initialization
 	void Start ()
@@ -50,7 +58,12 @@ public class MoveScript : MonoBehaviour {
 		switch(_algorithm)
 		{
 			case Algorithms.RADIXSORT:
+			case Algorithms.MERGESORT:
+				DeactivateSwapsCounter();
 				SetInitialPositions();
+				break;
+			default:
+				ActivateSwapCounter();
 				break;
 		}
 	}
@@ -85,11 +98,52 @@ public class MoveScript : MonoBehaviour {
 				HandleSwap(element1, element2, isDefaultColor);
 				break;
 			case (int)SortingVisualType.Comparison:
-				HandleComparison(element1, element2, isDefaultColor);
+			case (int)SortingVisualType.MergeComparison:
+				HandleComparison(element1, element2, item.Type, isDefaultColor);
 				break;
 			case (int)SortingVisualType.Radix:
 				HandleRadix(element1, item.Bucket, item.BucketPosition, isDefaultColor);
 				break;
+			case (int)SortingVisualType.MergeArray:
+				HandleMergeArray(item.Array, item.IsLeftArray, isDefaultColor);
+				break;
+			case (int)SortingVisualType.MergeMove:
+				HandleMergeMove(element1, item.MergePosition, isDefaultColor);
+				break;
+		}
+	}
+
+	private void HandleMergeMove(GameObject element1, int mergePosition, bool isDefaultColor)
+	{
+		ChangeColor(element1, null, (int)SortingVisualType.MergeMove, isDefaultColor);
+
+		if (!isDefaultColor)
+			MoveMerge(element1, mergePosition);
+	}
+
+	private void MoveMerge(GameObject element1, int mergePosition)
+	{
+		Vector3 dest = GetMergeDestination(mergePosition);
+		LeanTween.move(element1, dest, swapSpeed);
+	}
+
+	private void HandleMergeArray(GameObject[] array, bool isLeftArray, bool isDefaultColor)
+	{
+		ChangeColorArray(array, (int)SortingVisualType.MergeArray, isLeftArray, isDefaultColor);
+
+		if (!isDefaultColor)
+			MoveMergeArray(array);
+	}
+
+	private void MoveMergeArray(GameObject[] array)
+	{
+		if (array == null) return;
+
+		foreach(GameObject element in array)
+		{
+			Vector3 dest = element.transform.position;
+			dest.y += mergeDiffY;
+			LeanTween.move(element, dest, swapSpeed);
 		}
 	}
 
@@ -107,9 +161,9 @@ public class MoveScript : MonoBehaviour {
 		LeanTween.move(element1, dest, swapSpeed);
 	}
 
-	private void HandleComparison(GameObject element1, GameObject element2, bool isDefaultColor)
+	private void HandleComparison(GameObject element1, GameObject element2, int type, bool isDefaultColor)
 	{
-		ChangeColor(element1, element2, (int)SortingVisualType.Comparison, isDefaultColor);
+		ChangeColor(element1, element2, type, isDefaultColor);
 		if (!isDefaultColor)
 			IncreaseComparisonCounter();
 	}
@@ -167,6 +221,22 @@ public class MoveScript : MonoBehaviour {
 		sbs.setInUse(true);
 	}
 
+	private void DeactivateSwapsCounter()
+	{
+		SortingBoxScript sbs = sortingBox.GetComponentInParent<SortingBoxScript>();
+		if (sbs == null) return;
+
+		sbs.DeactivateSwapsCounter();
+	}
+
+	private void ActivateSwapCounter()
+	{
+		SortingBoxScript sbs = sortingBox.GetComponentInParent<SortingBoxScript>();
+		if (sbs == null) return;
+
+		sbs.ActivateSwapsCounter();
+	}
+
 	private void IncreaseSwapCounter()
 	{
 		SortingBoxScript sbs = sortingBox.GetComponentInParent<SortingBoxScript>();
@@ -177,6 +247,8 @@ public class MoveScript : MonoBehaviour {
 
 	private void IncreaseComparisonCounter()
 	{
+		if (sortingBox == null) return;
+
 		SortingBoxScript sbs = sortingBox.GetComponentInParent<SortingBoxScript>();
 		if (sbs == null) return;
 
@@ -187,6 +259,12 @@ public class MoveScript : MonoBehaviour {
 	{
 		MoveHelperScript mhs = new MoveHelperScript();
 		mhs.ChangeColor(element1, element2, type, isDefaultColor);
+	}
+
+	private void ChangeColorArray(GameObject[] array, int type, bool isLeftArray, bool isDefaultColor)
+	{
+		MoveHelperScript mhs = new MoveHelperScript();
+		mhs.ChangeColor(array, type, isLeftArray, isDefaultColor);
 	}
 
 	private Vector3 GetRotationPoint(GameObject element1, GameObject element2)
@@ -251,8 +329,8 @@ public class MoveScript : MonoBehaviour {
 
 	private Vector3 GetRadixDestination(int bucket, int position, GameObject go)
 	{
-		if (init_counter >= initPositions.Count)
-			init_counter = 0;
+		if (initCounter >= initPositions.Count)
+			initCounter = 0;
 
 		float object_width = GetObjectWidth();
 		BucketScript bs = go.GetComponentInParent<BucketScript>();
@@ -266,18 +344,27 @@ public class MoveScript : MonoBehaviour {
 		// bucket -1 --> move to init positions
 		if (bucket == -1)
 		{
-			dest = initPositions[init_counter];
-			init_counter++;
+			dest = initPositions[initCounter];
+			initCounter++;
 		}
 		else
 		{
 			float z_offset = 5.0f + object_width * position;
+			if (bucket >= bucket_objects.Count || bucket_objects[bucket] == null)
+				Debug.Log("NULL BUCKET POS: " + bucket);
 			dest = bucket_objects[bucket].transform.position;
 			dest.y = dest.y - bucket_objects[bucket].transform.localScale.y / 2; //half bucket text size
 			dest.z = dest.z + z_offset;
 		}
 
 		return dest;
+	}
+
+	private Vector3 GetMergeDestination(int mergePosition)
+	{
+		if (initPositions == null || initPositions.Count < (mergePosition + 1)) return Vector3.zero;
+
+		return initPositions[mergePosition];
 	}
 
 	private float GetObjectWidth()
@@ -292,10 +379,9 @@ public class MoveScript : MonoBehaviour {
 
 	private void SetInitialPositions()
 	{
-		GameObject go = _visualItems[0].Element1;
-		if (go == null) return;
+		if (sortingBox == null) return;
 
-		SortingBoxScript sbs = go.GetComponentInParent<SortingBoxScript>();
+		SortingBoxScript sbs = sortingBox.GetComponent<SortingBoxScript>();
 		if (sbs == null) return;
 
 		initPositions.Clear();

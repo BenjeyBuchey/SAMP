@@ -5,7 +5,7 @@ using UnityEngine;
 public class BucketScript : MonoBehaviour {
 
 	public GameObject buckets_prefab;
-	private GameObject buckets = null;
+	private GameObject buckets;// = null;
 	private float y_container_offset = 5.0f, buckets_space = 0.0f;
 	private List<GameObject> bucket_objects = new List<GameObject>();
 	private GameObject container;
@@ -41,7 +41,7 @@ public class BucketScript : MonoBehaviour {
 	private void spawnBuckets()
 	{
 		//if (buckets == null) Debug.Log("NULLLLLLLLLLLLLLLLLLLLLLLLLLLL");
-		buckets = Instantiate(buckets_prefab, container.transform.parent) as GameObject;
+		buckets = Instantiate(buckets_prefab, container.transform.parent);
 	}
 
 	private void setBucketObjects()
@@ -87,7 +87,8 @@ public class BucketScript : MonoBehaviour {
 
 		if (bucket_objects.Count > 0)
 			y_bucket_offset = bucket_size_y;
-		
+
+		Debug.Log("bucket objects count: " + bucket_objects.Count);
 		Debug.Log("bucket size y: " + bucket_size_y);
 
 		foreach (GameObject go in bucket_objects)
@@ -106,18 +107,23 @@ public class BucketScript : MonoBehaviour {
 
     public void deleteBuckets()
     {
-        //foreach (GameObject bucket in bucket_objects)
-        //{
-        //    Destroy(bucket);
-        //}
+		Transform[] bucketsTransforms = gameObject.FindComponentsInChildrenWithTag<Transform>("Buckets");
+		
+		foreach (Transform bucketTransform in bucketsTransforms)
+		{
+			//Destroy(bucketTransform.gameObject);
+			DestroyImmediate(bucketTransform.gameObject);
+		}
 		bucket_objects.Clear();
 		Destroy(buckets);
 	}
 
 	private bool hasBuckets()
 	{
-		Transform[] buckets = gameObject.FindComponentsInChildrenWithTag<Transform>("Buckets");
-		if(buckets.Length > 0)
+		//Transform[] buckets = gameObject.FindComponentsInChildrenWithTag<Transform>("Buckets");
+		//if(buckets.Length > 0)
+		//	return true;
+		if (bucket_objects != null && bucket_objects.Count > 0)
 			return true;
 
 		return false;

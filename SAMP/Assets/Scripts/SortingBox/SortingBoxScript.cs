@@ -243,6 +243,17 @@ public class SortingBoxScript : MonoBehaviour {
 		updateSwapsCounterText();
 	}
 
+	public void DeactivateSwapsCounter()
+	{
+		swapsCounter = 0;
+		comparisonCounter = 0;
+		foreach (TextMesh tm in this.GetComponentsInChildren<TextMesh>())
+		{
+			if (tm.name.Equals("SwapsCounter"))
+				tm.text = string.Empty;
+		}
+	}
+
 	public bool isInUse()
 	{
 		return inUse;
