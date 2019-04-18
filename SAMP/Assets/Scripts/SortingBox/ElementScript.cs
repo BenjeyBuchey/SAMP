@@ -318,7 +318,8 @@ public class ElementScript : MonoBehaviour {
 
 		if (swappingQueue != null && swappingQueue.Count >= 1)
 		{
-			MoveScript m = gameObject.AddComponent<MoveScript>();
+			//MoveScript m = gameObject.AddComponent<MoveScript>();
+			MoveScript m = sbs.gameObject.GetComponent<MoveScript>();
 			m.SortingBox = sbs.gameObject;
 			m.Swap(swappingQueue, Algorithms.QUICKSORT);
 		}
@@ -338,7 +339,8 @@ public class ElementScript : MonoBehaviour {
 
 		if (swappingQueue != null && swappingQueue.Count >= 1)
 		{
-			MoveScript m = gameObject.AddComponent<MoveScript>();
+			//MoveScript m = gameObject.AddComponent<MoveScript>();
+			MoveScript m = sbs.gameObject.GetComponent<MoveScript>();
 			m.SortingBox = sbs.gameObject;
 			m.Swap(swappingQueue, Algorithms.HEAPSORT);
 		}
@@ -357,7 +359,8 @@ public class ElementScript : MonoBehaviour {
 
 		if (swappingQueue != null && swappingQueue.Count >= 1)
 		{
-			MoveScript m = gameObject.AddComponent<MoveScript>();
+			//MoveScript m = gameObject.AddComponent<MoveScript>();
+			MoveScript m = sbs.gameObject.GetComponent<MoveScript>();
 			m.SortingBox = sbs.gameObject;
 			m.Swap(swappingQueue, Algorithms.MERGESORT);
 		}
@@ -377,7 +380,8 @@ public class ElementScript : MonoBehaviour {
 
 		if (swappingQueue != null && swappingQueue.Count >= 1)
 		{
-			MoveScript m = gameObject.AddComponent<MoveScript>();
+			//MoveScript m = gameObject.AddComponent<MoveScript>();
+			MoveScript m = sbs.gameObject.GetComponent<MoveScript>();
 			m.SortingBox = sbs.gameObject;
 			m.Swap(swappingQueue, Algorithms.GNOMESORT);
 		}
@@ -397,7 +401,8 @@ public class ElementScript : MonoBehaviour {
 
 		if (swappingQueue != null && swappingQueue.Count >= 1)
 		{
-			MoveScript m = gameObject.AddComponent<MoveScript>();
+			//MoveScript m = gameObject.AddComponent<MoveScript>();
+			MoveScript m = sbs.gameObject.GetComponent<MoveScript>();
 			m.SortingBox = sbs.gameObject;
 			m.Swap(swappingQueue, Algorithms.RADIXSORT);
 		}

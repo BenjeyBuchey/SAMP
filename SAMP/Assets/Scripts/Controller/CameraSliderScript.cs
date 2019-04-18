@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CameraSliderScript : MonoBehaviour {
 
-    public float vSliderValue = 80;
+    public float vSliderValue = 100;
 	// Use this for initialization
 	void Start () {
 	
@@ -16,7 +16,7 @@ public class CameraSliderScript : MonoBehaviour {
 
     void OnGUI()
     {
-        vSliderValue = GUI.VerticalSlider(new Rect(25, 50, 10, (Screen.height - 100)), vSliderValue, 100f, 60f);
+        vSliderValue = GUI.VerticalSlider(new Rect(25, 50, 10, (Screen.height - 100)), vSliderValue, 120f, 80f);
     }
 
     private void checkZoom()

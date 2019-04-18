@@ -9,9 +9,11 @@ public class MoveScript : MonoBehaviour {
 	private float swapSpeed = 1.5f, mergeDiffY = 10.0f;
 	private List<SortingVisualItem> _visualItems;
 	private GameObject sortingBox = null;
-	private int initCounter = 0;
+	private int initCounter = 0, _visualizationCounter = 0;
 	private string _algorithm = null;
 	private List<Vector3> initPositions = new List<Vector3>();
+	private List<GameState> gameStates = new List<GameState>();
+	private bool isBusy = false;
 
 	public GameObject SortingBox
 	{
@@ -38,10 +40,27 @@ public class MoveScript : MonoBehaviour {
 
 	}
 
+	public void StepForward()
+	{
+		if (isBusy) return;
+
+		if(_visualizationCounter < _visualItems.Count)
+			StartCoroutine(DoStepForward());
+	}
+
+	public void StepEnd()
+	{
+		if (isBusy) return;
+
+		if (_visualizationCounter < _visualItems.Count)
+			StartCoroutine(DoStepEnd());
+	}
+
 	public void Swap(List<SortingVisualItem> visualItems, string algorithm = null)
 	{
 		_visualItems = visualItems;
 		_algorithm = algorithm;
+		_visualizationCounter = 0;
 		if (_visualItems == null || _visualItems.Count == 0) return;
 
 		if (sortingBox == null)
@@ -70,21 +89,85 @@ public class MoveScript : MonoBehaviour {
 
 	IEnumerator DoSwap()
 	{
-		for (int i = 0; i < _visualItems.Count; i++)
+		for (; _visualizationCounter < _visualItems.Count; _visualizationCounter++)
 		{
-			UpdateSwapSpeed(_visualItems[i].Type);
+			while (IsPaused() || isBusy)
+				yield return null;
 
-			HandleVisualizationItem(_visualItems[i], false);
+			if (_visualizationCounter > 0)
+				HandleVisualizationItem(_visualItems[_visualizationCounter - 1], true);
+
+			if (_visualizationCounter >= _visualItems.Count)
+			{
+				Exit();
+				yield break;
+			}
+
+			UpdateSwapSpeed(_visualItems[_visualizationCounter].Type);
+
+			HandleVisualizationItem(_visualItems[_visualizationCounter], false);
 
 			yield return new WaitForSeconds(swapSpeed);
 
-			while (IsPaused())
-				yield return null;
+			//while (IsPaused())
+			//	yield return null;
 
-			HandleVisualizationItem(_visualItems[i], true);
+			//HandleVisualizationItem(_visualItems[i], true);
 		}
-		StopSortingboxUsage();
-		Destroy(this);
+
+		if (_visualizationCounter <= _visualItems.Count)
+			HandleVisualizationItem(_visualItems[_visualizationCounter-1], true);
+
+		Exit();
+	}
+
+	IEnumerator DoStepForward()
+	{
+		isBusy = true;
+		UpdateSwapSpeed(_visualItems[_visualizationCounter].Type);
+
+		if (_visualizationCounter > 0)
+			HandleVisualizationItem(_visualItems[_visualizationCounter - 1], true);
+
+		if (_visualizationCounter >= _visualItems.Count) yield break;
+		HandleVisualizationItem(_visualItems[_visualizationCounter], false);
+
+		yield return new WaitForSeconds(swapSpeed);
+
+		_visualizationCounter++;
+
+		// DO LAST ITEM HERE !?
+
+		isBusy = false;
+	}
+
+	IEnumerator DoStepEnd()
+	{
+		isBusy = true;
+		swapSpeed = 0.1f;
+
+		for (; _visualizationCounter < _visualItems.Count; _visualizationCounter++)
+		{
+			if (_visualizationCounter > 0)
+				HandleVisualizationItem(_visualItems[_visualizationCounter - 1], true);
+
+			if (_visualizationCounter >= _visualItems.Count)
+			{
+				Exit();
+				yield break;
+			}
+
+			HandleVisualizationItem(_visualItems[_visualizationCounter], false);
+
+			yield return new WaitForSeconds(swapSpeed);
+		}
+
+		if (_visualizationCounter <= _visualItems.Count)
+			HandleVisualizationItem(_visualItems[_visualizationCounter - 1], true);
+
+		Exit();
+
+		isBusy = false;
 	}
 
 	void HandleVisualizationItem(SortingVisualItem item, bool isDefaultColor)
@@ -296,20 +379,6 @@ public class MoveScript : MonoBehaviour {
 		sbs.setInUse(false);
 	}
 
-	private void stopSortingboxUsageGlobal()
-	{
-		ElementScript es = gameObject.GetComponentInParent<ElementScript>();
-		if (es == null) return;
-
-		GameObject sortingbox = es.sortingbox;
-		if (sortingbox == null) return;
-
-		SortingBoxScript sbs = sortingbox.GetComponent<SortingBoxScript>();
-		if (sbs == null) return;
-
-		sbs.setInUse(false);
-	}
-
 	private void UpdateSwapSpeed(int type)
 	{
 		MoveHelperScript mhs = new MoveHelperScript();
@@ -318,13 +387,15 @@ public class MoveScript : MonoBehaviour {
 
 	private bool IsPaused()
 	{
-		GameObject go = GameObject.Find("SwapManager");
-		if (go == null) return false;
+		//GameObject go = GameObject.Find("SwapManager");
+		//if (go == null) return false;
 
-		SwapManagerScript sms = go.GetComponent<SwapManagerScript>();
-		if (sms == null) return false;
+		//SwapManagerScript sms = go.GetComponent<SwapManagerScript>();
+		//if (sms == null) return false;
 
-		return sms.isPaused;
+		//return sms.isPaused;
+
+		return HelperScript.IsPaused();
 	}
 
 	private Vector3 GetRadixDestination(int bucket, int position, GameObject go)
@@ -344,14 +415,14 @@ public class MoveScript : MonoBehaviour {
 		// bucket -1 --> move to init positions
 		if (bucket == -1)
 		{
-			dest = initPositions[initCounter];
+			if (initCounter > initPositions.Count || initCounter < 0)
+				Debug.Log("INIT COUNTER: " + initCounter);
+			dest = initPositions[initCounter]; // DEBUG
 			initCounter++;
 		}
 		else
 		{
 			float z_offset = 5.0f + object_width * position;
-			if (bucket >= bucket_objects.Count || bucket_objects[bucket] == null)
-				Debug.Log("NULL BUCKET POS: " + bucket);
 			dest = bucket_objects[bucket].transform.position;
 			dest.y = dest.y - bucket_objects[bucket].transform.localScale.y / 2; //half bucket text size
 			dest.z = dest.z + z_offset;
@@ -384,7 +455,13 @@ public class MoveScript : MonoBehaviour {
 		SortingBoxScript sbs = sortingBox.GetComponent<SortingBoxScript>();
 		if (sbs == null) return;
 
-		initPositions.Clear();
+		//initPositions.Clear();
 		initPositions = sbs.getInitialPositionList();
+	}
+
+	private void Exit()
+	{
+		StopSortingboxUsage();
+		//Destroy(this);
 	}
 }

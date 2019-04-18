@@ -68,22 +68,6 @@ public class InputScript : MonoBehaviour {
 		}
 	}
 
-	// swaps array elements in positions a & b
-	//private void swap(int a, int b)
-	//{
- //       List<List<GameObject>> temp = iis.swapNEW(a, b);
- //       if (queue.Count == 0)
- //       {
- //           queue = temp;
- //           return;
- //       }
-
- //       for (int i = 0; i < temp.Count; i++)
- //       {
- //           queue[i].AddRange(temp[i]);
- //       }
-	//}
-
 	// returns the size of the element in array position a
 	private double size(int a)
 	{
@@ -108,18 +92,6 @@ public class InputScript : MonoBehaviour {
 	{
 		Debug.Log (a);
 	}
-
-	//private void execQueue()
-	//{
-	//    if (queue != null && queue.Count == 0)
-	//        return;
-
-	//    foreach (List<GameObject> container_queue in queue)
-	//    {
-	//        MoveScript ms = gameObject.AddComponent<MoveScript> ();
-	//        //ms.swap (container_queue);
-	//    }
-	//}
 
 	private void execQueue()
 	{

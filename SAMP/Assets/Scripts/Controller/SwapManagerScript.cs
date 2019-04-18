@@ -8,6 +8,7 @@ public class SwapManagerScript : MonoBehaviour {
 	public Button pauseResume;
 	public Sprite pauseSprite, resumeSprite;
 	public bool isPaused;
+	public GameObject elementController;
 	// Use this for initialization
 	void Start () {
 		SetPaused(false);
@@ -36,5 +37,46 @@ public class SwapManagerScript : MonoBehaviour {
 			//LeanTween.resumeAll();
 			pauseResume.image.sprite = pauseSprite;
 		}
+	}
+
+	public void Begin()
+	{
+		if (!isPaused) return;
+
+		Debug.Log("BEGIN CLICKED");
+	}
+
+	public void End()
+	{
+		if (!isPaused) return;
+
+		MoveScript[] moveScripts = FindObjectsOfType<MoveScript>() as MoveScript[];
+		if (moveScripts == null || moveScripts.Length == 0) return;
+
+		foreach (MoveScript ms in moveScripts)
+		{
+			ms.StepEnd();
+		}
+	}
+
+	// execute next step for all sorting boxes that are in use (we can just find all movescripts)
+	public void Next()
+	{
+		if (!isPaused) return;
+
+		MoveScript[] moveScripts = FindObjectsOfType<MoveScript>() as MoveScript[];
+		if (moveScripts == null || moveScripts.Length == 0) return;
+
+		foreach(MoveScript ms in moveScripts)
+		{
+			ms.StepForward();
+		}
+	}
+
+	public void Previous()
+	{
+		if (!isPaused) return;
+
+		Debug.Log("Previous CLICKED");
 	}
 }

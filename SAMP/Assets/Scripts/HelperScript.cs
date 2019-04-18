@@ -55,7 +55,8 @@ public static class HelperScript
 	// checks if program is paused
 	public static bool IsPaused()
 	{
-		SwapManagerScript sms = GameObject.Find("SwapManager").GetComponent<SwapManagerScript>();
+		//SwapManagerScript sms = GameObject.Find("SwapManager").GetComponent<SwapManagerScript>();
+		SwapManagerScript sms = GameObject.Find("Controls").GetComponent<SwapManagerScript>();
 		if (sms == null) return false;
 
 		return sms.isPaused;

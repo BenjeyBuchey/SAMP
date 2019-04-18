@@ -79,6 +79,8 @@
     <Compile Include="Assets\Scripts\CSI\CSharpInterpreter.cs" />
     <Compile Include="Assets\Scripts\CSI\interpreter.cs" />
     <Compile Include="Assets\Scripts\CSI\prepro.cs" />
+    <Compile Include="Assets\Scripts\ElementMovement\ElementState.cs" />
+    <Compile Include="Assets\Scripts\ElementMovement\GameState.cs" />
     <Compile Include="Assets\Scripts\ElementMovement\MergeMoveScript.cs" />
     <Compile Include="Assets\Scripts\ElementMovement\MoveHelperScript.cs" />
     <Compile Include="Assets\Scripts\ElementMovement\MoveScript.cs" />

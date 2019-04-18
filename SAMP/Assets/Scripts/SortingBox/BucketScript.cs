@@ -107,15 +107,14 @@ public class BucketScript : MonoBehaviour {
 
     public void deleteBuckets()
     {
-		Transform[] bucketsTransforms = gameObject.FindComponentsInChildrenWithTag<Transform>("Buckets");
+		//Transform[] bucketsTransforms = gameObject.FindComponentsInChildrenWithTag<Transform>("Buckets");
 		
-		foreach (Transform bucketTransform in bucketsTransforms)
-		{
-			//Destroy(bucketTransform.gameObject);
-			DestroyImmediate(bucketTransform.gameObject);
-		}
+		//foreach (Transform bucketTransform in bucketsTransforms)
+		//{
+		//	DestroyImmediate(bucketTransform.gameObject);
+		//}
 		bucket_objects.Clear();
-		Destroy(buckets);
+		DestroyImmediate(buckets);
 	}
 
 	private bool hasBuckets()
