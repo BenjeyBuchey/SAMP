@@ -7,11 +7,11 @@ public class SwapManagerScript : MonoBehaviour {
 
 	public Button pauseResume;
 	public Sprite pauseSprite, resumeSprite;
-	public bool isPaused;
+	public bool isPaused = false;
 	public GameObject elementController;
 	// Use this for initialization
 	void Start () {
-		SetPaused(false);
+		//SetPaused(false);
 	}
 	
 	// Update is called once per frame

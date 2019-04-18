@@ -29,13 +29,13 @@ public class MoveScript : MonoBehaviour {
 	}
 
 	// Use this for initialization
-	void Start ()
+	void Start()
 	{
-        //setValues(); //
+
 	}
-	
+
 	// Update is called once per frame
-	void Update ()
+	void Update()
 	{
 
 	}
@@ -112,7 +112,7 @@ public class MoveScript : MonoBehaviour {
 			//while (IsPaused())
 			//	yield return null;
 
-			//HandleVisualizationItem(_visualItems[i], true);
+			//HandleVisualizationItem(_visualItems[i], true);sdfasd
 		}
 
 		if (_visualizationCounter <= _visualItems.Count)
@@ -387,14 +387,6 @@ public class MoveScript : MonoBehaviour {
 
 	private bool IsPaused()
 	{
-		//GameObject go = GameObject.Find("SwapManager");
-		//if (go == null) return false;
-
-		//SwapManagerScript sms = go.GetComponent<SwapManagerScript>();
-		//if (sms == null) return false;
-
-		//return sms.isPaused;
-
 		return HelperScript.IsPaused();
 	}
 
@@ -417,7 +409,7 @@ public class MoveScript : MonoBehaviour {
 		{
 			if (initCounter > initPositions.Count || initCounter < 0)
 				Debug.Log("INIT COUNTER: " + initCounter);
-			dest = initPositions[initCounter]; // DEBUG
+			dest = initPositions[initCounter];
 			initCounter++;
 		}
 		else
