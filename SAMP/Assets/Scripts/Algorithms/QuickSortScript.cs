@@ -47,7 +47,7 @@ public class QuickSortScript : Algorithms {
 			while (left <= right)
 			{
 				visualItems.Add(new SortingVisualItem((int)SortingVisualType.Comparison, elementArray[left], pivot));
-				if (elementArray[left].GetComponentInChildren<Rigidbody>().transform.localScale.x <= pivot.GetComponentInChildren<Rigidbody>().transform.localScale.x)
+				if (GetElementSize(elementArray[left]) <= GetElementSize(pivot))
 					left++;
 				else
 					break;
@@ -62,7 +62,7 @@ public class QuickSortScript : Algorithms {
 			while (left <= right)
 			{
 				visualItems.Add(new SortingVisualItem((int)SortingVisualType.Comparison, elementArray[right], pivot));
-				if (elementArray[right].GetComponentInChildren<Rigidbody>().transform.localScale.x > pivot.GetComponentInChildren<Rigidbody>().transform.localScale.x)
+				if (GetElementSize(elementArray[right]) > GetElementSize(pivot))
 					right--;
 				else
 					break;
@@ -76,11 +76,11 @@ public class QuickSortScript : Algorithms {
 
 			if (left > right)
 			{
-				swap (start,left-1);
+				Swap (start,left-1);
 				return left;
 			}
 			
-			swap (left,right);
+			Swap (left,right);
 		}
 	}
 }

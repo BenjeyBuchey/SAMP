@@ -26,7 +26,7 @@ public class HeapSortScript : Algorithms {
 		for (int i = elementArray.Length - 1; i >= 0; i--)
 		{
 			//Swap
-			swap(i,0);
+			Swap(i,0);
 
 			heapSize--;
 			maxHeapify(heapSize, 0);
@@ -39,15 +39,15 @@ public class HeapSortScript : Algorithms {
 		int right = 2 * index + 1;
 		int largest = index;
 
-		if (left < heapSize && getSize(left) > getSize(index))
-			largest = left;
-		else
-			largest = index;
+		//if (left < heapSize && GetElementSize(elementArray[left]) > GetElementSize(elementArray[index]))
+		//	largest = left;
+		//else
+		//	largest = index;
 
 		if (left < heapSize)
 		{
 			visualItems.Add(new SortingVisualItem((int)SortingVisualType.Comparison, elementArray[left], elementArray[index]));
-			if (getSize(left) > getSize(index))
+			if (GetElementSize(elementArray[left]) > GetElementSize(elementArray[index]))
 				largest = left;
 			else
 				largest = index;
@@ -58,13 +58,13 @@ public class HeapSortScript : Algorithms {
 		if(right < heapSize)
 		{
 			visualItems.Add(new SortingVisualItem((int)SortingVisualType.Comparison, elementArray[right], elementArray[largest]));
-			if (getSize(right) > getSize(largest))
+			if (GetElementSize(elementArray[right]) > GetElementSize(elementArray[largest]))
 				largest = right;
 		}
 
 		if (largest != index) 
 		{
-			swap (index, largest);
+			Swap (index, largest);
 
 			maxHeapify (heapSize, largest);
 		}

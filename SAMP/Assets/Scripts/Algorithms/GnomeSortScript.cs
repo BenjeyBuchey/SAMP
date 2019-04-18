@@ -23,11 +23,11 @@ public class GnomeSortScript : Algorithms {
 		for(int i = 1;i < elementArray.Length;)
 		{
 			visualItems.Add(new SortingVisualItem((int)SortingVisualType.Comparison, elementArray[i - 1], elementArray[i]));
-			if (getSize(i-1)<=getSize(i)) 
+			if (GetElementSize(elementArray[i-1]) <= GetElementSize(elementArray[i])) //if (getSize(i-1)<=getSize(i)) 
 				i += 1;
 			else
 			{
-				swap (i-1,i);
+				Swap (i-1,i);
 
 				i-=1; 
 				if(i==0) 

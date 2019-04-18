@@ -61,7 +61,7 @@ public class MergeSortScript : Algorithms {
 					elementArray[k] = leftArray[i];
 					i++;
 				}
-				else if (getGameObjectSize(leftArray[i]) <= getGameObjectSize(rightArray[j]))
+				else if (GetElementSize(leftArray[i]) <= GetElementSize(rightArray[j]))
 				{
 					visualItems.Add(new SortingVisualItem((int)SortingVisualType.MergeComparison, leftArray[i], rightArray[j]));
 					visualItems.Add(new SortingVisualItem((int)SortingVisualType.MergeMove, leftArray[i], null, mergePosition: k));
@@ -92,8 +92,8 @@ public class MergeSortScript : Algorithms {
 		Debug.Log (name + s);
 	}
 
-	private double getGameObjectSize(GameObject go)
-	{
-		return go.GetComponentInChildren<Rigidbody> ().transform.localScale.x;
-	}
+	//private double getGameObjectSize(GameObject go)
+	//{
+	//	return go.GetComponentInChildren<Rigidbody> ().transform.localScale.x;
+	//}
 }

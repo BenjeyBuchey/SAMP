@@ -24,4 +24,16 @@ public class SingleElementScript : MonoBehaviour {
 	{
 		element_id = value;
 	}
+
+	public Color GetColor()
+	{
+		foreach (Transform child in gameObject.transform)
+		{
+			if (child.tag.Equals("BasicElement"))
+			{
+				return child.GetComponent<Renderer>().material.color;
+			}
+		}
+		return MoveHelperScript.DEFAULT_COLOR;
+	}
 }

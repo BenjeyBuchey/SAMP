@@ -12,7 +12,7 @@ public class MoveScript : MonoBehaviour {
 	private int initCounter = 0, _visualizationCounter = 0;
 	private string _algorithm = null;
 	private List<Vector3> initPositions = new List<Vector3>();
-	private List<GameState> gameStates = new List<GameState>();
+	private List<GameState> _gameStates = new List<GameState>();
 	private bool isBusy = false;
 
 	public GameObject SortingBox
@@ -40,6 +40,14 @@ public class MoveScript : MonoBehaviour {
 
 	}
 
+	public void StepBackwards()
+	{
+		if (isBusy) return;
+
+		if (_visualizationCounter <= _visualItems.Count && _visualizationCounter>0)
+			StartCoroutine(DoStepBackwards());
+	}
+
 	public void StepForward()
 	{
 		if (isBusy) return;
@@ -61,6 +69,7 @@ public class MoveScript : MonoBehaviour {
 		_visualItems = visualItems;
 		_algorithm = algorithm;
 		_visualizationCounter = 0;
+		_gameStates.Clear();
 		if (_visualItems == null || _visualItems.Count == 0) return;
 
 		if (sortingBox == null)
@@ -95,7 +104,7 @@ public class MoveScript : MonoBehaviour {
 				yield return null;
 
 			if (_visualizationCounter > 0)
-				HandleVisualizationItem(_visualItems[_visualizationCounter - 1], true);
+				ChangeColors(_visualItems[_visualizationCounter - 1], true);//HandleVisualizationItem(_visualItems[_visualizationCounter - 1], true);asdf
 
 			if (_visualizationCounter >= _visualItems.Count)
 			{
@@ -105,7 +114,7 @@ public class MoveScript : MonoBehaviour {
 
 			UpdateSwapSpeed(_visualItems[_visualizationCounter].Type);
 
-			HandleVisualizationItem(_visualItems[_visualizationCounter], false);
+			HandleVisualizationItem(_visualItems[_visualizationCounter]);
 
 			yield return new WaitForSeconds(swapSpeed);
 
@@ -116,7 +125,7 @@ public class MoveScript : MonoBehaviour {
 		}
 
 		if (_visualizationCounter <= _visualItems.Count)
-			HandleVisualizationItem(_visualItems[_visualizationCounter-1], true);
+			ChangeColors(_visualItems[_visualizationCounter - 1], true);
 
 		Exit();
 	}
@@ -127,16 +136,18 @@ public class MoveScript : MonoBehaviour {
 		UpdateSwapSpeed(_visualItems[_visualizationCounter].Type);
 
 		if (_visualizationCounter > 0)
-			HandleVisualizationItem(_visualItems[_visualizationCounter - 1], true);
+			ChangeColors(_visualItems[_visualizationCounter - 1], true);
 
 		if (_visualizationCounter >= _visualItems.Count) yield break;
-		HandleVisualizationItem(_visualItems[_visualizationCounter], false);
+		HandleVisualizationItem(_visualItems[_visualizationCounter]);
 
 		yield return new WaitForSeconds(swapSpeed);
 
 		_visualizationCounter++;
 
 		// DO LAST ITEM HERE !?
+		if (_visualizationCounter == _visualItems.Count)
+			ChangeColors(_visualItems[_visualizationCounter - 1], true);
 
 		isBusy = false;
 	}
@@ -149,7 +160,7 @@ public class MoveScript : MonoBehaviour {
 		for (; _visualizationCounter < _visualItems.Count; _visualizationCounter++)
 		{
 			if (_visualizationCounter > 0)
-				HandleVisualizationItem(_visualItems[_visualizationCounter - 1], true);
+				ChangeColors(_visualItems[_visualizationCounter - 1], true);
 
 			if (_visualizationCounter >= _visualItems.Count)
 			{
@@ -157,51 +168,108 @@ public class MoveScript : MonoBehaviour {
 				yield break;
 			}
 
-			HandleVisualizationItem(_visualItems[_visualizationCounter], false);
+			HandleVisualizationItem(_visualItems[_visualizationCounter]);
 
 			yield return new WaitForSeconds(swapSpeed);
 		}
 
 		if (_visualizationCounter <= _visualItems.Count)
-			HandleVisualizationItem(_visualItems[_visualizationCounter - 1], true);
+			ChangeColors(_visualItems[_visualizationCounter - 1], true);
 
 		Exit();
 
 		isBusy = false;
 	}
 
-	void HandleVisualizationItem(SortingVisualItem item, bool isDefaultColor)
+	IEnumerator DoStepBackwards()
 	{
-		GameObject element1 = item.Element1;
-		GameObject element2 = item.Element2;
+		isBusy = true;
 
+		if(_visualizationCounter < _gameStates.Count)
+			SetColor(_gameStates[_visualizationCounter].ElementStates);
+
+		GameState gameState = _gameStates[_visualizationCounter - 1];
+		UpdateSwapSpeed(gameState.NextInstruction.Type);
+
+		HandleVisualizationItemBackwards(gameState.NextInstruction, gameState.ElementStates);
+
+		yield return new WaitForSeconds(swapSpeed);
+
+		_visualizationCounter--;
+
+		isBusy = false;
+	}
+
+	void HandleVisualizationItem(SortingVisualItem item)
+	{
 		switch (item.Type)
 		{
 			case (int)SortingVisualType.Swap:
-				HandleSwap(element1, element2, isDefaultColor);
+				Debug.Log("FORWARD SWAP " + _visualizationCounter + " - GameStates Count: " +_gameStates.Count);
+				HandleSwap(item);
 				break;
 			case (int)SortingVisualType.Comparison:
 			case (int)SortingVisualType.MergeComparison:
-				HandleComparison(element1, element2, item.Type, isDefaultColor);
+				Debug.Log("FORWARD COMPARISON " + _visualizationCounter + " - GameStates Count: " + _gameStates.Count);
+				HandleComparison(item);
 				break;
 			case (int)SortingVisualType.Radix:
-				HandleRadix(element1, item.Bucket, item.BucketPosition, isDefaultColor);
+				HandleRadix(item);
 				break;
 			case (int)SortingVisualType.MergeArray:
-				HandleMergeArray(item.Array, item.IsLeftArray, isDefaultColor);
+				HandleMergeArray(item);
 				break;
 			case (int)SortingVisualType.MergeMove:
-				HandleMergeMove(element1, item.MergePosition, isDefaultColor);
+				HandleMergeMove(item);
 				break;
 		}
 	}
 
-	private void HandleMergeMove(GameObject element1, int mergePosition, bool isDefaultColor)
+	void HandleVisualizationItemBackwards(SortingVisualItem item, List<ElementState> elementStates)
 	{
-		ChangeColor(element1, null, (int)SortingVisualType.MergeMove, isDefaultColor);
+		switch (item.Type)
+		{
+			case (int)SortingVisualType.Swap:
+				Debug.Log("BACKWARDS SWAP " +(_visualizationCounter-1) + " - GameStates Count: " + _gameStates.Count);
+				HandleSwapBackwards(item);
+				break;
+			case (int)SortingVisualType.Comparison:
+			case (int)SortingVisualType.MergeComparison:
+				Debug.Log("BACKWARDS COMPARISON " + (_visualizationCounter-1) + " - GameStates Count: " + _gameStates.Count);
+				HandleComparisonBackwards(item);
+				break;
+			case (int)SortingVisualType.Radix:
+			case (int)SortingVisualType.MergeMove:
+				HandleMoveBackwards(item, elementStates);
+				break;
+			case (int)SortingVisualType.MergeArray:
+				HandleMergeArrayBackwards(item, elementStates);
+				break;
+		}
+	}
 
-		if (!isDefaultColor)
-			MoveMerge(element1, mergePosition);
+	private void HandleMoveBackwards(SortingVisualItem item, List<ElementState> elementStates)
+	{
+		ChangeColors(item, false);
+		MoveElement(item.Element1, elementStates[0].Position);
+	}
+
+	private void MoveElement(GameObject element, Vector3 dest)
+	{
+		LeanTween.move(element, dest, swapSpeed);
+	}
+
+	private void HandleMergeMove(SortingVisualItem item)
+	{
+		if (_gameStates.Count <= _visualizationCounter)
+		{
+			ElementState elementState1 = new ElementState(item.Element1, item.Element1.GetComponent<SingleElementScript>().GetColor(), item.Element1.transform.position);
+			List<ElementState> elementStates = new List<ElementState> { elementState1 };
+			_gameStates.Add(new GameState(elementStates, item));
+		}
+
+		ChangeColors(item, false);
+		MoveMerge(item.Element1, item.MergePosition);
 	}
 
 	private void MoveMerge(GameObject element1, int mergePosition)
@@ -210,12 +278,29 @@ public class MoveScript : MonoBehaviour {
 		LeanTween.move(element1, dest, swapSpeed);
 	}
 
-	private void HandleMergeArray(GameObject[] array, bool isLeftArray, bool isDefaultColor)
+	private void HandleMergeArrayBackwards(SortingVisualItem item, List<ElementState> elementStates)
 	{
-		ChangeColorArray(array, (int)SortingVisualType.MergeArray, isLeftArray, isDefaultColor);
+		ChangeColors(item, false);
+		foreach(ElementState elementState in elementStates)
+		{
+			MoveElement(elementState.Element, elementState.Position);
+		}
+	}
 
-		if (!isDefaultColor)
-			MoveMergeArray(array);
+	private void HandleMergeArray(SortingVisualItem item)
+	{
+		if (_gameStates.Count <= _visualizationCounter)
+		{
+			List<ElementState> elementStates = new List<ElementState>();
+			foreach (GameObject element in item.Array)
+			{
+				elementStates.Add(new ElementState(element, element.GetComponent<SingleElementScript>().GetColor(), element.transform.position));
+			}
+			_gameStates.Add(new GameState(elementStates, item));
+		}
+
+		ChangeColors(item, false);
+		MoveMergeArray(item.Array);
 	}
 
 	private void MoveMergeArray(GameObject[] array)
@@ -230,12 +315,17 @@ public class MoveScript : MonoBehaviour {
 		}
 	}
 
-	private void HandleRadix(GameObject element1, int bucket, int bucketPosition, bool isDefaultColor)
+	private void HandleRadix(SortingVisualItem item)
 	{
-		ChangeColor(element1, null, (int)SortingVisualType.Radix, isDefaultColor);
+		if (_gameStates.Count <= _visualizationCounter)
+		{
+			ElementState elementState1 = new ElementState(item.Element1, item.Element1.GetComponent<SingleElementScript>().GetColor(), item.Element1.transform.position);
+			List<ElementState> elementStates = new List<ElementState> { elementState1 };
+			_gameStates.Add(new GameState(elementStates, item));
+		}
 
-		if (!isDefaultColor)
-			MoveRadix(element1, bucket, bucketPosition);
+		ChangeColors(item, false);
+		MoveRadix(item.Element1, item.Bucket, item.BucketPosition);
 	}
 
 	private void MoveRadix(GameObject element1, int bucket, int bucketPosition)
@@ -244,20 +334,42 @@ public class MoveScript : MonoBehaviour {
 		LeanTween.move(element1, dest, swapSpeed);
 	}
 
-	private void HandleComparison(GameObject element1, GameObject element2, int type, bool isDefaultColor)
+	private void HandleComparison(SortingVisualItem item)
 	{
-		ChangeColor(element1, element2, type, isDefaultColor);
-		if (!isDefaultColor)
-			IncreaseComparisonCounter();
+		if (_gameStates.Count <= _visualizationCounter)
+		{
+			ElementState elementState1 = new ElementState(item.Element1, item.Element1.GetComponent<SingleElementScript>().GetColor(), item.Element1.transform.position);
+			ElementState elementState2 = new ElementState(item.Element2, item.Element2.GetComponent<SingleElementScript>().GetColor(), item.Element2.transform.position);
+			List<ElementState> elementStates = new List<ElementState> { elementState1, elementState2 };
+			_gameStates.Add(new GameState(elementStates, item));
+		}
+
+		ChangeColors(item, false);
+		IncreaseComparisonCounter();
+		//ChangeColor(element1, element2, type, isDefaultColor);
+		//if (!isDefaultColor)
+		//	IncreaseComparisonCounter();
 	}
 
-	private void HandleSwap(GameObject element1, GameObject element2, bool isDefaultColor)
+	private void HandleComparisonBackwards(SortingVisualItem item)
 	{
-		ChangeColor(element1, element2, (int)SortingVisualType.Swap, isDefaultColor);
+		ChangeColors(item, false);
+		DecreaseComparisonCounter();
+	}
 
-		if (!isDefaultColor)
-			SwapElements(element1, element2);
+	private void HandleSwap(SortingVisualItem item)
+	{
+		if (_gameStates.Count <= _visualizationCounter)
+		{
+			ElementState elementState1 = new ElementState(item.Element1, item.Element1.GetComponent<SingleElementScript>().GetColor(), item.Element1.transform.position);
+			ElementState elementState2 = new ElementState(item.Element2, item.Element2.GetComponent<SingleElementScript>().GetColor(), item.Element2.transform.position);
+			List<ElementState> elementStates = new List<ElementState> { elementState1, elementState2 };
+			_gameStates.Add(new GameState(elementStates, item));
+		}
 
+		ChangeColors(item, false);
+		SwapElements(item.Element1, item.Element2);
+		IncreaseSwapCounter();
 	}
 
 	private void SwapElements(GameObject element1, GameObject element2)
@@ -275,8 +387,13 @@ public class MoveScript : MonoBehaviour {
 
 		LeanTween.move(element1, new Vector3[] { dest2, temp1, temp1, dest1 }, swapSpeed);
 		LeanTween.move(element2, new Vector3[] { dest1, temp2, temp2, dest2 }, swapSpeed);
+	}
 
-		IncreaseSwapCounter();
+	private void HandleSwapBackwards(SortingVisualItem item)
+	{
+		ChangeColors(item, false);
+		SwapElements(item.Element2, item.Element1); // TODO: delete linerenderer
+		DecreaseSwapCounter();
 	}
 
 	private void increaseCounter()
@@ -328,6 +445,14 @@ public class MoveScript : MonoBehaviour {
 		sbs.incSwapsCounter();
 	}
 
+	private void DecreaseSwapCounter()
+	{
+		SortingBoxScript sbs = sortingBox.GetComponentInParent<SortingBoxScript>();
+		if (sbs == null) return;
+
+		sbs.DecreaseSwapsCounter();
+	}
+
 	private void IncreaseComparisonCounter()
 	{
 		if (sortingBox == null) return;
@@ -338,16 +463,37 @@ public class MoveScript : MonoBehaviour {
 		sbs.IncComparisonCounter();
 	}
 
-	private void ChangeColor(GameObject element1, GameObject element2, int type, bool isDefaultColor)
+	private void DecreaseComparisonCounter()
 	{
-		MoveHelperScript mhs = new MoveHelperScript();
-		mhs.ChangeColor(element1, element2, type, isDefaultColor);
+		if (sortingBox == null) return;
+
+		SortingBoxScript sbs = sortingBox.GetComponentInParent<SortingBoxScript>();
+		if (sbs == null) return;
+
+		sbs.DecreaseComparisonCounter();
 	}
 
-	private void ChangeColorArray(GameObject[] array, int type, bool isLeftArray, bool isDefaultColor)
+	private void ChangeColors(SortingVisualItem item, bool isDefaultColor)
 	{
 		MoveHelperScript mhs = new MoveHelperScript();
-		mhs.ChangeColor(array, type, isLeftArray, isDefaultColor);
+		switch(item.Type)
+		{
+			case (int)SortingVisualType.MergeArray:
+				mhs.ChangeColor(item.Array, item.Type, item.IsLeftArray, isDefaultColor);
+				break;
+			default:
+				mhs.ChangeColor(item.Element1, item.Element2, item.Type, isDefaultColor);
+				break;
+		}
+	}
+
+	private void SetColor(List<ElementState> elementStates)
+	{
+		MoveHelperScript mhs = new MoveHelperScript();
+		foreach(ElementState elementState in elementStates)
+		{
+			mhs.SetColor(elementState.Element, elementState.Color);
+		}
 	}
 
 	private Vector3 GetRotationPoint(GameObject element1, GameObject element2)

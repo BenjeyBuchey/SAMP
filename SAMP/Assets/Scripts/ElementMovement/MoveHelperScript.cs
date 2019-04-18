@@ -4,9 +4,20 @@ using UnityEngine.UI;
 
 public class MoveHelperScript {
 
-	private Color DEFAULT_COLOR = Color.red, SWAP_COLOR = Color.green, COMPARISON_COLOR = Color.blue;
-	private Color LEFTARRAY_COLOR = new Color(0.6f, 0.96f, 1.0f), RIGHTARRAY_COLOR = new Color(0.28f, 0.24f, 0.55f);
-	
+	public static Color DEFAULT_COLOR = Color.red, SWAP_COLOR = Color.green, COMPARISON_COLOR = Color.blue;
+	public static Color LEFTARRAY_COLOR = new Color(0.6f, 0.96f, 1.0f), RIGHTARRAY_COLOR = new Color(0.28f, 0.24f, 0.55f);
+
+	public void SetColor(GameObject element, Color color)
+	{
+		foreach (Transform child in element.transform)
+		{
+			if (child.tag.Equals("BasicElement"))
+			{
+				child.GetComponent<Renderer>().material.color = color;
+			}
+		}
+	}
+
 	public void ChangeColor(GameObject element1, GameObject element2, int type, bool isDefaultColor)
 	{
 		//if (element1 == null || element2 == null) return;

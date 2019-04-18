@@ -216,9 +216,19 @@ public class SortingBoxScript : MonoBehaviour {
 		swapsCounter++;
 	}
 
+	public void DecreaseSwapsCounter()
+	{
+		swapsCounter--;
+	}
+
 	public void IncComparisonCounter()
 	{
 		comparisonCounter++;
+	}
+
+	public void DecreaseComparisonCounter()
+	{
+		comparisonCounter--;
 	}
 
 	private void updateSwapsCounter()

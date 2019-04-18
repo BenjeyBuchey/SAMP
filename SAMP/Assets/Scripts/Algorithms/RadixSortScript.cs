@@ -48,8 +48,8 @@ public class RadixSortScript : Algorithms {
 
 			foreach (GameObject go in elementArray)
 			{
-				//int value = go.GetComponent<SingleElementScript> ().getElementId ();
-				int value = GetElementValue(go);
+				int value = GetElementSize(go);
+				//int value = GetElementValue(go);
 				int bucketNumber = GetBucketNumber(value, digitPosition);
 				if (bucketNumber > 0)
 				{

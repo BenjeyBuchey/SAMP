@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,7 +19,7 @@ public abstract class Algorithms {
 		return name;
 	}
 
-	protected void swap(int i, int j)
+	protected void Swap(int i, int j)
 	{
 		if (i == j)
 			return;
@@ -30,5 +30,14 @@ public abstract class Algorithms {
 		GameObject tmp = elementArray[i];
 		elementArray[i] = elementArray[j];
 		elementArray[j] = tmp;
+	}
+
+	protected int GetElementSize(GameObject go)
+	{
+		string text = go.GetComponentInChildren<TextMesh>().text;
+		int value = 0;
+		Int32.TryParse(text, out value);
+
+		return value;
 	}
 }
