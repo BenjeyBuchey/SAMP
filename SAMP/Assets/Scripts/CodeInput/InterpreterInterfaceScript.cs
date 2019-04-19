@@ -31,12 +31,24 @@ public class InterpreterInterfaceScript {
 		Debug.Log("Swapping " + x + " and " + y);
 		foreach (GameObject[] elementArray in elementArrays)
 		{
-			//queue.AddRange(fillQueue(x, y, elementArray));
 			queue.Add(FillQueue(x, y, elementArray));
 		}
 
 		return queue;
 	}
+
+	//public List<KeyValuePair<MoveScript, List<SortingVisualItem>>> Swap(int x, int y)
+	//{
+	//	GameObject[] sortingBoxes = HelperScript.GetSortingboxesToExecuteCode();
+	//	if (sortingBoxes == null || sortingBoxes.Length == 0) return null;
+
+	//	List<KeyValuePair<MoveScript, List<SortingVisualItem>>> queue = new List<KeyValuePair<MoveScript, List<SortingVisualItem>>>();
+	//	foreach (GameObject sortingBox in sortingBoxes)
+	//	{
+	//		queue.Add(new KeyValuePair<MoveScript, List<SortingVisualItem>>(sortingBox.GetComponent<MoveScript>(), FillQueue(x, y, sortingBox.GetComponent<SortingBoxScript>().getElementArray())));
+	//	}
+	//	return queue;
+	//}
 
 	public double size(int index)
 	{

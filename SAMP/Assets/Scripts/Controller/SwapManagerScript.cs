@@ -43,7 +43,13 @@ public class SwapManagerScript : MonoBehaviour {
 	{
 		if (!isPaused) return;
 
-		Debug.Log("BEGIN CLICKED");
+		MoveScript[] moveScripts = FindObjectsOfType<MoveScript>() as MoveScript[];
+		if (moveScripts == null || moveScripts.Length == 0) return;
+
+		foreach (MoveScript ms in moveScripts)
+		{
+			ms.StepBegin();
+		}
 	}
 
 	public void End()

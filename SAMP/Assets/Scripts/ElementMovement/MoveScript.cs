@@ -48,6 +48,14 @@ public class MoveScript : MonoBehaviour {
 			StartCoroutine(DoStepBackwards());
 	}
 
+	public void StepBegin()
+	{
+		if (isBusy) return;
+
+		if (_visualizationCounter <= _visualItems.Count && _visualizationCounter > 0)
+			StartCoroutine(DoStepBegin());
+	}
+
 	public void StepForward()
 	{
 		if (isBusy) return;
@@ -75,6 +83,7 @@ public class MoveScript : MonoBehaviour {
 		if (sortingBox == null)
 			SetSortingBox();
 
+		SetSortingboxUsage(true);
 		InitByAlgorithm();
 		StartCoroutine(DoSwap());
 	}
@@ -197,6 +206,33 @@ public class MoveScript : MonoBehaviour {
 
 		_visualizationCounter--;
 
+		isBusy = false;
+	}
+
+	IEnumerator DoStepBegin()
+	{
+		isBusy = true;
+		swapSpeed = 0.1f;
+
+		for(;_visualizationCounter > 0; _visualizationCounter--)
+		{
+			if (_visualizationCounter < _gameStates.Count)
+				SetColor(_gameStates[_visualizationCounter].ElementStates);
+
+			if (_visualizationCounter <= 0)
+			{
+				Exit();
+				yield break;
+			}
+
+			GameState gameState = _gameStates[_visualizationCounter - 1];
+
+			HandleVisualizationItemBackwards(gameState.NextInstruction, gameState.ElementStates);
+
+			yield return new WaitForSeconds(swapSpeed);
+		}
+
+		Exit();
 		isBusy = false;
 	}
 
@@ -408,13 +444,14 @@ public class MoveScript : MonoBehaviour {
 
 	private void SetSortingBox()
 	{
-		if (_visualItems == null || _visualItems.Count == 0) return;
+		//if (_visualItems == null || _visualItems.Count == 0) return;
 
-		GameObject element = _visualItems[0].Element1;
-		if (element == null) return;
+		//GameObject element = _visualItems[0].Element1;
+		//if (element == null) return;
 
-		sortingBox = element.transform.parent.gameObject;
-		if (sortingBox == null) return;
+		//sortingBox = element.transform.parent.gameObject;
+		//if (sortingBox == null) return;
+		sortingBox = gameObject;
 
 		// set in use
 		SortingBoxScript sbs = sortingBox.GetComponent<SortingBoxScript>();
@@ -515,14 +552,14 @@ public class MoveScript : MonoBehaviour {
 		return sortingBox.GetComponent<SortingBoxScript>().getOffsetY(element1, element2);
 	}
 
-	private void StopSortingboxUsage()
+	private void SetSortingboxUsage(bool isInUse)
 	{
 		if (sortingBox == null) return;
 
 		SortingBoxScript sbs = sortingBox.GetComponent<SortingBoxScript>();
 		if (sbs == null) return;
 
-		sbs.setInUse(false);
+		sbs.setInUse(isInUse);
 	}
 
 	private void UpdateSwapSpeed(int type)
@@ -599,7 +636,7 @@ public class MoveScript : MonoBehaviour {
 
 	private void Exit()
 	{
-		StopSortingboxUsage();
+		SetSortingboxUsage(false);
 		//Destroy(this);
 	}
 }

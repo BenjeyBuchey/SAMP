@@ -61,4 +61,24 @@ public static class HelperScript
 
 		return sms.isPaused;
 	}
+
+	// returns all sortingbox gameobjects on which code is getting executed
+	public static GameObject[] GetSortingboxesToExecuteCode()
+	{
+		GameObject[] allSortingBoxes = GameObject.FindGameObjectsWithTag("SortingBoxes");
+		if (allSortingBoxes == null || allSortingBoxes.Length == 0) return null;
+
+		List<GameObject> sortingBoxes = new List<GameObject>();
+
+		// add to list if highlighted(container) and not in use(sbs)
+		foreach(GameObject sortingBox in allSortingBoxes)
+		{
+			if (sortingBox == null) continue;
+
+			if (sortingBox.GetComponentInChildren<ElementContainerScript>().getHighlighted() && !sortingBox.GetComponent<SortingBoxScript>().isInUse())
+				sortingBoxes.Add(sortingBox);
+		}
+
+		return sortingBoxes.ToArray();
+	}
 }

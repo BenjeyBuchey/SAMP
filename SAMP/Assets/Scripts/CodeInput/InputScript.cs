@@ -9,6 +9,7 @@ public class InputScript : MonoBehaviour {
 	private JintEngine e;
 	//private List<List<GameObject>> queue;
 	private List<List<SortingVisualItem>> queue;
+	private List<KeyValuePair<MoveScript, List<SortingVisualItem>>> queueNew;
 
 	// Use this for initialization
 	void Start () {
@@ -18,6 +19,7 @@ public class InputScript : MonoBehaviour {
 		iis = new InterpreterInterfaceScript();
 		//queue = new List<List<GameObject>>();
 		queue = new List<List<SortingVisualItem>>();
+		queueNew = new List<KeyValuePair<MoveScript, List<SortingVisualItem>>>();
 		e = new JintEngine();
 
 		InitFunctions();
@@ -53,6 +55,23 @@ public class InputScript : MonoBehaviour {
 	}
 
 	// swaps array elements in positions a & b
+	//private void Swap(int a, int b)
+	//{
+	//	List<KeyValuePair<MoveScript, List<SortingVisualItem>>> queuePairs = iis.Swap(a, b);
+	//	if (queuePairs == null || queuePairs.Count == 0) return;
+
+	//	if (queueNew.Count == 0)
+	//	{
+	//		queueNew = queuePairs;
+	//		return;
+	//	}
+
+	//	foreach(var queuePair in queuePairs)
+	//	{
+	//		queueNew.Add(queuePair);
+	//	}
+	//}
+
 	private void Swap(int a, int b)
 	{
 		List<List<SortingVisualItem>> temp = iis.Swap(a, b);
@@ -100,8 +119,35 @@ public class InputScript : MonoBehaviour {
 
 		foreach (List<SortingVisualItem> container_queue in queue)
 		{
-			MoveScript ms = gameObject.AddComponent<MoveScript>();
-			ms.Swap (container_queue);
+			//MoveScript ms = gameObject.AddComponent<MoveScript>();
+			MoveScript ms = GetMoveScriptByQueue(container_queue);
+			if (ms == null) continue;
+
+			ms.Swap(container_queue);
 		}
+	}
+
+	//private void execQueue()
+	//{
+	//	if (queueNew != null && queueNew.Count == 0)
+	//		return;
+
+	//	foreach (var queuePair in queueNew)
+	//	{
+	//		MoveScript ms = queuePair.Key;
+	//		ms.Swap(queuePair.Value);
+	//	}
+	//	queueNew.Clear();
+	//}
+
+	private MoveScript GetMoveScriptByQueue(List<SortingVisualItem> visualItems)
+	{
+		foreach(SortingVisualItem item in visualItems)
+		{
+			if (item.Element1 == null) continue;
+
+			return item.Element1.GetComponentInParent<MoveScript>();
+		}
+		return null;
 	}
 }
