@@ -34,10 +34,6 @@ public abstract class Algorithms {
 
 	protected int GetElementSize(GameObject go)
 	{
-		string text = go.GetComponentInChildren<TextMesh>().text;
-		int value = 0;
-		Int32.TryParse(text, out value);
-
-		return value;
+		return HelperScript.GetElementSize(go);
 	}
 }

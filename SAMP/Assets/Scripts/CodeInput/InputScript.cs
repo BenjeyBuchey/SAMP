@@ -45,7 +45,7 @@ public class InputScript : MonoBehaviour {
 
 		e.SetFunction("swap",new Jint.Delegates.Action<int, int>((a, b) => Swap(a, b)));
 
-		e.SetFunction("size",new Jint.Delegates.Func<int, double>((a) => size(a)));
+		e.SetFunction("size",new Jint.Delegates.Func<int, int>((a) => size(a)));
 
 		e.SetFunction("test123",new Jint.Delegates.Action<int>((a) => test123(a)));
 
@@ -55,23 +55,6 @@ public class InputScript : MonoBehaviour {
 	}
 
 	// swaps array elements in positions a & b
-	//private void Swap(int a, int b)
-	//{
-	//	List<KeyValuePair<MoveScript, List<SortingVisualItem>>> queuePairs = iis.Swap(a, b);
-	//	if (queuePairs == null || queuePairs.Count == 0) return;
-
-	//	if (queueNew.Count == 0)
-	//	{
-	//		queueNew = queuePairs;
-	//		return;
-	//	}
-
-	//	foreach(var queuePair in queuePairs)
-	//	{
-	//		queueNew.Add(queuePair);
-	//	}
-	//}
-
 	private void Swap(int a, int b)
 	{
 		List<List<SortingVisualItem>> temp = iis.Swap(a, b);
@@ -88,11 +71,12 @@ public class InputScript : MonoBehaviour {
 	}
 
 	// returns the size of the element in array position a
-	private double size(int a)
+	private int size(int a)
 	{
 		return iis.size (a);
 	}
 
+	// returns the length of the corresponding element array
     private int elementCount()
     {
         return iis.getElementCount();
@@ -119,26 +103,12 @@ public class InputScript : MonoBehaviour {
 
 		foreach (List<SortingVisualItem> container_queue in queue)
 		{
-			//MoveScript ms = gameObject.AddComponent<MoveScript>();
 			MoveScript ms = GetMoveScriptByQueue(container_queue);
 			if (ms == null) continue;
 
 			ms.Swap(container_queue);
 		}
 	}
-
-	//private void execQueue()
-	//{
-	//	if (queueNew != null && queueNew.Count == 0)
-	//		return;
-
-	//	foreach (var queuePair in queueNew)
-	//	{
-	//		MoveScript ms = queuePair.Key;
-	//		ms.Swap(queuePair.Value);
-	//	}
-	//	queueNew.Clear();
-	//}
 
 	private MoveScript GetMoveScriptByQueue(List<SortingVisualItem> visualItems)
 	{

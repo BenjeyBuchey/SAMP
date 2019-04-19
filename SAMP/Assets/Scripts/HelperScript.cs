@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -80,5 +81,14 @@ public static class HelperScript
 		}
 
 		return sortingBoxes.ToArray();
+	}
+
+	public static int GetElementSize(GameObject go)
+	{
+		string text = go.GetComponentInChildren<TextMesh>().text;
+		int value = 0;
+		Int32.TryParse(text, out value);
+
+		return value;
 	}
 }

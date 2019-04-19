@@ -456,31 +456,6 @@ public class ElementScript : MonoBehaviour {
 		ApplyAlgorithmText(Algorithms.RADIXSORT);
 	}
 
-    public List<GameObject[]> getElementArrays(bool getsSetToInUse)
-    {
-        GameObject[] container = GameObject.FindGameObjectsWithTag("Container");
-        List<GameObject[]> elementArrays = new List<GameObject[]>();
-
-        for (int i = 0; i < container.Length; i++)
-        {
-            if (container[i].GetComponent<ElementContainerScript>().getHighlighted())
-            {
-                GameObject parent = container[i].transform.parent.gameObject;
-                if (parent != null)
-                {
-					if (!parent.GetComponent<SortingBoxScript>().isInUse())
-					{
-						if(getsSetToInUse)
-							parent.GetComponent<SortingBoxScript>().setInUse(true);
-
-						elementArrays.Add(parent.GetComponent<SortingBoxScript>().getElementArray());
-					}
-                }
-            }
-        }
-        return elementArrays;
-    }
-
 	public void clearSortingboxes()
 	{
 		if (HelperScript.IsPaused()) return;
