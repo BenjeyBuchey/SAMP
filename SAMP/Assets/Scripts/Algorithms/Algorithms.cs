@@ -4,7 +4,8 @@ using UnityEngine;
 
 public abstract class Algorithms {
 
-	public const string QUICKSORT = "QuickSort", RADIXSORT = "RadixSort", GNOMESORT = "GnomeSort", MERGESORT = "MergeSort", HEAPSORT = "HeapSort", BUBBLESORT = "BubbleSort";
+	public const string QUICKSORT = "QuickSort", RADIXSORT = "RadixSort", GNOMESORT = "GnomeSort", MERGESORT = "MergeSort", HEAPSORT = "HeapSort", BUBBLESORT = "BubbleSort", 
+		SELECTIONSORT = "SelectionSort";
 	private readonly string name;
 	protected List<SortingVisualItem> visualItems = new List<SortingVisualItem>();
 	protected GameObject[] elementArray;

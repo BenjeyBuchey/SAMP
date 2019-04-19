@@ -309,8 +309,31 @@ public class ElementScript : MonoBehaviour {
 				case Algorithms.BUBBLESORT:
 					StartSortBubbleSort(sbs);
 					break;
+
+				case Algorithms.SELECTIONSORT:
+					StartSortSelectionSort(sbs);
+					break;
 			}
 		}
+	}
+
+	private void StartSortSelectionSort(SortingBoxScript sbs)
+	{
+		if (sbs == null) return;
+
+		setTrailRenderer(sbs.getElementArray(), true);
+
+		SelectionSortScript ss = new SelectionSortScript();
+		List<SortingVisualItem> swappingQueue = ss.StartSort(sbs.getElementArray());
+
+		if (swappingQueue != null && swappingQueue.Count >= 1)
+		{
+			MoveScript m = sbs.gameObject.GetComponent<MoveScript>();
+			m.SortingBox = sbs.gameObject;
+			m.Swap(swappingQueue, Algorithms.SELECTIONSORT);
+		}
+		else
+			sbs.setInUse(false);
 	}
 
 	private void StartSortBubbleSort(SortingBoxScript sbs)

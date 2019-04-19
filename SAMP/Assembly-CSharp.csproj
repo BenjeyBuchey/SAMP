@@ -69,6 +69,7 @@
     <Compile Include="Assets\Scripts\Algorithms\MergeSortScript.cs" />
     <Compile Include="Assets\Scripts\Algorithms\QuickSortScript.cs" />
     <Compile Include="Assets\Scripts\Algorithms\RadixSortScript.cs" />
+    <Compile Include="Assets\Scripts\Algorithms\SelectionSortScript.cs" />
     <Compile Include="Assets\Scripts\CodeInput\InputScript.cs" />
     <Compile Include="Assets\Scripts\CodeInput\InterpreterInterfaceScript.cs" />
     <Compile Include="Assets\Scripts\Controller\CameraController.cs" />
