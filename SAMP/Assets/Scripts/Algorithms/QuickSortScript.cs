@@ -4,10 +4,6 @@ using System.Collections.Generic;
 
 public class QuickSortScript : Algorithms {
 
-	//private GameObject[] elementArray;
-    private List<GameObject> swappingQueue = new List<GameObject> ();
-	//private List<SortingVisualItem> visualItems = new List<SortingVisualItem>();
-
 	public QuickSortScript() : base (Algorithms.QUICKSORT)
 	{
 

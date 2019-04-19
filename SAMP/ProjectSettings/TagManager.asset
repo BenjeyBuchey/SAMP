@@ -15,6 +15,7 @@ TagManager:
   - MergeSort
   - GnomeSort
   - RadixSort
+  - BubbleSort
   layers:
   - Default
   - TransparentFX

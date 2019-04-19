@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Algorithms\Algorithms.cs" />
+    <Compile Include="Assets\Scripts\Algorithms\BubbleSortScript.cs" />
     <Compile Include="Assets\Scripts\Algorithms\GnomeSortScript.cs" />
     <Compile Include="Assets\Scripts\Algorithms\HeapSortScript.cs" />
     <Compile Include="Assets\Scripts\Algorithms\MergeSortScript.cs" />

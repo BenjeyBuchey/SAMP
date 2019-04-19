@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System.Linq;
+using System;
+using Random = UnityEngine.Random;
 
 public class ElementScript : MonoBehaviour {
 
@@ -303,8 +305,31 @@ public class ElementScript : MonoBehaviour {
 				case Algorithms.RADIXSORT:
 					StartSortRadixSort(sbs,bs);
 					break;
+
+				case Algorithms.BUBBLESORT:
+					StartSortBubbleSort(sbs);
+					break;
 			}
 		}
+	}
+
+	private void StartSortBubbleSort(SortingBoxScript sbs)
+	{
+		if (sbs == null) return;
+
+		setTrailRenderer(sbs.getElementArray(), true);
+
+		BubbleSortScript ss = new BubbleSortScript();
+		List<SortingVisualItem> swappingQueue = ss.StartSort(sbs.getElementArray());
+
+		if (swappingQueue != null && swappingQueue.Count >= 1)
+		{
+			MoveScript m = sbs.gameObject.GetComponent<MoveScript>();
+			m.SortingBox = sbs.gameObject;
+			m.Swap(swappingQueue, Algorithms.BUBBLESORT);
+		}
+		else
+			sbs.setInUse(false);
 	}
 
 	private void StartSortQuickSort(SortingBoxScript sbs)
