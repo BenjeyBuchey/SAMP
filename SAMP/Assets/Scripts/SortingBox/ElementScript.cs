@@ -313,8 +313,54 @@ public class ElementScript : MonoBehaviour {
 				case Algorithms.SELECTIONSORT:
 					StartSortSelectionSort(sbs);
 					break;
+
+				case Algorithms.INSERTIONSORT:
+					StartSortInsertionSort(sbs);
+					break;
+
+				case Algorithms.SHELLSORT:
+					StartSortShellSort(sbs);
+					break;
 			}
 		}
+	}
+
+	private void StartSortShellSort(SortingBoxScript sbs)
+	{
+		if (sbs == null) return;
+
+		setTrailRenderer(sbs.getElementArray(), false);
+
+		ShellSortScript ss = new ShellSortScript();
+		List<SortingVisualItem> swappingQueue = ss.StartSort(sbs.getElementArray());
+
+		if (swappingQueue != null && swappingQueue.Count >= 1)
+		{
+			MoveScript m = sbs.gameObject.GetComponent<MoveScript>();
+			m.SortingBox = sbs.gameObject;
+			m.Swap(swappingQueue, Algorithms.SHELLSORT);
+		}
+		else
+			sbs.setInUse(false);
+	}
+
+	private void StartSortInsertionSort(SortingBoxScript sbs)
+	{
+		if (sbs == null) return;
+
+		setTrailRenderer(sbs.getElementArray(), false);
+
+		InsertionSortScript ss = new InsertionSortScript();
+		List<SortingVisualItem> swappingQueue = ss.StartSort(sbs.getElementArray());
+
+		if (swappingQueue != null && swappingQueue.Count >= 1)
+		{
+			MoveScript m = sbs.gameObject.GetComponent<MoveScript>();
+			m.SortingBox = sbs.gameObject;
+			m.Swap(swappingQueue, Algorithms.INSERTIONSORT);
+		}
+		else
+			sbs.setInUse(false);
 	}
 
 	private void StartSortSelectionSort(SortingBoxScript sbs)

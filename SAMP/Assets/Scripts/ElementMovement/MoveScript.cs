@@ -109,11 +109,11 @@ public class MoveScript : MonoBehaviour {
 	{
 		for (; _visualizationCounter < _visualItems.Count; _visualizationCounter++)
 		{
-			while (IsPaused() || isBusy)
+			while (IsPaused() || isBusy) // completely break here? when resume is pressed start this coroutine ??
 				yield return null;
 
 			if (_visualizationCounter > 0)
-				ChangeColors(_visualItems[_visualizationCounter - 1], true);//HandleVisualizationItem(_visualItems[_visualizationCounter - 1], true);asdf
+				ChangeColors(_visualItems[_visualizationCounter - 1], true);
 
 			if (_visualizationCounter >= _visualItems.Count)
 			{
@@ -126,11 +126,6 @@ public class MoveScript : MonoBehaviour {
 			HandleVisualizationItem(_visualItems[_visualizationCounter]);
 
 			yield return new WaitForSeconds(swapSpeed);
-
-			//while (IsPaused())
-			//	yield return null;
-
-			//HandleVisualizationItem(_visualItems[i], true);sdfasd
 		}
 
 		if (_visualizationCounter <= _visualItems.Count)
@@ -258,6 +253,10 @@ public class MoveScript : MonoBehaviour {
 			case (int)SortingVisualType.MergeMove:
 				HandleMergeMove(item);
 				break;
+			case (int)SortingVisualType.MoveTo:
+			case (int)SortingVisualType.MoveMemory:
+				HandleMoveTo(item);
+				break;
 		}
 	}
 
@@ -281,7 +280,38 @@ public class MoveScript : MonoBehaviour {
 			case (int)SortingVisualType.MergeArray:
 				HandleMergeArrayBackwards(item, elementStates);
 				break;
+			case (int)SortingVisualType.MoveTo:
+			case (int)SortingVisualType.MoveMemory:
+				HandleMoveToBackwards(item, elementStates);
+				break;
 		}
+	}
+
+	private void HandleMoveTo(SortingVisualItem item)
+	{
+		if (_gameStates.Count <= _visualizationCounter)
+		{
+			ElementState elementState1 = new ElementState(item.Element1, item.Element1.GetComponent<SingleElementScript>().GetColor(), item.Element1.transform.position);
+			List<ElementState> elementStates = new List<ElementState> { elementState1 };
+			_gameStates.Add(new GameState(elementStates, item));
+		}
+
+		ChangeColors(item, false);
+		MoveElement(item.Element1, item.Dest);
+		if (item.Type == (int)SortingVisualType.MoveTo)
+			IncreaseSwapCounter();
+		else
+			IncreaseComparisonCounter();
+	}
+
+	private void HandleMoveToBackwards(SortingVisualItem item, List<ElementState> elementStates)
+	{
+		ChangeColors(item, false);
+		MoveElement(item.Element1, elementStates[0].Position);
+		if (item.Type == (int)SortingVisualType.MoveTo)
+			DecreaseSwapCounter();
+		else
+			DecreaseComparisonCounter();
 	}
 
 	private void HandleMoveBackwards(SortingVisualItem item, List<ElementState> elementStates)
@@ -636,6 +666,7 @@ public class MoveScript : MonoBehaviour {
 
 	private void Exit()
 	{
+		Debug.Log("EXITED DoSwap! visualizationCounter: " + _visualizationCounter + " - Items: " + _visualItems.Count);
 		SetSortingboxUsage(false);
 		//Destroy(this);
 	}

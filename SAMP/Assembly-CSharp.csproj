@@ -66,10 +66,12 @@
     <Compile Include="Assets\Scripts\Algorithms\BubbleSortScript.cs" />
     <Compile Include="Assets\Scripts\Algorithms\GnomeSortScript.cs" />
     <Compile Include="Assets\Scripts\Algorithms\HeapSortScript.cs" />
+    <Compile Include="Assets\Scripts\Algorithms\InsertionSortScript.cs" />
     <Compile Include="Assets\Scripts\Algorithms\MergeSortScript.cs" />
     <Compile Include="Assets\Scripts\Algorithms\QuickSortScript.cs" />
     <Compile Include="Assets\Scripts\Algorithms\RadixSortScript.cs" />
     <Compile Include="Assets\Scripts\Algorithms\SelectionSortScript.cs" />
+    <Compile Include="Assets\Scripts\Algorithms\ShellSortScript.cs" />
     <Compile Include="Assets\Scripts\CodeInput\InputScript.cs" />
     <Compile Include="Assets\Scripts\CodeInput\InterpreterInterfaceScript.cs" />
     <Compile Include="Assets\Scripts\Controller\CameraController.cs" />

@@ -242,7 +242,7 @@ public class SortingBoxScript : MonoBehaviour {
 		foreach (TextMesh tm in this.GetComponentsInChildren<TextMesh>())
 		{
 			if (tm.name.Equals("SwapsCounter"))
-				tm.text = "Swaps: " + swapsCounter + " / Comparisons: " +comparisonCounter;
+				tm.text = "Swaps: " + swapsCounter + " / Operations: " +comparisonCounter;
 		}
 	}
 
