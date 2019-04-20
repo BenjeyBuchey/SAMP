@@ -29,13 +29,24 @@ public class SwapManagerScript : MonoBehaviour {
 		isPaused = isPaused_;
 		if (isPaused)
 		{
-			//LeanTween.pauseAll();
 			pauseResume.image.sprite = resumeSprite;
 		}
 		else
 		{
-			//LeanTween.resumeAll();
 			pauseResume.image.sprite = pauseSprite;
+			// resume movescripts
+			Resume();
+		}
+	}
+
+	private void Resume()
+	{
+		MoveScript[] moveScripts = FindObjectsOfType<MoveScript>() as MoveScript[];
+		if (moveScripts == null || moveScripts.Length == 0) return;
+
+		foreach (MoveScript ms in moveScripts)
+		{
+			ms.ResumeVisualization();
 		}
 	}
 

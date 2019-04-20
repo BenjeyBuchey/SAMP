@@ -13,7 +13,7 @@ public class MoveScript : MonoBehaviour {
 	private string _algorithm = null;
 	private List<Vector3> initPositions = new List<Vector3>();
 	private List<GameState> _gameStates = new List<GameState>();
-	private bool isBusy = false;
+	private bool isBusy = false, isMainVisualizationRunning = false;
 
 	public GameObject SortingBox
 	{
@@ -105,8 +105,17 @@ public class MoveScript : MonoBehaviour {
 		}
 	}
 
+	public void ResumeVisualization()
+	{
+		if (_visualItems == null || _visualItems.Count == 0) return;
+
+		if (!isMainVisualizationRunning)
+			StartCoroutine(DoSwap());
+	}
+
 	IEnumerator DoSwap()
 	{
+		isMainVisualizationRunning = true;
 		for (; _visualizationCounter < _visualItems.Count; _visualizationCounter++)
 		{
 			while (IsPaused() || isBusy) // completely break here? when resume is pressed start this coroutine ??
@@ -118,6 +127,7 @@ public class MoveScript : MonoBehaviour {
 			if (_visualizationCounter >= _visualItems.Count)
 			{
 				Exit();
+				isMainVisualizationRunning = false;
 				yield break;
 			}
 
@@ -132,6 +142,7 @@ public class MoveScript : MonoBehaviour {
 			ChangeColors(_visualItems[_visualizationCounter - 1], true);
 
 		Exit();
+		isMainVisualizationRunning = false;
 	}
 
 	IEnumerator DoStepForward()
