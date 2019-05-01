@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-public class RadixSortScript : Algorithms {
+public class RadixSortScript : Algorithm {
 
 	//private GameObject[] elementArray;
     private List<Vector3> bucket_positions = new List<Vector3> ();
@@ -18,7 +18,7 @@ public class RadixSortScript : Algorithms {
 	
 	}
 
-	public RadixSortScript() : base (Algorithms.RADIXSORT)
+	public RadixSortScript() : base (Algorithm.RADIXSORT)
 	{
 		
 	}

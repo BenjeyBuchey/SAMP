@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SelectionSortScript : Algorithms
+public class SelectionSortScript : Algorithm
 {
-	public SelectionSortScript() : base(Algorithms.SELECTIONSORT)
+	public SelectionSortScript() : base(Algorithm.SELECTIONSORT)
 	{
 
 	}
@@ -22,7 +22,7 @@ public class SelectionSortScript : Algorithms
 	{
 		for (int i = 0; i < elementArray.Length - 1; i++)
 		{
-			// Find the minimum element in unsorted array 
+			// Find the min element in the unsorted array 
 			int min_idx = i;
 			for (int j = i + 1; j < elementArray.Length; j++)
 			{
@@ -30,9 +30,7 @@ public class SelectionSortScript : Algorithms
 				if (GetElementSize(elementArray[j]) < GetElementSize(elementArray[min_idx]))
 					min_idx = j;
 			}
-
-			// Swap the found minimum element with the first 
-			// element 
+			// Swap the found min element with the first element
 			Swap(min_idx, i);
 		}
 	}

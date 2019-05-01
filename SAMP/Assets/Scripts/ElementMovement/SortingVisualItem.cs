@@ -79,14 +79,6 @@ public class SortingVisualItem {
 
 	public Vector3 Dest => _dest;
 
-	//public GameObject[] RightArray
-	//{
-	//	get
-	//	{
-	//		return _rightArray;
-	//	}
-	//}
-
 	public SortingVisualItem(int type, GameObject element1, GameObject element2, int bucket = -1, int bucketPosition = -1, GameObject[] array = null, bool isLeftArray = false, int mergePosition = -1,
 		Vector3 dest = new Vector3())
 	{

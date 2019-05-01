@@ -94,8 +94,8 @@ public class MoveScript : MonoBehaviour {
 
 		switch(_algorithm)
 		{
-			case Algorithms.RADIXSORT:
-			case Algorithms.MERGESORT:
+			case Algorithm.RADIXSORT:
+			case Algorithm.MERGESORT:
 				DeactivateSwapsCounter();
 				SetInitialPositions();
 				break;

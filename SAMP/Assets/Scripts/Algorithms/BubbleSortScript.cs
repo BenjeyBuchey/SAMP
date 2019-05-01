@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BubbleSortScript : Algorithms
+public class BubbleSortScript : Algorithm
 {
-	public BubbleSortScript() : base(Algorithms.BUBBLESORT)
+	public BubbleSortScript() : base(Algorithm.BUBBLESORT)
 	{
 
 	}

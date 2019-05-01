@@ -205,17 +205,17 @@ public class ElementScript : MonoBehaviour {
 
 	private void setColor(GameObject go, float scale)
 	{
-		float max_scale = 4.0F;
-		int min_GB_color = 0;
-		float multiplier = (255 - min_GB_color) / max_scale;
-		float color = 1 - ((min_GB_color + scale * multiplier) / 255);
+		float maxScale = 4.0F;
+		int minGBColor = 0;
+		float multiplier = (255 - minGBColor) / maxScale;
+		float color = 1 - ((minGBColor + scale * multiplier) / 255);
 
-		foreach (Transform child in go.transform) 
+		foreach (Transform elementTransform in go.transform) 
 		{
-			if (child.tag.Equals ("BasicElement")) 
+			if (elementTransform.tag.Equals ("BasicElement")) 
 			{
-				child.GetComponent<Renderer> ().material.color = new Color (1, color, color);
-                child.GetComponent<TrailRenderer> ().material.color = new Color (1, color, color);
+				elementTransform.GetComponent<Renderer> ().material.color = new Color (1, color, color);
+                elementTransform.GetComponent<TrailRenderer> ().material.color = new Color (1, color, color);
 			}
 		}
 	}
@@ -286,39 +286,39 @@ public class ElementScript : MonoBehaviour {
 
 			switch(sbs.GetAlgorithmText())
 			{
-				case Algorithms.QUICKSORT:
+				case Algorithm.QUICKSORT:
 					StartSortQuickSort(sbs);
 					break;
 
-				case Algorithms.HEAPSORT:
+				case Algorithm.HEAPSORT:
 					StartSortHeapSort(sbs);
 					break;
 
-				case Algorithms.MERGESORT:
+				case Algorithm.MERGESORT:
 					StartSortMergeSort(sbs);
 					break;
 
-				case Algorithms.GNOMESORT:
+				case Algorithm.GNOMESORT:
 					StartSortGnomeSort(sbs);
 					break;
 
-				case Algorithms.RADIXSORT:
+				case Algorithm.RADIXSORT:
 					StartSortRadixSort(sbs,bs);
 					break;
 
-				case Algorithms.BUBBLESORT:
+				case Algorithm.BUBBLESORT:
 					StartSortBubbleSort(sbs);
 					break;
 
-				case Algorithms.SELECTIONSORT:
+				case Algorithm.SELECTIONSORT:
 					StartSortSelectionSort(sbs);
 					break;
 
-				case Algorithms.INSERTIONSORT:
+				case Algorithm.INSERTIONSORT:
 					StartSortInsertionSort(sbs);
 					break;
 
-				case Algorithms.SHELLSORT:
+				case Algorithm.SHELLSORT:
 					StartSortShellSort(sbs);
 					break;
 			}
@@ -338,7 +338,7 @@ public class ElementScript : MonoBehaviour {
 		{
 			MoveScript m = sbs.gameObject.GetComponent<MoveScript>();
 			m.SortingBox = sbs.gameObject;
-			m.Swap(swappingQueue, Algorithms.SHELLSORT);
+			m.Swap(swappingQueue, Algorithm.SHELLSORT);
 		}
 		else
 			sbs.setInUse(false);
@@ -357,7 +357,7 @@ public class ElementScript : MonoBehaviour {
 		{
 			MoveScript m = sbs.gameObject.GetComponent<MoveScript>();
 			m.SortingBox = sbs.gameObject;
-			m.Swap(swappingQueue, Algorithms.INSERTIONSORT);
+			m.Swap(swappingQueue, Algorithm.INSERTIONSORT);
 		}
 		else
 			sbs.setInUse(false);
@@ -376,7 +376,7 @@ public class ElementScript : MonoBehaviour {
 		{
 			MoveScript m = sbs.gameObject.GetComponent<MoveScript>();
 			m.SortingBox = sbs.gameObject;
-			m.Swap(swappingQueue, Algorithms.SELECTIONSORT);
+			m.Swap(swappingQueue, Algorithm.SELECTIONSORT);
 		}
 		else
 			sbs.setInUse(false);
@@ -395,7 +395,7 @@ public class ElementScript : MonoBehaviour {
 		{
 			MoveScript m = sbs.gameObject.GetComponent<MoveScript>();
 			m.SortingBox = sbs.gameObject;
-			m.Swap(swappingQueue, Algorithms.BUBBLESORT);
+			m.Swap(swappingQueue, Algorithm.BUBBLESORT);
 		}
 		else
 			sbs.setInUse(false);
@@ -415,7 +415,7 @@ public class ElementScript : MonoBehaviour {
 			//MoveScript m = gameObject.AddComponent<MoveScript>();
 			MoveScript m = sbs.gameObject.GetComponent<MoveScript>();
 			m.SortingBox = sbs.gameObject;
-			m.Swap(swappingQueue, Algorithms.QUICKSORT);
+			m.Swap(swappingQueue, Algorithm.QUICKSORT);
 		}
 		else
 			sbs.setInUse(false);
@@ -436,7 +436,7 @@ public class ElementScript : MonoBehaviour {
 			//MoveScript m = gameObject.AddComponent<MoveScript>();
 			MoveScript m = sbs.gameObject.GetComponent<MoveScript>();
 			m.SortingBox = sbs.gameObject;
-			m.Swap(swappingQueue, Algorithms.HEAPSORT);
+			m.Swap(swappingQueue, Algorithm.HEAPSORT);
 		}
 		else
 			sbs.setInUse(false);
@@ -456,7 +456,7 @@ public class ElementScript : MonoBehaviour {
 			//MoveScript m = gameObject.AddComponent<MoveScript>();
 			MoveScript m = sbs.gameObject.GetComponent<MoveScript>();
 			m.SortingBox = sbs.gameObject;
-			m.Swap(swappingQueue, Algorithms.MERGESORT);
+			m.Swap(swappingQueue, Algorithm.MERGESORT);
 		}
 		else
 			sbs.setInUse(false);
@@ -477,7 +477,7 @@ public class ElementScript : MonoBehaviour {
 			//MoveScript m = gameObject.AddComponent<MoveScript>();
 			MoveScript m = sbs.gameObject.GetComponent<MoveScript>();
 			m.SortingBox = sbs.gameObject;
-			m.Swap(swappingQueue, Algorithms.GNOMESORT);
+			m.Swap(swappingQueue, Algorithm.GNOMESORT);
 		}
 		else
 			sbs.setInUse(false);
@@ -498,7 +498,7 @@ public class ElementScript : MonoBehaviour {
 			//MoveScript m = gameObject.AddComponent<MoveScript>();
 			MoveScript m = sbs.gameObject.GetComponent<MoveScript>();
 			m.SortingBox = sbs.gameObject;
-			m.Swap(swappingQueue, Algorithms.RADIXSORT);
+			m.Swap(swappingQueue, Algorithm.RADIXSORT);
 		}
 		else
 			sbs.setInUse(false);
@@ -527,27 +527,27 @@ public class ElementScript : MonoBehaviour {
 	// only assigns sorting algo to sortingbox
 	public void quickSort()
 	{
-		ApplyAlgorithmText(Algorithms.QUICKSORT);
+		ApplyAlgorithmText(Algorithm.QUICKSORT);
 	}
 
 	public void heapSort()
 	{
-		ApplyAlgorithmText(Algorithms.HEAPSORT);
+		ApplyAlgorithmText(Algorithm.HEAPSORT);
 	}
 
 	public void mergeSort()
 	{
-		ApplyAlgorithmText(Algorithms.MERGESORT);
+		ApplyAlgorithmText(Algorithm.MERGESORT);
 	}
 
 	public void gnomeSort()
 	{
-		ApplyAlgorithmText(Algorithms.GNOMESORT);
+		ApplyAlgorithmText(Algorithm.GNOMESORT);
 	}
 
 	public void radixSort()
 	{
-		ApplyAlgorithmText(Algorithms.RADIXSORT);
+		ApplyAlgorithmText(Algorithm.RADIXSORT);
 	}
 
 	public void clearSortingboxes()

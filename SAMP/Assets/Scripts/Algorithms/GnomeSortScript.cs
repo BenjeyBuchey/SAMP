@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class GnomeSortScript : Algorithms {
+public class GnomeSortScript : Algorithm {
 
-	public GnomeSortScript() : base (Algorithms.GNOMESORT)
+	public GnomeSortScript() : base (Algorithm.GNOMESORT)
 	{
 
 	}

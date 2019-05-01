@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-public class MergeSortScript : Algorithms {
+public class MergeSortScript : Algorithm {
 
     private List<GameObject> swappingQueue = new List<GameObject> ();
 
-	public MergeSortScript() : base (Algorithms.MERGESORT)
+	public MergeSortScript() : base (Algorithm.MERGESORT)
 	{
 
 	}

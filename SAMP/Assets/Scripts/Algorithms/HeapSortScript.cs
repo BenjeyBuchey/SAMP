@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class HeapSortScript : Algorithms {
+public class HeapSortScript : Algorithm {
 
-	public HeapSortScript() : base (Algorithms.HEAPSORT)
+	public HeapSortScript() : base (Algorithm.HEAPSORT)
 	{ }
 
 	public List<SortingVisualItem> StartSort(GameObject[] array)

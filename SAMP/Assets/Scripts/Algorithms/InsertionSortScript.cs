@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InsertionSortScript : Algorithms
+public class InsertionSortScript : Algorithm
 {
 	private List<Vector3> indexPositions = new List<Vector3>();
 
-	public InsertionSortScript() : base(Algorithms.INSERTIONSORT)
+	public InsertionSortScript() : base(Algorithm.INSERTIONSORT)
 	{
 
 	}
@@ -38,7 +38,7 @@ public class InsertionSortScript : Algorithms
 			visualItems.Add(new SortingVisualItem((int)SortingVisualType.MoveMemory, key, null, dest: GetMoveUpwardsPosition(key)));
 			int j = i - 1;
 
-			while (j >= 0 && AddComparisonItem(elementArray[j], key) && GetElementSize(elementArray[j]) > GetElementSize(key))
+			while (j >= 0 && Compare(elementArray[j], key) && GetElementSize(elementArray[j]) > GetElementSize(key))
 			{
 				visualItems.Add(new SortingVisualItem((int)SortingVisualType.MoveTo, elementArray[j], null, dest: indexPositions[j+1]));
 				elementArray[j + 1] = elementArray[j];

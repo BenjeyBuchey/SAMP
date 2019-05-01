@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShellSortScript : Algorithms
+public class ShellSortScript : Algorithm
 {
 	private List<Vector3> indexPositions = new List<Vector3>();
 
-	public ShellSortScript() : base(Algorithms.SHELLSORT)
+	public ShellSortScript() : base(Algorithm.SHELLSORT)
 	{
 
 	}
@@ -48,7 +48,7 @@ public class ShellSortScript : Algorithms
 				// shift earlier gap-sorted elements up until 
 				// the correct location for a[i] is found 
 				int j;
-				for (j = i; j >= gap && AddComparisonItem(elementArray[j - gap], temp) && GetElementSize(elementArray[j - gap]) > GetElementSize(temp); j -= gap)
+				for (j = i; j >= gap && Compare(elementArray[j - gap], temp) && GetElementSize(elementArray[j - gap]) > GetElementSize(temp); j -= gap)
 				{
 					visualItems.Add(new SortingVisualItem((int)SortingVisualType.MoveTo, elementArray[j - gap], null, dest: indexPositions[j]));
 					elementArray[j] = elementArray[j - gap];

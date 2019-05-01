@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class QuickSortScript : Algorithms {
+public class QuickSortScript : Algorithm {
 
-	public QuickSortScript() : base (Algorithms.QUICKSORT)
+	public QuickSortScript() : base (Algorithm.QUICKSORT)
 	{
 
 	}

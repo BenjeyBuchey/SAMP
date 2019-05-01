@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Algorithms {
+public abstract class Algorithm {
 
 	public const string QUICKSORT = "QuickSort", RADIXSORT = "RadixSort", GNOMESORT = "GnomeSort", MERGESORT = "MergeSort", HEAPSORT = "HeapSort", BUBBLESORT = "BubbleSort", 
 		SELECTIONSORT = "SelectionSort", SHELLSORT = "ShellSort", INSERTIONSORT = "InsertionSort";
@@ -10,7 +10,7 @@ public abstract class Algorithms {
 	protected List<SortingVisualItem> visualItems = new List<SortingVisualItem>();
 	protected GameObject[] elementArray;
 
-	protected Algorithms(string name)
+	protected Algorithm(string name)
 	{
 		this.name = name;
 	}
@@ -38,7 +38,7 @@ public abstract class Algorithms {
 		return HelperScript.GetElementSize(go);
 	}
 
-	protected bool AddComparisonItem(GameObject element1, GameObject element2)
+	protected bool Compare(GameObject element1, GameObject element2)
 	{
 		visualItems.Add(new SortingVisualItem((int)SortingVisualType.Comparison, element1, element2));
 		return true;
