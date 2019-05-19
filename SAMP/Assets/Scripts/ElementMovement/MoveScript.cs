@@ -121,10 +121,10 @@ public class MoveScript : MonoBehaviour {
 			while (IsPaused() || isBusy) // completely break here? when resume is pressed start this coroutine ??
 				yield return null;
 
-			if (_visualizationCounter > 0)
-				ChangeColors(_visualItems[_visualizationCounter - 1], true);
+            if (_visualizationCounter > 0)
+                ChangeColors(_visualItems[_visualizationCounter - 1], true);
 
-			if (_visualizationCounter >= _visualItems.Count)
+            if (_visualizationCounter >= _visualItems.Count)
 			{
 				Exit();
 				isMainVisualizationRunning = false;
@@ -138,10 +138,10 @@ public class MoveScript : MonoBehaviour {
 			yield return new WaitForSeconds(swapSpeed);
 		}
 
-		if (_visualizationCounter <= _visualItems.Count)
-			ChangeColors(_visualItems[_visualizationCounter - 1], true);
+        if (_visualizationCounter <= _visualItems.Count)
+            ChangeColors(_visualItems[_visualizationCounter - 1], true);
 
-		Exit();
+        Exit();
 		isMainVisualizationRunning = false;
 	}
 
@@ -422,7 +422,7 @@ public class MoveScript : MonoBehaviour {
 		}
 
 		ChangeColors(item, false);
-		IncreaseComparisonCounter();
+        IncreaseComparisonCounter();
 		//ChangeColor(element1, element2, type, isDefaultColor);
 		//if (!isDefaultColor)
 		//	IncreaseComparisonCounter();
@@ -464,7 +464,7 @@ public class MoveScript : MonoBehaviour {
 
 		LeanTween.move(element1, new Vector3[] { dest2, temp1, temp1, dest1 }, swapSpeed);
 		LeanTween.move(element2, new Vector3[] { dest1, temp2, temp2, dest2 }, swapSpeed);
-	}
+    }
 
 	private void HandleSwapBackwards(SortingVisualItem item)
 	{

@@ -6,7 +6,7 @@ using System.Linq;
 using System;
 using Random = UnityEngine.Random;
 
-public class ElementScript : MonoBehaviour {
+public class ElementScriptOld : MonoBehaviour {
 
 	private GameObject[] elementArray;
 	public GameObject element;
@@ -50,6 +50,8 @@ public class ElementScript : MonoBehaviour {
         for (int i = 0; i < size; i++)
         {
             sbox_elements[i] = Instantiate(element, sortingbox_go.transform);
+            if (sortingbox_count > 0)
+                adjustElementsLocation(sortingbox_count, sbox_elements[i], sortingbox_go);
         }
 
         //set element array for this sorting box
@@ -82,28 +84,28 @@ public class ElementScript : MonoBehaviour {
 
     private void adjustSortingBoxLocation(int count, GameObject sortingbox_go, int size)
     {
-        Transform container_transform = sortingbox_go.transform.Find("ElementContainer");
+        Transform container_transform = sortingbox_go.transform.Find("Container");
         // container size
-        float initHeight = container_transform.GetComponent<RectTransform>().sizeDelta.y;
-        float width = size * container_z_offset + 2 * outer_z_offset;
-        container_transform.GetComponent<RectTransform>().sizeDelta = new Vector2(width, initHeight);
+        Vector3 old_size = container_transform.localScale;
+        Vector3 new_size = new Vector3(old_size.x, old_size.y, size*container_z_offset + 2*outer_z_offset); //  (size+1)*container_z_offset + outer_z_offset*2
+        container_transform.localScale = new_size;
 
-        //container posi TODO: need to change sortingbox location!!! not container
+        //container posi
         float z = 0.0f;
         if (size % 2 == 0)
             z = -container_z_offset / 2.0f;
         Vector3 old_pos = container_transform.position;
-        Vector3 new_pos = new Vector3(old_pos.x, old_pos.y - count * (initHeight + y_offset), z);
+        Vector3 new_pos = new Vector3(old_pos.x, old_pos.y - count * (container_transform.localScale.y + y_offset), z); // container_transform.localScale.z/2-container_z_offset
         container_transform.position = new_pos;
     }
 
     private void adjustElementsLocation(int count, GameObject element, GameObject sortingbox_go)
     {
-        Transform container_transform = sortingbox_go.transform.Find("ElementContainer");
+        Transform container_transform = sortingbox_go.transform.Find("Container");
 
-        //Vector3 old_pos = element.transform.position;
-        //Vector3 new_pos = new Vector3(old_pos.x, old_pos.y - count * (container_transform.localScale.y + y_offset), old_pos.z);
-        //element.transform.position = new_pos;
+        Vector3 old_pos = element.transform.position;
+        Vector3 new_pos = new Vector3(old_pos.x, old_pos.y - count * (container_transform.localScale.y + y_offset), old_pos.z);
+        element.transform.position = new_pos;
     }
 
     private int getArraySize()
@@ -167,7 +169,7 @@ public class ElementScript : MonoBehaviour {
 		Rigidbody rb = go.GetComponentInChildren<Rigidbody>();
 		rb.transform.localScale = new Vector3(scale, scale, scale);
 
-		//go.transform.position = new Vector3(rb.position.x, rb.position.y, position_z);
+		go.transform.position = new Vector3(rb.position.x, rb.position.y, position_z);
 	}
 
 	private Dictionary<int,float> GenerateScalePerElement(float[] scale_array, List<int> randomNumbers)
@@ -500,6 +502,52 @@ public class ElementScript : MonoBehaviour {
 		}
 		else
 			sbs.setInUse(false);
+	}
+
+	private void ApplyAlgorithmText(string text)
+	{
+		if (HelperScript.IsPaused()) return;
+
+		GameObject[] boxes = GameObject.FindGameObjectsWithTag("SortingBoxes");
+		foreach (GameObject box in boxes)
+		{
+			if (box == null) continue;
+
+			SortingBoxScript sbs = box.GetComponent<SortingBoxScript>();
+			if (sbs == null || sbs.isInUse()) continue;
+
+			GameObject container = sbs.getContainer();
+			if (container == null) continue;
+
+			if (container.GetComponent<ElementContainerScript>().getHighlighted())
+				sbs.setAlgorithmText(text);
+		}
+	}
+
+	// only assigns sorting algo to sortingbox
+	public void quickSort()
+	{
+		ApplyAlgorithmText(Algorithm.QUICKSORT);
+	}
+
+	public void heapSort()
+	{
+		ApplyAlgorithmText(Algorithm.HEAPSORT);
+	}
+
+	public void mergeSort()
+	{
+		ApplyAlgorithmText(Algorithm.MERGESORT);
+	}
+
+	public void gnomeSort()
+	{
+		ApplyAlgorithmText(Algorithm.GNOMESORT);
+	}
+
+	public void radixSort()
+	{
+		ApplyAlgorithmText(Algorithm.RADIXSORT);
 	}
 
 	public void clearSortingboxes()

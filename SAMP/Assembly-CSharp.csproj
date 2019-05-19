@@ -96,9 +96,11 @@
     <Compile Include="Assets\Scripts\SortingBox\ContainerHighlighterScript.cs" />
     <Compile Include="Assets\Scripts\SortingBox\ElementContainerScript.cs" />
     <Compile Include="Assets\Scripts\SortingBox\ElementScript.cs" />
+    <Compile Include="Assets\Scripts\SortingBox\ElementScriptOld.cs" />
     <Compile Include="Assets\Scripts\SortingBox\ElementTextScript.cs" />
     <Compile Include="Assets\Scripts\SortingBox\SingleElementScript.cs" />
     <Compile Include="Assets\Scripts\SortingBox\SortingBoxScript.cs" />
+    <Compile Include="Assets\Scripts\SortingBox\SortingBoxScriptOld.cs" />
     <Compile Include="Assets\Scripts\UI\ClickScript.cs" />
     <Compile Include="Assets\Scripts\UI\DragAndDropHandler.cs" />
     <Compile Include="Assets\Scripts\UI\ExecuteButtonScript.cs" />
