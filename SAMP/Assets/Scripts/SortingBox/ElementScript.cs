@@ -49,7 +49,7 @@ public class ElementScript : MonoBehaviour {
 		GameObject[] sbox_elements = new GameObject[size];
         for (int i = 0; i < size; i++)
         {
-            sbox_elements[i] = Instantiate(element, sortingbox_go.transform);
+            sbox_elements[i] = Instantiate(element, sortingbox_go.transform); //sbox_elements[i] = Instantiate(element, sortingbox_go.transform);
         }
 
         //set element array for this sorting box
@@ -89,15 +89,15 @@ public class ElementScript : MonoBehaviour {
         container_transform.GetComponent<RectTransform>().sizeDelta = new Vector2(width, initHeight);
 
 		//container posi TODO: need to change sortingbox location!!! not container
-		float z = 0.0f;
-		if (size % 2 == 0)
-			z = -container_z_offset / 2.0f;
+		//float z = 0.0f;
+		//if (size % 2 == 0)
+		//	z = -container_z_offset / 2.0f;
 		//Vector3 old_pos = container_transform.position;
 		//Vector3 new_pos = new Vector3(old_pos.x, old_pos.y - count * (initHeight + y_offset), z);
 		//container_transform.position = new_pos;
 
 		Vector3 old_pos = sortingbox_go.transform.position;
-		Vector3 new_pos = new Vector3(old_pos.x, old_pos.y - count * (initHeight + y_offset), z);
+		Vector3 new_pos = new Vector3(old_pos.x, old_pos.y - count * (initHeight + y_offset), old_pos.z);
 		sortingbox_go.transform.position = new_pos;
 	}
 
@@ -280,11 +280,11 @@ public class ElementScript : MonoBehaviour {
 			SortingBoxScript sbs = box.GetComponent<SortingBoxScript>();
 			if (sbs == null || string.IsNullOrEmpty(sbs.GetAlgorithmText()) || sbs.isInUse()) continue;
 
-			BucketScript bs = box.GetComponent<BucketScript>();
-			//if (bs == null) continue;
+			BucketScript bs = box.GetComponentInChildren<BucketScript>();
+			if (bs == null) continue;
 
 			sbs.setInUse(true);
-			//bs.deleteBuckets();
+            bs.DoActivate(false);
 
 			switch(sbs.GetAlgorithmText())
 			{
@@ -490,14 +490,13 @@ public class ElementScript : MonoBehaviour {
 		if (sbs == null || bs == null) return;
 
 		setTrailRenderer(sbs.getElementArray(), false);
-		bs.createBuckets();
 
 		RadixSortScript ss = new RadixSortScript();
 		List<SortingVisualItem> swappingQueue = ss.StartSort(sbs.getElementArray());
 
 		if (swappingQueue != null && swappingQueue.Count >= 1)
 		{
-			//MoveScript m = gameObject.AddComponent<MoveScript>();
+            bs.DoActivate(true);
 			MoveScript m = sbs.gameObject.GetComponent<MoveScript>();
 			m.SortingBox = sbs.gameObject;
 			m.Swap(swappingQueue, Algorithm.RADIXSORT);

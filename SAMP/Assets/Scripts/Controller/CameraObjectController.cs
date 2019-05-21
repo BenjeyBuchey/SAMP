@@ -16,7 +16,7 @@ public class CameraObjectController : MonoBehaviour {
 		float moveHorizontal = Input.GetAxis ("Horizontal");
 		float moveVertical = Input.GetAxis ("Vertical");
 
-		Vector3 new_pos = new Vector3 (0.0f, rb.position.y-moveVertical, rb.position.z-moveHorizontal);
+		Vector3 new_pos = new Vector3 (rb.position.x - moveHorizontal, rb.position.y-moveVertical, 0f);
 		rb.transform.position = new_pos;
 	}
 }

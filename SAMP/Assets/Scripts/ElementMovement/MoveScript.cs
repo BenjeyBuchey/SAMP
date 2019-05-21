@@ -285,7 +285,9 @@ public class MoveScript : MonoBehaviour {
 				HandleComparisonBackwards(item);
 				break;
 			case (int)SortingVisualType.Radix:
-			case (int)SortingVisualType.MergeMove:
+                HandleRadixMoveBackwards(item, elementStates);
+                break;
+            case (int)SortingVisualType.MergeMove:
 				HandleMoveBackwards(item, elementStates);
 				break;
 			case (int)SortingVisualType.MergeArray:
@@ -318,7 +320,7 @@ public class MoveScript : MonoBehaviour {
 	private void HandleMoveToBackwards(SortingVisualItem item, List<ElementState> elementStates)
 	{
 		ChangeColors(item, false);
-		MoveElement(item.Element1, elementStates[0].Position);
+        MoveElementBackwards(item.Element1, elementStates[0].Position);
 		if (item.Type == (int)SortingVisualType.MoveTo)
 			DecreaseSwapCounter();
 		else
@@ -328,13 +330,24 @@ public class MoveScript : MonoBehaviour {
 	private void HandleMoveBackwards(SortingVisualItem item, List<ElementState> elementStates)
 	{
 		ChangeColors(item, false);
-		MoveElement(item.Element1, elementStates[0].Position);
+        MoveElementBackwards(item.Element1, elementStates[0].Position);
 	}
 
-	private void MoveElement(GameObject element, Vector3 dest)
+    private void HandleRadixMoveBackwards(SortingVisualItem item, List<ElementState> elementStates)
+    {
+        ChangeColors(item, false);
+        MoveElementBackwards(item.Element1, elementStates[0].Position);
+    }
+
+    private void MoveElement(GameObject element, Vector3 dest)
 	{
-		LeanTween.move(element, dest, swapSpeed);
+		LeanTween.moveLocal(element, dest, swapSpeed);
 	}
+
+    private void MoveElementBackwards(GameObject element, Vector3 dest)
+    {
+        LeanTween.move(element, dest, swapSpeed);
+    }
 
 	private void HandleMergeMove(SortingVisualItem item)
 	{
@@ -352,7 +365,7 @@ public class MoveScript : MonoBehaviour {
 	private void MoveMerge(GameObject element1, int mergePosition)
 	{
 		Vector3 dest = GetMergeDestination(mergePosition);
-		LeanTween.move(element1, dest, swapSpeed);
+		LeanTween.moveLocal(element1, dest, swapSpeed);
 	}
 
 	private void HandleMergeArrayBackwards(SortingVisualItem item, List<ElementState> elementStates)
@@ -360,7 +373,7 @@ public class MoveScript : MonoBehaviour {
 		ChangeColors(item, false);
 		foreach(ElementState elementState in elementStates)
 		{
-			MoveElement(elementState.Element, elementState.Position);
+            MoveElementBackwards(elementState.Element, elementState.Position);
 		}
 	}
 
@@ -408,8 +421,11 @@ public class MoveScript : MonoBehaviour {
 	private void MoveRadix(GameObject element1, int bucket, int bucketPosition)
 	{
 		Vector3 dest = GetRadixDestination(bucket, bucketPosition, element1);
-		LeanTween.move(element1, dest, swapSpeed);
-	}
+        if (bucket == -1)
+            LeanTween.moveLocal(element1, dest, swapSpeed);
+        else
+            LeanTween.move(element1, dest, swapSpeed);
+    }
 
 	private void HandleComparison(SortingVisualItem item)
 	{
@@ -423,9 +439,6 @@ public class MoveScript : MonoBehaviour {
 
 		ChangeColors(item, false);
         IncreaseComparisonCounter();
-		//ChangeColor(element1, element2, type, isDefaultColor);
-		//if (!isDefaultColor)
-		//	IncreaseComparisonCounter();
 	}
 
 	private void HandleComparisonBackwards(SortingVisualItem item)
@@ -485,13 +498,6 @@ public class MoveScript : MonoBehaviour {
 
 	private void SetSortingBox()
 	{
-		//if (_visualItems == null || _visualItems.Count == 0) return;
-
-		//GameObject element = _visualItems[0].Element1;
-		//if (element == null) return;
-
-		//sortingBox = element.transform.parent.gameObject;
-		//if (sortingBox == null) return;
 		sortingBox = gameObject;
 
 		// set in use
@@ -616,35 +622,35 @@ public class MoveScript : MonoBehaviour {
 
 	private Vector3 GetRadixDestination(int bucket, int position, GameObject go)
 	{
-		if (initCounter >= initPositions.Count)
-			initCounter = 0;
+        if (initCounter >= initPositions.Count)
+            initCounter = 0;
 
-		float object_width = GetObjectWidth();
-		BucketScript bs = go.GetComponentInParent<BucketScript>();
-		if (bs == null) return Vector3.zero;
+        float object_width = GetObjectWidth();
+        BucketScript bs = gameObject.GetComponentInChildren<BucketScript>();
+        if (bs == null) return Vector3.zero;
 
-		List<GameObject> bucket_objects = bs.getBucketObjects();
-		if (bucket_objects == null || bucket_objects.Count < bucket)
-			return Vector3.zero;
+        List<Transform> bucketObjects = bs.GetBucketObjects();
+        if (bucketObjects == null || bucketObjects.Count < bucket)
+            return Vector3.zero;
 
-		Vector3 dest = Vector3.zero;
-		// bucket -1 --> move to init positions
-		if (bucket == -1)
-		{
-			if (initCounter > initPositions.Count || initCounter < 0)
-				Debug.Log("INIT COUNTER: " + initCounter);
-			dest = initPositions[initCounter];
-			initCounter++;
-		}
-		else
-		{
-			float z_offset = 5.0f + object_width * position;
-			dest = bucket_objects[bucket].transform.position;
-			dest.y = dest.y - bucket_objects[bucket].transform.localScale.y / 2; //half bucket text size
-			dest.z = dest.z + z_offset;
-		}
+        Vector3 dest = Vector3.zero;
+        // bucket -1 --> move to init positions
+        if (bucket == -1)
+        {
+            if (initCounter > initPositions.Count || initCounter < 0)
+                Debug.Log("INIT COUNTER: " + initCounter);
+            dest = initPositions[initCounter];
+            initCounter++;
+        }
+        else
+        {
+            float xOffset = 5.0f + object_width * position;
+            dest = bucketObjects[bucket].position;
+            dest.y = dest.y - bucketObjects[bucket].localScale.y / 2; //half bucket text size
+            dest.x = dest.x + xOffset;
+        }
 
-		return dest;
+        return dest;
 	}
 
 	private Vector3 GetMergeDestination(int mergePosition)

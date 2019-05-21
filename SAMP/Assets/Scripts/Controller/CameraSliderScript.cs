@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class CameraSliderScript : MonoBehaviour {
 
-    public float vSliderValue = 100;
+    public Slider slider;
 	// Use this for initialization
 	void Start () {
 	
@@ -11,17 +12,12 @@ public class CameraSliderScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        checkZoom();
+        UpdateZoom();
 	}
 
-    void OnGUI()
-    {
-        vSliderValue = GUI.VerticalSlider(new Rect(25, 50, 10, (Screen.height - 100)), vSliderValue, 120f, 80f);
-    }
-
-    private void checkZoom()
+    private void UpdateZoom()
     {
         Camera camera = gameObject.GetComponent<Camera>();
-		camera.fieldOfView = vSliderValue;
+		camera.fieldOfView = slider.value;
     }
 }

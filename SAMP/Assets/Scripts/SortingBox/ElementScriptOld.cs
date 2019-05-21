@@ -278,7 +278,7 @@ public class ElementScriptOld : MonoBehaviour {
 			SortingBoxScript sbs = box.GetComponent<SortingBoxScript>();
 			if (sbs == null || string.IsNullOrEmpty(sbs.GetAlgorithmText()) || sbs.isInUse()) continue;
 
-			BucketScript bs = box.GetComponent<BucketScript>();
+			BucketScriptOld bs = box.GetComponent<BucketScriptOld>();
 			if (bs == null) continue;
 
 			sbs.setInUse(true);
@@ -483,7 +483,7 @@ public class ElementScriptOld : MonoBehaviour {
 			sbs.setInUse(false);
 	}
 
-	private void StartSortRadixSort(SortingBoxScript sbs, BucketScript bs)
+	private void StartSortRadixSort(SortingBoxScript sbs, BucketScriptOld bs)
 	{
 		if (sbs == null || bs == null) return;
 

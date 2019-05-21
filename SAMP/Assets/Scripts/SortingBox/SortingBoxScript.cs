@@ -159,7 +159,7 @@ public class SortingBoxScript : MonoBehaviour {
 
 	private void updateSwapsCounterText()
 	{
-		foreach (TextMesh tm in this.GetComponentsInChildren<TextMesh>())
+		foreach (TMPro.TMP_Text tm in this.GetComponentsInChildren<TMPro.TMP_Text>())
 		{
 			if (tm.name.Equals("SwapsCounter"))
 				tm.text = "Swaps: " + swapsCounter + " / Operations: " +comparisonCounter;
@@ -177,7 +177,7 @@ public class SortingBoxScript : MonoBehaviour {
 	{
 		swapsCounter = 0;
 		comparisonCounter = 0;
-		foreach (TextMesh tm in this.GetComponentsInChildren<TextMesh>())
+		foreach (TMPro.TMP_Text tm in this.GetComponentsInChildren<TMPro.TMP_Text>())
 		{
 			if (tm.name.Equals("SwapsCounter"))
 				tm.text = string.Empty;
@@ -188,7 +188,6 @@ public class SortingBoxScript : MonoBehaviour {
 	{
 		return inUse;
 	}
-
 
 	public void setInUse(bool value)
 	{
