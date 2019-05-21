@@ -3,7 +3,10 @@ using System.Collections;
 
 public class SingleElementScript : MonoBehaviour {
 
-	private int element_id;
+	private int _element_id;
+	private Color _defaultColor;
+
+	public Color DefaultColor { get => _defaultColor; set => _defaultColor = value; }
 
 	// Use this for initialization
 	void Start () {
@@ -17,12 +20,12 @@ public class SingleElementScript : MonoBehaviour {
 
 	public int getElementId()
 	{
-		return element_id;
+		return _element_id;
 	}
 
 	public void setElementId(int value)
 	{
-		element_id = value;
+		_element_id = value;
 	}
 
 	public Color GetColor()

@@ -88,14 +88,18 @@ public class ElementScript : MonoBehaviour {
         float width = size * container_z_offset + 2 * outer_z_offset;
         container_transform.GetComponent<RectTransform>().sizeDelta = new Vector2(width, initHeight);
 
-        //container posi TODO: need to change sortingbox location!!! not container
-        float z = 0.0f;
-        if (size % 2 == 0)
-            z = -container_z_offset / 2.0f;
-        Vector3 old_pos = container_transform.position;
-        Vector3 new_pos = new Vector3(old_pos.x, old_pos.y - count * (initHeight + y_offset), z);
-        container_transform.position = new_pos;
-    }
+		//container posi TODO: need to change sortingbox location!!! not container
+		float z = 0.0f;
+		if (size % 2 == 0)
+			z = -container_z_offset / 2.0f;
+		//Vector3 old_pos = container_transform.position;
+		//Vector3 new_pos = new Vector3(old_pos.x, old_pos.y - count * (initHeight + y_offset), z);
+		//container_transform.position = new_pos;
+
+		Vector3 old_pos = sortingbox_go.transform.position;
+		Vector3 new_pos = new Vector3(old_pos.x, old_pos.y - count * (initHeight + y_offset), z);
+		sortingbox_go.transform.position = new_pos;
+	}
 
     private void adjustElementsLocation(int count, GameObject element, GameObject sortingbox_go)
     {
@@ -159,7 +163,6 @@ public class ElementScript : MonoBehaviour {
             position_z += 5.0f;
             i++;
         }
-        //shuffleGameObjects ();
     }
 
 	private void SetElementScale(GameObject go, int number, float scale, float position_z)
@@ -167,7 +170,7 @@ public class ElementScript : MonoBehaviour {
 		Rigidbody rb = go.GetComponentInChildren<Rigidbody>();
 		rb.transform.localScale = new Vector3(scale, scale, scale);
 
-		//go.transform.position = new Vector3(rb.position.x, rb.position.y, position_z);
+		go.transform.position = new Vector3(position_z, rb.position.y, rb.position.z);
 	}
 
 	private Dictionary<int,float> GenerateScalePerElement(float[] scale_array, List<int> randomNumbers)
@@ -213,7 +216,8 @@ public class ElementScript : MonoBehaviour {
 			if (elementTransform.tag.Equals ("BasicElement")) 
 			{
 				elementTransform.GetComponent<Renderer> ().material.color = new Color (1, color, color);
-                elementTransform.GetComponent<TrailRenderer> ().material.color = new Color (1, color, color);
+				go.GetComponent<SingleElementScript>().DefaultColor = elementTransform.GetComponent<Renderer>().material.color;
+				elementTransform.GetComponent<TrailRenderer> ().material.color = new Color (1, color, color);
 			}
 		}
 	}
@@ -277,10 +281,10 @@ public class ElementScript : MonoBehaviour {
 			if (sbs == null || string.IsNullOrEmpty(sbs.GetAlgorithmText()) || sbs.isInUse()) continue;
 
 			BucketScript bs = box.GetComponent<BucketScript>();
-			if (bs == null) continue;
+			//if (bs == null) continue;
 
 			sbs.setInUse(true);
-			bs.deleteBuckets();
+			//bs.deleteBuckets();
 
 			switch(sbs.GetAlgorithmText())
 			{

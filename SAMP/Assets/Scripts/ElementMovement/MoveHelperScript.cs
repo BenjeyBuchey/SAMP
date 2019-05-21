@@ -50,13 +50,13 @@ public class MoveHelperScript {
 					case (int)SortingVisualType.Radix:
 					case (int)SortingVisualType.MergeMove:
 						if (isDefaultColor)
-							child.GetComponent<Renderer>().material.color = DEFAULT_COLOR;
+							child.GetComponent<Renderer>().material.color = element.GetComponent<SingleElementScript>().DefaultColor;
 						else
 							child.GetComponent<Renderer>().material.color = SWAP_COLOR;
 						break;
 					case (int)SortingVisualType.Comparison:
 						if (isDefaultColor)
-							child.GetComponent<Renderer>().material.color = DEFAULT_COLOR;
+							child.GetComponent<Renderer>().material.color = element.GetComponent<SingleElementScript>().DefaultColor;
 						else
 							child.GetComponent<Renderer>().material.color = COMPARISON_COLOR;
 						break;

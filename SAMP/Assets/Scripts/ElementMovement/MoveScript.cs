@@ -462,9 +462,9 @@ public class MoveScript : MonoBehaviour {
 		Vector3 temp2 = rotationPoint;
 		temp2.y = temp2.y - yOffset;
 
-		LeanTween.move(element1, new Vector3[] { dest2, temp1, temp1, dest1 }, swapSpeed);
-		LeanTween.move(element2, new Vector3[] { dest1, temp2, temp2, dest2 }, swapSpeed);
-    }
+		LeanTween.move(element1, new Vector3[] { dest2, temp1, temp1, dest1 }, swapSpeed).setEaseInOutCubic();
+		LeanTween.move(element2, new Vector3[] { dest1, temp2, temp2, dest2 }, swapSpeed).setEaseInOutCubic();
+	}
 
 	private void HandleSwapBackwards(SortingVisualItem item)
 	{
@@ -576,14 +576,14 @@ public class MoveScript : MonoBehaviour {
 
 	private Vector3 GetRotationPoint(GameObject element1, GameObject element2)
 	{
-		float distance = Mathf.Abs(element1.transform.position.z - element2.transform.position.z);
-		float z = 0.0f;
-		if (element1.transform.position.z > element2.transform.position.z)
-			z = element1.transform.position.z - distance / 2;
+		float distance = Mathf.Abs(element1.transform.position.x - element2.transform.position.x);
+		float x = 0.0f;
+		if (element1.transform.position.x > element2.transform.position.x)
+			x = element1.transform.position.x - distance / 2;
 		else
-			z = element1.transform.position.z + distance / 2;
+			x = element1.transform.position.x + distance / 2;
 
-		return new Vector3(element1.transform.position.x, element1.transform.position.y,z);
+		return new Vector3(x, element1.transform.position.y, element1.transform.position.z);
 	}
 
 	private float GetOffsetY(GameObject element1, GameObject element2)
