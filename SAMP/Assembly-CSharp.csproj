@@ -96,6 +96,7 @@
     <Compile Include="Assets\Scripts\SortingBox\BucketScriptOld.cs" />
     <Compile Include="Assets\Scripts\SortingBox\ContainerHighlighterScript.cs" />
     <Compile Include="Assets\Scripts\SortingBox\ElementContainerScript.cs" />
+    <Compile Include="Assets\Scripts\SortingBox\ElementIndexesScript.cs" />
     <Compile Include="Assets\Scripts\SortingBox\ElementScript.cs" />
     <Compile Include="Assets\Scripts\SortingBox\ElementScriptOld.cs" />
     <Compile Include="Assets\Scripts\SortingBox\ElementTextScript.cs" />

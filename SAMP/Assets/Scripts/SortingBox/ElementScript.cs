@@ -67,7 +67,12 @@ public class ElementScript : MonoBehaviour {
 
 		// sets the initial positions of elements of this sorting box
 		sortingbox_go.GetComponent<SortingBoxScript>().setInitialPositions();
+		SpawnIndexes(sortingbox_go, sbox_elements);
+	}
 
+	private void SpawnIndexes(GameObject sortingbox_go, GameObject[] sbox_elements)
+	{
+		sortingbox_go.GetComponentInChildren<ElementIndexesScript>().SpawnIndexes(sbox_elements);
 	}
 
     private void adjustTextLocation(GameObject sortingbox_go)
