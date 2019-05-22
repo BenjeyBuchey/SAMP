@@ -53,6 +53,7 @@ public class DragAndDropHandler : MonoBehaviour, IDragHandler, IEndDragHandler, 
         //}
 
         transform.position = position;
+		EventSystem.current.SetSelectedGameObject(null);
         GetComponent<CanvasGroup>().blocksRaycasts = true;
     }
 
@@ -71,8 +72,8 @@ public class DragAndDropHandler : MonoBehaviour, IDragHandler, IEndDragHandler, 
 	{
 		if (HelperScript.IsPaused() ||go == null) return;
 
-			SortingBoxScript sbs = go.GetComponentInParent<SortingBoxScript>();
-			if (sbs == null || sbs.isInUse()) return;
+		SortingBoxScript sbs = go.GetComponentInParent<SortingBoxScript>();
+		if (sbs == null || sbs.isInUse()) return;
 
 		sbs.setAlgorithmText(transform.gameObject.tag);
 	}

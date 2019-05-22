@@ -568,4 +568,8 @@ public class ElementScript : MonoBehaviour {
 
 		return randomNumbers;
 	}
+
+	// TODO: element index texts
+	// tmp text --> child of ElementContainer. width/height 2.5, center, font size 2. pos x is element pos x. pos y is -containerHeight/2 + tmptext height
+	// own script for
 }
