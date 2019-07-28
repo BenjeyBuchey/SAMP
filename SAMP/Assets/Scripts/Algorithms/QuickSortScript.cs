@@ -49,12 +49,6 @@ public class QuickSortScript : Algorithm {
 					break;
 			}
 
-			//while (left <= right && elementArray[left].GetComponentInChildren<Rigidbody>().transform.localScale.x <= pivot.GetComponentInChildren<Rigidbody>().transform.localScale.x)
-			//{
-			//	visualItems.Add(new SortingVisualItem((int)SortingVisualType.Comparison, elementArray[left], pivot));
-			//	left++;
-			//}
-
 			while (left <= right)
 			{
 				visualItems.Add(new SortingVisualItem((int)SortingVisualType.Comparison, elementArray[right], pivot));
@@ -63,12 +57,6 @@ public class QuickSortScript : Algorithm {
 				else
 					break;
 			}
-
-			//while (left <= right && elementArray[right].GetComponentInChildren<Rigidbody>().transform.localScale.x > pivot.GetComponentInChildren<Rigidbody>().transform.localScale.x)
-			//{
-			//	visualItems.Add(new SortingVisualItem((int)SortingVisualType.Comparison, elementArray[right], pivot));
-			//	right--;
-			//}
 
 			if (left > right)
 			{
